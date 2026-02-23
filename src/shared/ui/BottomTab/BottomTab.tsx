@@ -2,25 +2,21 @@
 
 import { useSelectedLayoutSegments } from 'next/navigation';
 
-import { useModalStackStore } from '@/store/useModalStackStore';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { overlay } from 'overlay-kit';
+
+import { LoginAlert } from '@/widgets/LoginAlert';
 
 import { PATH } from '@/shared/config/paths';
 import { TAB_MENUS } from '@/shared/config/tabs';
+import { useUserStore } from '@/shared/lib/store/useUserStore';
 import { cn } from '@/shared/lib/utils';
-
-import { Alert } from '../Alert';
-import { BUTTON } from '../Alert/style';
-import { Button } from '../ui/button';
 
 const BottomTab = () => {
   const segments = useSelectedLayoutSegments();
-  const { data: session } = useSession();
 
-  const setModal = useModalStackStore((state) => state.pushModal);
-  const onClose = useModalStackStore((state) => state.popModal);
+  const user = useUserStore((state) => state.user);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex min-w-[20rem] max-w-[45rem] bg-white shadow-md">
@@ -31,7 +27,7 @@ const BottomTab = () => {
         const locationSegment = location === '/' ? null : location.split('/').filter(Boolean)[0];
         const isActive = lastSegment === locationSegment;
 
-        if (!session && location === '/crews') {
+        if (!user && location === '/crews') {
           return (
             <div
               key={item.location}
@@ -41,44 +37,8 @@ const BottomTab = () => {
                 }`,
               )}
               onClick={() =>
-                !session && location === PATH.crews
-                  ? setModal(
-                      <Alert
-                        title="로그인이 필요한 서비스에요."
-                        buttonSlot={
-                          <div className="grid grid-cols-2">
-                            <Button className={BUTTON.CANCEL} onClick={onClose}>
-                              이전으로
-                            </Button>
-                            <Button
-                              className={BUTTON.ACTION}
-                              onClick={() => {
-                                onClose();
-                                window.location.href = PATH.login;
-                              }}
-                            >
-                              로그인
-                            </Button>
-                          </div>
-                        }
-                      >
-                        <div className="flex flex-col gap-2">
-                          <span className="text-lg font-semibold text-grayscale700">로그인 후 다시 시도해주세요.</span>
-                          <div className="flex items-center justify-center gap-2 text-sm">
-                            <span className="text-grayscale700">아직 회원이 아니신가요?</span>
-                            <span
-                              className="cursor-pointer text-blue400 underline"
-                              onClick={() => {
-                                onClose();
-                                window.location.href = PATH.join;
-                              }}
-                            >
-                              회원가입
-                            </span>
-                          </div>
-                        </div>
-                      </Alert>,
-                    )
+                !user && location === PATH.crews
+                  ? overlay.open((overlayProps) => <LoginAlert {...overlayProps} />)
                   : null
               }
             >

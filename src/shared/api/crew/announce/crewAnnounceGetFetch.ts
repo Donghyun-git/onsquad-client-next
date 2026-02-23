@@ -14,6 +14,11 @@ export interface CrewAnnounceListResponseProps extends ResponseModel {
        * 공지사항 작성 가능 여부
        */
       canWrite: boolean;
+
+      /**
+       * 공지사항 수정 가능 여부
+       */
+      role: CrewRole;
     };
     /**
      * 공지사항 리스트

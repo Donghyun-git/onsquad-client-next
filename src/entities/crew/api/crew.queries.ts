@@ -13,6 +13,8 @@ import {
   crewListGetFetch,
   myCrewListGetFetch,
 } from '@/shared/api/crew';
+import { CrewManageGetFetchParams, crewManageGetFetch } from '@/shared/api/crew/manage/crewManageGetFetch';
+import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 export const crewQueries = {
   root: () => ['crew'],
@@ -70,15 +72,10 @@ export const crewQueries = {
       throwOnError: true,
     }),
 
-  home: ({ crewId, category }: CrewHomeInfoGetFetchParams) =>
-    queryOptions({
-      queryKey: [...crewQueries.root(), 'home', crewId, category],
-      queryFn: async () => {
-        const res = await crewHomeInfoGetFetch({ crewId, category });
-
-        return res.data;
-      },
-    }),
+  home: ({ crewId, page, size }: CrewHomeInfoGetFetchParams) =>
+    makeQueryOptions([...crewQueries.root(), 'home', crewId, page, size], () =>
+      crewHomeInfoGetFetch({ crewId, page, size }),
+    ),
 
   announceList: ({ crewId }: CrewAnnounceGetFetchParams) =>
     queryOptions({
@@ -95,6 +92,16 @@ export const crewQueries = {
       queryKey: [...crewQueries.lists(), 'announce', crewId, announceId],
       queryFn: async () => {
         const res = await crewAnnounceDetailGetFetch({ crewId, announceId });
+
+        return res.data.data;
+      },
+    }),
+
+  manage: ({ crewId }: CrewManageGetFetchParams) =>
+    queryOptions({
+      queryKey: [...crewQueries.lists(), 'manage', crewId],
+      queryFn: async () => {
+        const res = await crewManageGetFetch({ crewId });
 
         return res.data.data;
       },

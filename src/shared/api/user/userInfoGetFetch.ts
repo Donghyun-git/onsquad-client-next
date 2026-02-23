@@ -49,9 +49,16 @@ export interface UserInfoResponse extends ResponseModel {
   };
 }
 
-export const userInfoGetFetch = ({ accessToken }: UserInfoGetFetchParams) =>
-  apiFetch.get<UserInfoResponse>('/members/me', {
+export const userInfoGetFetch = (params: Partial<UserInfoGetFetchParams>) => {
+  const accessToken = params?.accessToken;
+
+  if (!accessToken) {
+    return apiFetch.get<UserInfoResponse>('/members/me');
+  }
+
+  return apiFetch.get<UserInfoResponse>('/members/me', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+};

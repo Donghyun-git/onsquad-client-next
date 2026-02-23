@@ -18,7 +18,7 @@ const NavButton = ({ children, className, ...props }: NavButtonPropsType) => {
     <Button variant="outline" className={cn(`w-full border-0 p-3 ${className}`)} {...props}>
       <div className="flex w-full items-center justify-between">
         <span className="inline-block pt-0.5 font-medium text-black">{children}</span>
-        <ChevronRight size={24} stroke="#000" strokeWidth={1.2} />
+        <ChevronRight stroke="#000" strokeWidth={2} className="size-5" />
       </div>
     </Button>
   );

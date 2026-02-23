@@ -15,4 +15,4 @@ export interface UserEmailCheckGetFetchResponse extends ResponseModel {
  * 이메일 중복체크
  */
 export const userEmailCheckGetFetch = ({ email }: UserEmailCheckGetFetchParams) =>
-  apiFetch.get<UserEmailCheckGetFetchResponse>(`/members/verify/email/${email}`);
+  apiFetch.get<UserEmailCheckGetFetchResponse>(`/members/check-email?value=${email}`);

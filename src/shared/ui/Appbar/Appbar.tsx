@@ -2,9 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { useModalStackStore } from '@/store/useModalStackStore';
 import { ChevronLeft, Plus, Text as TextIcon } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,6 +10,7 @@ import Link from 'next/link';
 import { userSocialLoginGetFetch } from '@/shared/api/user/userSocialLoginGetFetch';
 import { USER_TYPE } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
+import { useUserStore } from '@/shared/lib/store/useUserStore';
 import { cn } from '@/shared/lib/utils';
 import { NavButton } from '@/shared/ui/NavButton';
 import { Button } from '@/shared/ui/ui/button';
@@ -28,9 +27,7 @@ export interface AppbarPropsType {
 }
 
 const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
-  const { data: session } = useSession();
-
-  const modalStack = useModalStackStore((state) => state.modalStack);
+  const user = useUserStore((state) => state.user);
 
   const router = useRouter();
 
@@ -62,11 +59,8 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
       </Link>
 
       <div className="relative mr-4 flex items-center gap-2">
-        {session ? (
-          <Button
-            variant="outline"
-            className={cn(`flex h-fit items-center gap-0.5 p-2 ${modalStack.length > 0 ? 'bg-gray50' : 'bg-white'}`)}
-          >
+        {user ? (
+          <Button variant="outline" className="flex h-fit items-center gap-0.5 p-2">
             <Link href="/crews/new" scroll={false}>
               <Text.xs>크루 개설하기</Text.xs>
             </Link>
@@ -78,11 +72,11 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
           <SheetTrigger asChild>
             <TextIcon color="#636363" strokeWidth={1.5} className="cursor-pointer" />
           </SheetTrigger>
-          <SheetContent className="no-scroll-bar top-[var(--app-header-height)] overflow-y-auto rounded-tl-2xl bg-grayscale100 focus-visible:border-0 focus-visible:outline-0">
+          <SheetContent className="overflow-y-auto rounded-tl-2xl bg-grayscale100 focus-visible:border-0 focus-visible:outline-0">
             <SheetTitle className="mt-5">
-              <Profile session={session} />
+              <Profile session={user} />
             </SheetTitle>
-            {!session ? (
+            {!user ? (
               <>
                 <Separator className="my-6" />
 
@@ -136,8 +130,8 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                   <ul className="flex flex-col">
                     <li>
                       <SheetDescription className="mb-3 w-full">계정정보</SheetDescription>
-                      <div className="px-3 py-2 text-grayscale700">{session.email}</div>
-                      {session.userType === USER_TYPE.general && (
+                      <div className="px-3 py-2 text-grayscale700">{user.user?.email}</div>
+                      {user.userType === USER_TYPE.general && (
                         <NavButton
                           onClick={() => {
                             router.push(PATH.changePassword, { scroll: false });
@@ -181,10 +175,6 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                           <NavButton onClick={() => signOut()}>로그아웃</NavButton>
                         </SheetClose>
                       </div>
-                    </li>
-                    <li className="text-center font-semibold text-grayscale500">
-                      <p className="text-center">최신 버전입니다.</p>
-                      <p className="text-center">app ver 1.0.0</p>
                     </li>
                   </ul>
                 </div>

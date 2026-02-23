@@ -18,7 +18,7 @@ interface CrewMemberRankingProps {
 export const CrewMemberRanking = ({ members }: CrewMemberRankingProps) => {
   return (
     <Article
-      className="w-full p-3"
+      className="min-h-[280px] w-full p-3"
       slot={
         <>
           <div className="flex items-center justify-between">
@@ -35,24 +35,30 @@ export const CrewMemberRanking = ({ members }: CrewMemberRankingProps) => {
           </div>
           <div className="mt-6">
             <ul>
-              {members?.map((member, index) => (
-                <li key={index}>
-                  <div
-                    className={cn(
-                      'border-grayScale400 flex items-center gap-3 border-t py-2',
-                      index === 0 && 'border-none',
-                    )}
-                  >
-                    <Text.xs className="inline-block font-bold">{member.rank}위</Text.xs>
-                    <div className="flex items-center gap-[3px]">
-                      <div className="flex items-center gap-0.5">
-                        <Avatar className="mr-1 h-5 w-5" />
-                        <Text.base className="pt-[0.09rem] font-semibold">{member.nickname}</Text.base>
+              {members && members.length > 0 ? (
+                members?.map((member, index) => (
+                  <li key={index}>
+                    <div
+                      className={cn(
+                        'border-grayScale400 flex items-center gap-3 border-t py-2',
+                        index === 0 && 'border-none',
+                      )}
+                    >
+                      <Text.xs className="inline-block font-bold">{member.rank}위</Text.xs>
+                      <div className="flex items-center gap-[3px]">
+                        <div className="flex items-center gap-0.5">
+                          <Avatar className="mr-1 h-5 w-5" />
+                          <Text.base className="pt-[0.09rem] font-semibold">{member.nickname}</Text.base>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </li>
+                ))
+              ) : (
+                <li>
+                  <Text.lg> 등록된 크루원이 없어요.</Text.lg>
                 </li>
-              ))}
+              )}
             </ul>
           </div>
         </>

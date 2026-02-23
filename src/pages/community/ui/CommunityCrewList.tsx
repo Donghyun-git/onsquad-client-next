@@ -26,7 +26,7 @@ const CommunityCrewList = ({ list: crewList }: CrewListDataProps) => {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3 pt-6 S2:grid-cols-1 SE:grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-1">
+    <div className="grid grid-cols-2 place-items-center gap-3 pt-6 S2:grid-cols-1 SE:grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-1">
       {crewList?.map((crew) => (
         <CrewCard
           key={crew.id}

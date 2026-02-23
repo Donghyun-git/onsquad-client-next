@@ -5,7 +5,7 @@ import { Session } from 'next-auth';
 import { Avatar } from '../Avatar';
 
 interface ProfilePropsType {
-  session: Session | null;
+  session?: Session | null;
 }
 
 const Profile = (props: ProfilePropsType) => {

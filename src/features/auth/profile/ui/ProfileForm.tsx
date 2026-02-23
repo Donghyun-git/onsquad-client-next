@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { ChangeEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Camera, CircleCheck, CircleX, Loader2 } from 'lucide-react';
@@ -18,31 +18,36 @@ import { MBTI_SELECT_OPTIONS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { useApiMutation } from '@/shared/lib/queries';
+import { useUserStore } from '@/shared/lib/store/useUserStore';
 import { cn } from '@/shared/lib/utils';
 import { Alert } from '@/shared/ui/Alert';
 import { BUTTON } from '@/shared/ui/Alert/style';
+import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { InputButton } from '@/shared/ui/InputButton';
 import { Select } from '@/shared/ui/Select';
 import { Spinner } from '@/shared/ui/Spinner';
 import { Textarea } from '@/shared/ui/Textarea';
-import { Button } from '@/shared/ui/ui/button';
 
+import { getUpdateProfileCleansingData } from '../lib/getUpdateProfileCleansingData';
 import { profileSchema } from '../model/profileSchema';
+import { useProfileUpdateMutation } from '../model/useProfileUpdateMutation';
 
 /**
  * 프로필 페이지
  */
 const ProfileForm = () => {
-  const { toast, hide } = useToast();
+  const { update } = useSession();
+
+  const { toast } = useToast();
 
   const router = useRouter();
 
-  const session = useSession();
+  const user = useUserStore((state) => state.user);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   const [imageUrl, setImageUrl] = useState<string>('/icons/default_profile.svg');
-  const [displaySpinner, setDisplaySpinner] = useState<boolean>(false);
-  const [isDuplicate, setIsDuplicate] = useState<boolean>(true);
+  // const [isDuplicate, setIsDuplicate] = useState<boolean>(true);
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -62,13 +67,15 @@ const ProfileForm = () => {
   const {
     handleSubmit: submit,
     getValues,
-    watch,
+    // watch,
     setValue,
     clearErrors,
     trigger,
     reset,
     formState: { errors },
   } = method;
+
+  const { mutateAsync: updateProfileMutate, isPending: isUpdateProfilePending } = useProfileUpdateMutation();
 
   const { mutateAsync: nicknameCheck } = useApiMutation({
     mutationKey: ['@nickname-check'],
@@ -107,45 +114,52 @@ const ProfileForm = () => {
   };
 
   const handleSubmit = submit(async () => {
-    setDisplaySpinner(true);
-
     try {
+      const formValues = {
+        ...getValues(),
+        mbti: getValues('mbti') ?? '',
+      };
+
+      await updateProfileMutate(getUpdateProfileCleansingData(formValues));
+
+      const res = await update({ trigger: 'update' });
+
+      if (res) {
+        setUserInfo?.({ ...user, ...res });
+      }
+
+      toast({
+        title: '프로필이 수정되었어요!',
+        className: TOAST.success,
+        icon: <CircleCheck />,
+      });
+
+      router.back();
     } catch (error) {
       console.error(error);
-
-      setDisplaySpinner(false);
     }
   });
 
-  useLayoutEffect(() => {
-    const body = document.body;
-
-    body.style.backgroundColor = '#f8f8f8';
-
-    return () => {
-      body.style.backgroundColor = '';
-    };
-  }, []);
-
   useEffect(() => {
-    if (session.status === 'authenticated' && session.data) {
+    if (user) {
       reset({
-        nickname: session.data.nickname,
-        introduce: session.data.introduce,
-        profileImage: session.data.profileImage || '/icons/default_profile.svg',
-        mbti: session.data.mbti,
-        address: session.data.address,
-        addressDetail: session.data.addressDetail,
-        kakaoLink: session.data.kakaoLink,
+        nickname: user.nickname,
+        introduce: user.introduce,
+        profileImage: user.profileImage || '/icons/default_profile.svg',
+        mbti: user.mbti,
+        address: user.address,
+        addressDetail: user.addressDetail,
+        kakaoLink: user.kakaoLink ?? '',
       });
     }
-  }, [session.status, session.data]);
+  }, [user]);
 
-  const profileImage = watch('profileImage');
+  // const profileImage = watch('profileImage');
 
-  if (!session) {
-    return (
+  if (!user) {
+    return overlay.open(({ isOpen }) => (
       <Alert
+        isOpen={isOpen}
         title="알림"
         headerClassName="pt-6"
         buttonSlot={
@@ -158,10 +172,10 @@ const ProfileForm = () => {
       >
         로그인 후 이용해주세요!
       </Alert>
-    );
+    ));
   }
 
-  if (session.status === 'loading') {
+  if (!user) {
     return (
       <div className="container flex h-screen items-center justify-center bg-grayscale100 pt-6">
         <Spinner />
@@ -209,7 +223,7 @@ const ProfileForm = () => {
             type="text"
             label="닉네임"
             maxLength={8}
-            placeholder={session?.data?.nickname}
+            placeholder={user?.nickname}
             button={
               <InputButton
                 buttonText="중복확인"
@@ -257,8 +271,8 @@ const ProfileForm = () => {
           <Input name="addressDetail" type="text" />
         </div>
         <div className="mt-36 h-full pb-12">
-          <Button className="w-full" onClick={handleSubmit} disabled={displaySpinner}>
-            {displaySpinner ? (
+          <Button className="w-full" onClick={handleSubmit} isLoading={isUpdateProfilePending}>
+            {isUpdateProfilePending ? (
               <div className="flex items-center justify-center gap-1">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 프로필을 수정하고 있어요

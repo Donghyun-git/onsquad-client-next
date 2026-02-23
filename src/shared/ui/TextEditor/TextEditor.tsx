@@ -8,11 +8,11 @@ import { EditorView } from '@codemirror/view';
 import { githubLight } from '@uiw/codemirror-theme-github';
 import dayjs from 'dayjs';
 import { Image as ImageIcon } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import remarkGfm from 'remark-gfm';
 
 import { CREW_PATH } from '@/shared/config/paths';
+import { useUserStore } from '@/shared/lib/store/useUserStore';
 import { supabase } from '@/shared/lib/supabse/createClient';
 
 const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), { ssr: false });
@@ -27,7 +27,7 @@ interface TextEditorProps {
 type EditorTab = 'write' | 'preview';
 
 const TextEditor = ({ value = '', onChange, placeholder }: TextEditorProps) => {
-  const { data: session } = useSession();
+  const user = useUserStore((state) => state.user);
 
   const [content, setContent] = useState<string>(value);
   const [activeTab, setActiveTab] = useState<EditorTab>('write');
@@ -60,7 +60,7 @@ const TextEditor = ({ value = '', onChange, placeholder }: TextEditorProps) => {
 
     if (!file) return;
 
-    const userEmail = session?.email || 'unknown';
+    const userEmail = user?.user?.email || 'unknown';
 
     const fileName = `${dayjs().unix()}_${userEmail}_${CREW_PATH.announce}`;
 

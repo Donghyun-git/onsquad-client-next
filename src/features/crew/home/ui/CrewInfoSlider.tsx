@@ -1,30 +1,14 @@
 'use client';
 
+import type { CrewHomeInfoResponseProps } from '@/shared/api/crew/home/crewHomeInfoGetFetch';
 import { Slider } from '@/shared/ui/Slider';
 
 import { CrewAnnounceList } from './CrewAnnounceList';
 import { CrewInfoSection } from './CrewInfoSection';
 
-interface AnnounceItem {
-  fixed: boolean;
-  createdAt: string;
-  memberInfo: {
-    nickname: string;
-  };
-}
-
 interface CrewInfoSliderProps {
-  announces?: AnnounceItem[];
-  crewInfo?: {
-    id: number;
-    name: string;
-    owner: {
-      nickname: string;
-    };
-    introduce: string;
-    detail: string;
-    hashtags: string[];
-  };
+  announces?: PropType<PropType<CrewHomeInfoResponseProps, 'data'>, 'announces'>;
+  crewInfo?: PropType<PropType<CrewHomeInfoResponseProps, 'data'>, 'crew'>;
 }
 
 export const CrewInfoSlider = ({ announces, crewInfo }: CrewInfoSliderProps) => {

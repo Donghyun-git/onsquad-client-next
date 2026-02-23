@@ -12,4 +12,4 @@ export interface NicknameCheckResponseProps extends ResponseModel {
 }
 
 export const nicknameCheckGetFetch = ({ nickname }: NicknameCheckGetFetchParams) =>
-  apiFetch.get<NicknameCheckResponseProps>(`/members/verify/nickname/${nickname}`);
+  apiFetch.get<NicknameCheckResponseProps>(`/members/check-nickname?value=${nickname}`);

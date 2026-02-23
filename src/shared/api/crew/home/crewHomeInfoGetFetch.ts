@@ -8,29 +8,26 @@ export interface CrewHomeInfoGetFetchParams {
   crewId: number;
 
   /**
-   * 카테고리명
-   */
-  category: string;
-
-  /**
-   * 페이지 수
+   * 페이지 번호 (0부터 시작)
    */
   page?: number;
 
   /**
-   * 몇개 씩 가져올건지
+   * 한 페이지당 개수
    */
   size?: number;
 }
 
 export interface CrewHomeInfoResponseProps extends ResponseModel {
   data: {
-    /**
-     * 크루 관리 권한 여부
-     * - true: 관리자
-     * - false: 일반 유저
-     */
-    canManage: boolean;
+    states: {
+      /**
+       * 크루 관리 권한 여부
+       * - true: 관리자
+       * - false: 일반 유저
+       */
+      canManage: boolean;
+    };
 
     /**
      * 크루 정보
@@ -72,6 +69,11 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
       hashtags: HashTag[];
 
       /**
+       * 크루원 수
+       */
+      memberCount: number;
+
+      /**
        * 크루 주인
        */
       owner: {
@@ -84,6 +86,11 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
          * 닉네임
          */
         nickname: string;
+
+        /**
+         * 소개
+         */
+        introduce: string;
 
         /**
          * mbti
@@ -107,45 +114,48 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
       title: string;
 
       /**
+       * 내용
+       */
+      content: string;
+
+      /**
        * 작성일자
        */
       createdAt: string;
 
       /**
        * 게시글 상단 고정 여부
-       * - true: o
-       * - false: x
+       * - true: 고정
+       * - false: 미고정
        */
-      fixed: boolean;
+      pinned: boolean;
 
       /**
-       * 공지사항 적은 유저
+       * 공지사항 작성자
        */
-      memberInfo: {
+      writer: {
         id: number;
         nickname: string;
-        role: string;
+        introduce: string;
+        mbti: Mbti | '';
+      };
+
+      /**
+       * 작성자 역할 (크루 공지사항 목록 API와 호환)
+       */
+      states?: {
+        role?: string;
       };
     }[];
 
     /**
      * 랭킹
      */
-    topMembers: {
+    rankers: {
       /**
        * 크루 pk
        */
       crewId: number;
-
-      /**
-       * 랭킹 순위
-       */
-      rank: number;
-
-      /**
-       * 작성한 게시글 수
-       */
-      counter: number;
 
       /**
        * 유저 pk
@@ -163,10 +173,20 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
       mbti: Mbti;
 
       /**
-       * 크루 가입 일자
+       * 랭킹 순위
+       */
+      rank: number;
+
+      /**
+       * 점수 (작성한 게시글 수 등)
+       */
+      score: number;
+
+      /**
+       * 마지막 활동 시간
        * - Date string
        */
-      participateAt: string;
+      lastActivityTime: string;
     }[];
 
     squads: {
@@ -235,6 +255,11 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
         nickname: string;
 
         /**
+         * 스쿼드 주인 소개
+         */
+        introduce: string;
+
+        /**
          * 스쿼드 주인 엠비티아이
          */
         mbti: Mbti;
@@ -244,8 +269,8 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
 }
 
 /**
- * 크루 홈페이지 정보
- * - /crews/[slug]/home
+ * 크루 메인 페이지 정보
+ * - GET /api/crews/{crewId}/main
  */
-export const crewHomeInfoGetFetch = ({ crewId, page, size, category }: CrewHomeInfoGetFetchParams) =>
-  apiFetch.get<CrewHomeInfoResponseProps>(`/crews/${crewId}/main?page=${page}&size=${size}&category=${category}`);
+export const crewHomeInfoGetFetch = ({ crewId, page, size }: CrewHomeInfoGetFetchParams) =>
+  apiFetch.get<CrewHomeInfoResponseProps>(`/crews/${crewId}/main?page=${page}&size=${size}`);

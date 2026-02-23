@@ -51,8 +51,8 @@ const BottomSheet = (props: BottomSheetPropsType) => {
               </Button>
             </DrawerClose>
           </DrawerHeader>
-          <div className="p-4 pb-0">{children}</div>
-          <DrawerFooter></DrawerFooter>
+          <div className="p-4">{children}</div>
+          <DrawerFooter className="sr-only" />
         </div>
       </DrawerContent>
     </Drawer>

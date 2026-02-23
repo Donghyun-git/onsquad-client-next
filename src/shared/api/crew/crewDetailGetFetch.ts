@@ -15,6 +15,11 @@ export interface CrewDetailResponseProps extends ResponseModel {
        * 크루 참여 여부
        */
       alreadyParticipant: boolean;
+
+      /**
+       * 크루 신청 진행중 여부
+       */
+      alreadyRequest?: boolean;
     };
 
     /**

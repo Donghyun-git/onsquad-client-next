@@ -14,9 +14,9 @@ import { userJoinPostFetch } from '@/shared/api/user/userJoinPostFetch';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
+import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { InputButton } from '@/shared/ui/InputButton';
-import { Button } from '@/shared/ui/ui/button';
 
 import AddressSearch from './AddressSearch';
 import { joinSchema } from './validator';
@@ -103,7 +103,7 @@ const JoinForm = () => {
     fetcher: sendEmailAuthCodePostFetch,
     options: {
       onSuccess: (data) => {
-        if (data.status === 204) {
+        if (data.status === 201) {
           setIsEmailAuth(true);
 
           toast({
@@ -181,9 +181,7 @@ const JoinForm = () => {
 
   const handleEmailCheck = async () => {
     try {
-      const res = await emailCheck({ email: getValues('email') });
-
-      console.log(res);
+      await emailCheck({ email: getValues('email') });
     } catch (error) {
       console.error(error);
     }
@@ -198,6 +196,8 @@ const JoinForm = () => {
       console.error(error);
     }
   };
+
+  const isDisabled = !(isEmailValid && isNicknameValid && isEmailAuth && isEmailAuthSuccess);
 
   return (
     <FormProvider {...method}>
@@ -293,7 +293,7 @@ const JoinForm = () => {
           <Input name="addressDetail" type="text" />
         </div>
 
-        <Button className="w-full" formAction="submit" disabled={isUserJoinPending}>
+        <Button className="w-full" formAction="submit" disabled={isUserJoinPending || isDisabled}>
           {isUserJoinPending ? (
             <div className="flex items-center justify-center gap-1">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

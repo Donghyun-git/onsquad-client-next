@@ -1,10 +1,19 @@
 export interface ResponseModel {
   success?: boolean;
   error?: {
-    code: string;
+    code: ErrorCode | string;
     message: string;
   };
   status: number;
+}
+
+export enum ErrorCode {
+  /**
+   * status - 400
+   * @code CRM001
+   * @description 사용자가 크루에 속해있지 않음.
+   */
+  CRM001 = 'CRM001',
 }
 
 export type HashTag =

@@ -3,11 +3,13 @@ import NextAuth from 'next-auth';
 import { PATH } from '@/shared/config/paths';
 
 import authConfig from './auth.config';
+import { userInfoGetFetch } from './shared/api/user/userInfoGetFetch';
+import type { Mbti } from './shared/config';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id as unknown as number;
         token.email = user.email as unknown as string;
@@ -25,12 +27,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.introduce = user.introduce as string;
       }
 
+      if (trigger === 'update') {
+        const userInfoResponse = await userInfoGetFetch({
+          accessToken: token.accessToken,
+        });
+
+        const newData = userInfoResponse.data.data;
+
+        token = { ...token, ...newData };
+      }
+
       return token;
     },
 
     async session({ session, token }) {
       session.id = token.id as number;
-      session.email = token.email;
+      session.user.email = token.email;
       session.nickname = token.nickname;
       session.gender = token.gender;
       session.birth = token.birth;
@@ -39,7 +51,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.addressDetail = token.addressDetail;
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
-      session.mbti = token.mbti as string;
+      session.mbti = token.mbti as Mbti | '';
       session.kakaoLink = token.kakaoLink as string;
       session.profileImage = token.profileImage as string;
       session.introduce = token.introduce as string;

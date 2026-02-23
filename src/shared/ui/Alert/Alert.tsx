@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
+import type { OverlayProps } from '@/shared/types/overlay';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -12,14 +13,12 @@ import {
 } from '@/shared/ui/ui/alert-dialog';
 
 import { Button } from '../ui/button';
-import { BUTTON } from './style';
 
-export interface AlertPropsType {
-  title: ReactNode | string;
+export interface AlertProps extends Partial<Omit<OverlayProps, 'isOpen'>>, Pick<OverlayProps, 'isOpen'> {
+  title?: ReactNode | string;
   headerClassName?: string;
   children: ReactNode | string;
   buttonSlot?: ReactNode | ReactNode[];
-  onClick?: () => void;
 }
 
 /**
@@ -59,15 +58,23 @@ export interface AlertPropsType {
       </Alert>,
     );
  */
-const Alert = (props: AlertPropsType) => {
-  const { title, headerClassName, children, buttonSlot, onClick } = props;
+const Alert = (props: AlertProps) => {
+  const { title, headerClassName, children, buttonSlot, isOpen, close, unmount } = props;
+
+  const handleClose = () => {
+    close?.();
+
+    setTimeout(() => {
+      unmount?.();
+    }, 300);
+  };
 
   return (
-    <AlertDialog open={true}>
+    <AlertDialog open={isOpen}>
       <AlertDialogOverlay />
       <AlertDialogContent className="p-0">
         <AlertDialogHeader className={cn('px-4 pt-9', headerClassName)}>
-          <AlertDialogTitle className="text-center text-xl text-grayscale900">{title}</AlertDialogTitle>
+          <AlertDialogTitle className="text-center text-xl text-grayscale900">{title || '알림'}</AlertDialogTitle>
           <AlertDialogDescription className="hidden" />
         </AlertDialogHeader>
         <div className="px-4 pb-4 text-center">{children}</div>
@@ -75,7 +82,7 @@ const Alert = (props: AlertPropsType) => {
           <div className="-mx-[0.075rem] -mb-[0.075rem]">
             {buttonSlot || (
               <>
-                <Button onClick={onClick} className={BUTTON.ACTION}>
+                <Button onClick={handleClose} className={cn('w-full rounded-none rounded-bl-md rounded-br-md')}>
                   확인
                 </Button>
               </>

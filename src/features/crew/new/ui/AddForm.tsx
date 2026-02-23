@@ -2,10 +2,10 @@
 
 import { ChangeEvent, useRef, useState } from 'react';
 
-import { useModalStackStore } from '@/store/useModalStackStore';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CircleX, ImagePlus, Loader2, X } from 'lucide-react';
 import Image from 'next/image';
+import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { addCrewPostFetch } from '@/shared/api/crew/new/addCrewPostFetch';
@@ -31,9 +31,6 @@ import { addCrewSchema } from './validator';
  */
 const AddForm = () => {
   const { toast, hide } = useToast();
-
-  const setModal = useModalStackStore((state) => state.pushModal);
-  const onClose = useModalStackStore((state) => state.onCloseAll);
 
   const [imageUrl, setImageUrl] = useState<string>('');
   const [displaySpinner, setDisplaySpinner] = useState<boolean>(false);
@@ -221,30 +218,46 @@ const AddForm = () => {
           name="hashtags"
           type="text"
           placeholder="크루를 나타내는 해시태그를 선택해주세요."
-          maxLength={15}
           value=""
-          disabled={true}
+          maxLength={15}
           label="크루명"
           button={
             <InputButton
               buttonText="선택하기"
               onClick={() =>
-                setModal(
+                overlay.open(({ isOpen, close, unmount }) => (
                   <FormProvider {...method}>
-                    <BottomSheet title="크루 해시태그" isOpen={true} onClose={onClose}>
+                    <BottomSheet
+                      title="크루 해시태그"
+                      isOpen={isOpen}
+                      onClose={() => {
+                        close();
+
+                        setTimeout(() => {
+                          unmount();
+                        }, 300);
+                      }}
+                    >
                       <Accordion
                         name="hashtags"
                         list={ACCORDION_HASH_TAG_LIST}
                         defaultValue={['hashtag']}
                         onSubmit={(args: string[]) => setValue('hashtags', args)}
-                        onCancel={onClose}
+                        onCancel={() => {
+                          close();
+
+                          setTimeout(() => {
+                            unmount();
+                          }, 300);
+                        }}
                       />
                     </BottomSheet>
-                  </FormProvider>,
-                )
+                  </FormProvider>
+                ))
               }
             />
           }
+          disabled
         />
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-1">
@@ -270,7 +283,7 @@ const AddForm = () => {
         <Input type="text" name="kakaoLink" label="크루 소통방" placeholder="크루 소통방 링크를 입력해주세요." />
       </div>
 
-      <div className="buttonArea mb-12 mt-36">
+      <div className="buttonArea mt-36 pb-12">
         <Button className="w-full" onClick={handleSubmit} disabled={displaySpinner}>
           {displaySpinner ? (
             <div className="flex items-center justify-center gap-1">

@@ -5,23 +5,18 @@ import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { Star } from 'lucide-react';
 
+import type { CrewHomeInfoResponseProps } from '@/shared/api/crew/home/crewHomeInfoGetFetch';
+import { getRoleText } from '@/shared/lib';
 import { cn } from '@/shared/lib/utils';
+import type { CrewRole } from '@/shared/types';
 import { Article } from '@/shared/ui/Article';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Badge } from '@/shared/ui/Badge';
 import { Text } from '@/shared/ui/Text';
 import { Button } from '@/shared/ui/ui/button';
 
-interface AnnounceItem {
-  fixed: boolean;
-  createdAt: string;
-  memberInfo: {
-    nickname: string;
-  };
-}
-
 interface CrewAnnounceListProps {
-  announces?: AnnounceItem[];
+  announces?: PropType<PropType<CrewHomeInfoResponseProps, 'data'>, 'announces'>;
   crewId?: number;
 }
 
@@ -38,7 +33,7 @@ export const CrewAnnounceList = ({ announces, crewId }: CrewAnnounceListProps) =
 
   return (
     <Article
-      className="min-h-[360px] w-full p-3"
+      className="h-[360px] w-full p-3"
       slot={
         <>
           <div className="flex items-center justify-between">
@@ -65,17 +60,17 @@ export const CrewAnnounceList = ({ announces, crewId }: CrewAnnounceListProps) =
                     )}
                   >
                     <div className="mt-2 flex justify-between">
-                      <Text.base className="font-semibold">크루 규정 안내(신규 크루원 필독)</Text.base>
-                      {announce.fixed && <Star size={16} fill="#FFCD29" stroke="#FFCD29" />}
+                      <Text.base className="font-semibold">{announce.title}</Text.base>
+                      {announce.pinned && <Star size={16} fill="#FFCD29" stroke="#FFCD29" />}
                     </div>
                     <div className="footer flex items-center justify-between">
                       <div className="flex items-center gap-[3px]">
                         <div className="flex items-center gap-0.5">
                           <Avatar className="h-4 w-4" />
-                          <Text.xs className="pt-[0.05rem]">{announce.memberInfo?.nickname}</Text.xs>
+                          <Text.xs className="pt-[0.05rem]">{announce.writer?.nickname}</Text.xs>
                         </div>
                         <Badge className="px-0.5 py-0">
-                          <Text.xxs>크루장</Text.xxs>
+                          <Text.xxs>{getRoleText((announce.states?.role ?? 'OWNER') as CrewRole)}</Text.xxs>
                         </Badge>
                       </div>
                       <div>
