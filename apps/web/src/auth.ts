@@ -11,36 +11,16 @@ import { userInfoGetFetch } from './shared/api/user/userInfoGetFetch';
 import type { Mbti } from './shared/config';
 
 async function refreshAccessToken(token: JWT): Promise<JWT> {
-  // [DIAG] 사용하는 refresh token 의 jti (이중 refresh 추적용)
-  const rtJti = (() => {
-    try {
-      return jwtDecode<{ jti?: string }>(token.refreshToken)?.jti;
-    } catch {
-      return 'decode-fail';
-    }
-  })();
-  console.log('[DIAG refreshAccessToken] 시작 — refreshToken jti:', rtJti, '| runtime:', typeof window === 'undefined' ? 'server' : 'client');
-
   try {
     const res = await tokenRefreshGetFetch({
       refreshToken: token.refreshToken,
     });
-
-    console.log('[DIAG refreshAccessToken] reissue 응답 status:', res.data?.status, '| error:', JSON.stringify(res.data?.error));
 
     if (res.data.status === 401) {
       throw new Error('RefreshAccessTokenError');
     }
 
     const newToken = res.data.data;
-
-    console.log('[DIAG refreshAccessToken] 성공 — 새 RT jti:', (() => {
-      try {
-        return jwtDecode<{ jti?: string }>(newToken.refreshToken)?.jti;
-      } catch {
-        return '?';
-      }
-    })());
 
     return {
       ...token,
@@ -50,9 +30,7 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
       // (하드코딩 20분으로 두면 실제 30초 만료 토큰을 jwt 콜백이 '유효'로 오판해 stale token 으로 T003 발생)
       accessTokenExpires: jwtDecode(newToken.accessToken)?.exp,
     };
-  } catch (error) {
-    console.error('[DIAG refreshAccessToken] 실패:', error instanceof Error ? error.message : error);
-
+  } catch {
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -71,16 +49,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       const isValid = !!(token.accessTokenExpires && dayjs().isBefore(dayjs.unix(token.accessTokenExpires)));
-      console.log(
-        '[DIAG jwt] 호출 — accessTokenExpires:',
-        token.accessTokenExpires,
-        '| now:',
-        dayjs().unix(),
-        '| 유효?',
-        isValid,
-        '| trigger:',
-        trigger,
-      );
 
       if (isValid) {
         return token;
