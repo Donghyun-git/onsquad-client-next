@@ -58,10 +58,7 @@ export default {
           if (error instanceof InvalidLoginError) {
             throw error;
           }
-          throw new CredentialsSignin('UNKNOWN_ERROR', {
-            type: 'UnknownAction',
-            code: 'UNKNOWN_ERROR',
-          });
+          throw new InvalidLoginError('UNKNOWN_ERROR');
         }
       },
     }),

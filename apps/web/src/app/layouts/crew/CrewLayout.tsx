@@ -8,7 +8,7 @@ import { Appbar } from '@/shared/ui/Appbar';
 
 import NoTabContentLayout from '../NoTabContentLayout';
 
-async function CrewDetailLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
+async function CrewDetailLayout({ children, params }: { children: React.ReactNode; params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const crewId = parseInt(id, 10);

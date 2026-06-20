@@ -14,7 +14,7 @@ import { PostButton } from '@/shared/ui/PostButton';
 import { Text } from '@/shared/ui/Text';
 import { Button } from '@/shared/ui/ui/button';
 
-export type CrewDataType = ArrayType<CrewListData>;
+export type CrewDataType = ArrayType<CrewListData['results']>;
 
 interface CrewListPropsType {
   list: CrewDataType[];
