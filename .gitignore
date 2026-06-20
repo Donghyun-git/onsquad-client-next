@@ -50,3 +50,9 @@ next-env.d.ts
 
 # E2E 테스트 fixtures
 __tests__/fixtures/user.json
+
+# turbo
+.turbo/
+
+# pnpm
+.pnpm-store/
