@@ -45,6 +45,13 @@ export default defineConfig([
   },
   ...tseslint.configs.recommended,
   {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
     files: ['**/*.{jsx,tsx}'],
     ...pluginReact.configs.flat.recommended,
     rules: {
