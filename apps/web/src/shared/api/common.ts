@@ -16,6 +16,8 @@ export interface ApiResponse<T> {
 
 interface ApiClientOptions {
   baseUrl: string;
+  /** 클라이언트(브라우저) 전용 base. 인증 호출을 BFF(/api/bff)로 보내 회전 토큰 refresh·persist 를 서버에서 처리한다. 없으면 baseUrl 사용. */
+  clientBaseUrl?: string;
   withAuth: boolean;
 }
 
@@ -61,8 +63,11 @@ class ApiClient {
 
     let response: Response;
 
+    const base =
+      typeof window !== 'undefined' && this.options.clientBaseUrl ? this.options.clientBaseUrl : this.options.baseUrl;
+
     try {
-      response = await fetch(`${this.options.baseUrl}${path}`, {
+      response = await fetch(`${base}${path}`, {
         signal: controller.signal,
         ...fetchInit,
         headers: {
@@ -169,4 +174,9 @@ export const publicApiFetch = new ApiClient({
   withAuth: false,
 });
 
-export const apiFetch = new ApiClient({ baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`, withAuth: true });
+export const apiFetch = new ApiClient({
+  baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
+  // 클라이언트 인증 호출은 BFF 경유 (회전 토큰 refresh·persist 를 서버에서 처리, 토큰 비노출)
+  clientBaseUrl: '/api/bff',
+  withAuth: true,
+});

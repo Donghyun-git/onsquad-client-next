@@ -1,33 +1,13 @@
-import React from 'react';
-
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-
 import { WriteForm } from '@/features/crew/announce';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
-
-import { getQueryClient } from '@/shared/lib/queries';
-import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
-
+// 인증 데이터는 클라(WriteForm)가 BFF 경유로 조회 — 서버 prefetch 제거.
 const AnnounceEditPage = async ({ params }: { params: { id: string; announceId: string } }) => {
   const { id, announceId } = await params;
 
   const crewId = parseInt(id, 10);
   const parsedAnnounceId = parseInt(announceId, 10);
 
-  const queryClient = getQueryClient();
-
-  const accessToken = await getServerAccessToken();
-
-  await queryClient.prefetchQuery(
-    crewQueries.announceDetail({ crewId, announceId: parsedAnnounceId, accessToken }),
-  );
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <WriteForm crewId={crewId} announceId={parsedAnnounceId} mode="edit" />
-    </HydrationBoundary>
-  );
+  return <WriteForm crewId={crewId} announceId={parsedAnnounceId} mode="edit" />;
 };
 
 export default AnnounceEditPage;

@@ -32,10 +32,12 @@ export const WriteForm = ({ crewId, announceId, mode }: WriteFormProps) => {
 
   const { toast } = useToast();
 
-  const { data } = useQuery({
+  const { data: announceDetailRes } = useQuery({
     ...crewQueries.announceDetail({ crewId, announceId: announceId ?? 0 }),
     enabled: mode === 'edit',
   });
+
+  const data = announceDetailRes?.data;
 
   const method = useForm({
     resolver: yupResolver(announceSchema),

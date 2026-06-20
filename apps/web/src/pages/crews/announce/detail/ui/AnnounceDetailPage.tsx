@@ -1,35 +1,17 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-
 import { AnnounceDetail } from '@/features/crew/announce-detail';
-
-import { crewQueries } from '@/entities/crew/api/crew.queries';
-
-import { getQueryClient } from '@/shared/lib/queries';
-import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 
 interface AnnounceDetailPageProps {
   params: { id: string; announceId: string };
 }
 
+// 인증 데이터는 클라(AnnounceDetail)가 BFF 경유로 조회 — 서버 prefetch 제거.
 const AnnounceDetailPage = async ({ params }: AnnounceDetailPageProps) => {
   const { id, announceId } = await params;
 
   const crewId = parseInt(id, 10);
   const parsedAnnounceId = parseInt(announceId, 10);
 
-  const queryClient = getQueryClient();
-
-  const accessToken = await getServerAccessToken();
-
-  await queryClient.prefetchQuery(
-    crewQueries.announceDetail({ crewId, announceId: parsedAnnounceId, accessToken }),
-  );
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <AnnounceDetail crewId={crewId} announceId={parsedAnnounceId} />
-    </HydrationBoundary>
-  );
+  return <AnnounceDetail crewId={crewId} announceId={parsedAnnounceId} />;
 };
 
 export default AnnounceDetailPage;

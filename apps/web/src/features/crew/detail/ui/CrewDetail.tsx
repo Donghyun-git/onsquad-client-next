@@ -38,7 +38,9 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
   const { mutateAsync: crewRequestMutate, isPending: isCrewRequestPending } = useCrewRequestMutation({ crewId });
   const { mutateAsync: cancelRequestMutate, isPending: isCancelRequestPending } = useCancelRequestMutation({ crewId });
 
-  const { data } = useQuery(crewQueries.detail({ crewId }));
+  const { data: crewDetail } = useQuery(crewQueries.detail({ crewId }));
+
+  const data = crewDetail?.data;
 
   const isGuestUser = !user;
   const alreadyParticipant = data?.states.alreadyParticipant ?? false;

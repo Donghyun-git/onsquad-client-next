@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server';
 import { PATH } from '@/shared/config/paths';
 
 export const proxy = auth((request) => {
+  console.log('[DIAG proxy] 미들웨어 auth() —', request.nextUrl.pathname);
+
   const accessToken = request.auth?.accessToken;
 
   const { redirect, next } = NextResponse;

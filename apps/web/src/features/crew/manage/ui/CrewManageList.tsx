@@ -18,7 +18,9 @@ interface CrewManageListProps {
 const CrewManageList = ({ crewId }: CrewManageListProps) => {
   const router = useRouter();
 
-  const { data } = useQuery(crewQueries.manage({ crewId }));
+  const { data: manageRes } = useQuery(crewQueries.manage({ crewId }));
+
+  const data = manageRes?.data;
 
   const canModify = data?.states?.canModify;
   const canDelete = data?.states?.canDelete;

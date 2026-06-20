@@ -11,6 +11,8 @@ import { auth } from '@/auth';
  * 서버 전용 — 클라이언트 번들 오염을 피하기 위해 배럴(index)에서 re-export 하지 않는다.
  */
 export async function getServerAccessToken(): Promise<string | undefined> {
+  console.log('[DIAG getServerAccessToken] RSC 에서 auth() 호출');
+
   const session = await auth();
 
   return session?.accessToken;

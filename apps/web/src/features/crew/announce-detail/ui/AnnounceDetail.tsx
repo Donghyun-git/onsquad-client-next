@@ -35,7 +35,9 @@ const ReactMarkdown = dynamic(() => import('react-markdown'), {
 const AnnounceDetail = ({ crewId, announceId }: { crewId: number; announceId: number }) => {
   const router = useRouter();
 
-  const { data } = useQuery(crewQueries.announceDetail({ crewId, announceId }));
+  const { data: announceDetailRes } = useQuery(crewQueries.announceDetail({ crewId, announceId }));
+
+  const data = announceDetailRes?.data;
 
   const { mutateAsync: announcePinMutate, isPending: isAnnouncePinPending } = useAnnouncePinMutation({
     crewId,
