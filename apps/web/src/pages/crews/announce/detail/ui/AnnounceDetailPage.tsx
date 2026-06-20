@@ -5,6 +5,7 @@ import { AnnounceDetail } from '@/features/crew/announce-detail';
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import { getQueryClient } from '@/shared/lib/queries';
+import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 
 interface AnnounceDetailPageProps {
   params: { id: string; announceId: string };
@@ -18,7 +19,11 @@ const AnnounceDetailPage = async ({ params }: AnnounceDetailPageProps) => {
 
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(crewQueries.announceDetail({ crewId, announceId: parsedAnnounceId }));
+  const accessToken = await getServerAccessToken();
+
+  await queryClient.prefetchQuery(
+    crewQueries.announceDetail({ crewId, announceId: parsedAnnounceId, accessToken }),
+  );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -6,14 +6,22 @@ import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import type { CrewHomeInfoResponseProps } from '@/shared/api/crew';
 import { getQueryClient } from '@/shared/lib/queries';
+import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 import { Appbar } from '@/shared/ui/Appbar';
 
-const getHomeData = async (queryClient: QueryClient, crewId: number, page?: number, size?: number) => {
+const getHomeData = async (
+  queryClient: QueryClient,
+  crewId: number,
+  page?: number,
+  size?: number,
+  accessToken?: string,
+) => {
   await queryClient.fetchQuery(
     crewQueries.home({
       crewId,
       page,
       size,
+      accessToken,
     }),
   );
 };
@@ -36,7 +44,9 @@ async function CrewHomePage({
 
   const queryClient = getQueryClient();
 
-  await getHomeData(queryClient, crewId, pageNum, sizeNum);
+  const accessToken = await getServerAccessToken();
+
+  await getHomeData(queryClient, crewId, pageNum, sizeNum, accessToken);
 
   const crewData = queryClient.getQueryData<CrewHomeInfoResponseProps>(
     crewQueries.home({ crewId, page: pageNum, size: sizeNum }).queryKey,

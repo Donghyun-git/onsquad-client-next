@@ -7,6 +7,7 @@ import { WriteForm } from '@/features/crew/announce';
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import { getQueryClient } from '@/shared/lib/queries';
+import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 
 const AnnounceEditPage = async ({ params }: { params: { id: string; announceId: string } }) => {
   const { id, announceId } = await params;
@@ -16,7 +17,11 @@ const AnnounceEditPage = async ({ params }: { params: { id: string; announceId: 
 
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(crewQueries.announceDetail({ crewId, announceId: parsedAnnounceId }));
+  const accessToken = await getServerAccessToken();
+
+  await queryClient.prefetchQuery(
+    crewQueries.announceDetail({ crewId, announceId: parsedAnnounceId, accessToken }),
+  );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

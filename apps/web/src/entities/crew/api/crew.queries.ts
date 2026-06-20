@@ -65,11 +65,11 @@ export const crewQueries = {
       },
     }),
 
-  detail: ({ crewId }: CrewDetailGetFetchParams) =>
+  detail: ({ crewId, accessToken }: CrewDetailGetFetchParams) =>
     queryOptions({
       queryKey: [...crewQueries.root(), 'detail', crewId],
       queryFn: async () => {
-        const res = await crewDetailGetFetch({ crewId });
+        const res = await crewDetailGetFetch({ crewId, accessToken });
 
         console.log(res.data, 'res.data');
 
@@ -78,43 +78,43 @@ export const crewQueries = {
       throwOnError: true,
     }),
 
-  home: ({ crewId, page, size }: CrewHomeInfoGetFetchParams) =>
+  home: ({ crewId, page, size, accessToken }: CrewHomeInfoGetFetchParams) =>
     makeQueryOptions([...crewQueries.root(), 'home', crewId, page, size], () =>
-      crewHomeInfoGetFetch({ crewId, page, size }),
+      crewHomeInfoGetFetch({ crewId, page, size, accessToken }),
     ),
 
-  announceList: ({ crewId }: CrewAnnounceGetFetchParams) =>
+  announceList: ({ crewId, accessToken }: CrewAnnounceGetFetchParams) =>
     queryOptions({
       queryKey: [...crewQueries.lists(), 'announce', crewId],
       queryFn: async () => {
-        const res = await crewAnnounceGetFetch({ crewId });
+        const res = await crewAnnounceGetFetch({ crewId, accessToken });
 
         return res.data;
       },
     }),
 
-  announceDetail: ({ crewId, announceId }: CrewAnnounceDetailGetFetchParams) =>
+  announceDetail: ({ crewId, announceId, accessToken }: CrewAnnounceDetailGetFetchParams) =>
     queryOptions({
       queryKey: [...crewQueries.lists(), 'announce', crewId, announceId],
       queryFn: async () => {
-        const res = await crewAnnounceDetailGetFetch({ crewId, announceId });
+        const res = await crewAnnounceDetailGetFetch({ crewId, announceId, accessToken });
 
         return res.data.data;
       },
     }),
 
-  manage: ({ crewId }: CrewManageGetFetchParams) =>
+  manage: ({ crewId, accessToken }: CrewManageGetFetchParams) =>
     queryOptions({
       queryKey: [...crewQueries.lists(), 'manage', crewId],
       queryFn: async () => {
-        const res = await crewManageGetFetch({ crewId });
+        const res = await crewManageGetFetch({ crewId, accessToken });
 
         return res.data.data;
       },
     }),
 
-  participants: ({ crewId, size = 5, page = 0 }: CrewParticipantsGetFetchParams) =>
+  participants: ({ crewId, size = 5, page = 0, accessToken }: CrewParticipantsGetFetchParams) =>
     makeQueryOptions([...crewQueries.lists(), 'participants', crewId, size, page], () =>
-      crewParticipantsGetFetch({ crewId, size, page }),
+      crewParticipantsGetFetch({ crewId, size, page, accessToken }),
     ),
 };

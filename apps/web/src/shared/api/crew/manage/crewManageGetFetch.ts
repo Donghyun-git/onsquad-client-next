@@ -3,6 +3,9 @@ import type { ResponseModel } from '../../model';
 
 export interface CrewManageGetFetchParams {
   crewId: number;
+
+  /** 서버사이드 prefetch 시 명시 주입 (클라이언트는 store 사용) */
+  accessToken?: string;
 }
 
 export interface CrewManageResponseProps extends ResponseModel {
@@ -39,5 +42,5 @@ export interface CrewManageResponseProps extends ResponseModel {
 /**
  * 크루 관리 정보 조회
  */
-export const crewManageGetFetch = ({ crewId }: CrewManageGetFetchParams) =>
-  apiFetch.get<CrewManageResponseProps>(`/crews/${crewId}/manage`);
+export const crewManageGetFetch = ({ crewId, accessToken }: CrewManageGetFetchParams) =>
+  apiFetch.get<CrewManageResponseProps>(`/crews/${crewId}/manage`, { accessToken });

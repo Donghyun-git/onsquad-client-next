@@ -4,6 +4,7 @@ import type { CrewDetailData } from '@/entities/crew';
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import { getQueryClient } from '@/shared/lib/queries';
+import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 import { Appbar } from '@/shared/ui/Appbar';
 
 import NoTabContentLayout from '../NoTabContentLayout';
@@ -15,7 +16,9 @@ async function CrewDetailLayout({ children, params }: { children: React.ReactNod
 
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(crewQueries.detail({ crewId }));
+  const accessToken = await getServerAccessToken();
+
+  await queryClient.prefetchQuery(crewQueries.detail({ crewId, accessToken }));
 
   const crewDetailData = queryClient.getQueryData<CrewDetailData>(crewQueries.detail({ crewId }).queryKey);
 

@@ -10,7 +10,7 @@ import { tokenRefreshGetFetch } from './shared/api/auth/tokenRefreshGetFetch';
 import { userInfoGetFetch } from './shared/api/user/userInfoGetFetch';
 import type { Mbti } from './shared/config';
 
-async function refreshAccessToken(token: JWT) {
+async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
     const res = await tokenRefreshGetFetch({
       refreshToken: token.refreshToken,
@@ -82,7 +82,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.kakaoLink = token.kakaoLink as string;
       session.profileImage = token.profileImage as string;
       session.introduce = token.introduce as string;
-      // session.error = null;
+      // refresh 실패(jwt 콜백의 refreshAccessToken)를 세션에 전파해 클라/미들웨어가 재로그인을 유도할 수 있게 한다.
+      session.error = token.error;
 
       return session;
     },

@@ -7,6 +7,7 @@ import { ParticipantList } from '@/features/crew/manage/participants';
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import { getQueryClient } from '@/shared/lib/queries';
+import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 
 const ManageParticipantsPage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
@@ -15,7 +16,9 @@ const ManageParticipantsPage = async ({ params }: { params: { id: string } }) =>
 
   const crewId = parseInt(id, 10);
 
-  await queryClient.prefetchQuery(crewQueries.participants({ crewId }));
+  const accessToken = await getServerAccessToken();
+
+  await queryClient.prefetchQuery(crewQueries.participants({ crewId, accessToken }));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

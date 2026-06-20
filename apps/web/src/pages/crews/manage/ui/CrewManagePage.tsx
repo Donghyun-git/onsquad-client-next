@@ -7,6 +7,7 @@ import { CrewManageList } from '@/features/crew/manage';
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import { getQueryClient } from '@/shared/lib/queries';
+import { getServerAccessToken } from '@/shared/lib/queries/getServerAccessToken';
 
 const CrewManagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
@@ -15,9 +16,12 @@ const CrewManagePage = async ({ params }: { params: { id: string } }) => {
 
   const crewId = parseInt(id, 10);
 
+  const accessToken = await getServerAccessToken();
+
   await queryClient.prefetchQuery(
     crewQueries.manage({
       crewId,
+      accessToken,
     }),
   );
 

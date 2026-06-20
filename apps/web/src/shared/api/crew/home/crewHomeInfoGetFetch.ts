@@ -16,6 +16,9 @@ export interface CrewHomeInfoGetFetchParams {
    * 한 페이지당 개수
    */
   size?: number;
+
+  /** 서버사이드 prefetch 시 명시 주입 (클라이언트는 store 사용) */
+  accessToken?: string;
 }
 
 export interface CrewHomeInfoResponseProps extends ResponseModel {
@@ -272,5 +275,5 @@ export interface CrewHomeInfoResponseProps extends ResponseModel {
  * 크루 메인 페이지 정보
  * - GET /api/crews/{crewId}/main
  */
-export const crewHomeInfoGetFetch = ({ crewId, page, size }: CrewHomeInfoGetFetchParams) =>
-  apiFetch.get<CrewHomeInfoResponseProps>(`/crews/${crewId}/main?page=${page}&size=${size}`);
+export const crewHomeInfoGetFetch = ({ crewId, page, size, accessToken }: CrewHomeInfoGetFetchParams) =>
+  apiFetch.get<CrewHomeInfoResponseProps>(`/crews/${crewId}/main?page=${page}&size=${size}`, { accessToken });
