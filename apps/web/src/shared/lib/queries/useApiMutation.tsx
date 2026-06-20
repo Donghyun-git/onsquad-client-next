@@ -1,8 +1,8 @@
 import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { CircleX } from 'lucide-react';
 
+import type { ApiResponse } from '@/shared/api/common';
 import { ResponseModel } from '@/shared/api/model';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';
@@ -24,7 +24,7 @@ export const useApiMutation = <
   mutationKey?: TMutationKey;
   invalidateKey?: TInvalidateKey;
   invalidateKeys?: TInvalidateKey[];
-  fetcher: (variables: TVariables) => Promise<AxiosResponse<TMutationFnData>>;
+  fetcher: (variables: TVariables) => Promise<ApiResponse<TMutationFnData>>;
   options?: Omit<UseMutationOptions<TMutationFnData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>;
 }): UseMutationResult<TMutationFnData, TError, TVariables, TContext> => {
   const queryClient = useQueryClient();

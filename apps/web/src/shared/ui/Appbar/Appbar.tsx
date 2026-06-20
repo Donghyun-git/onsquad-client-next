@@ -100,7 +100,11 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                             platform: 'kakao',
                           });
 
-                          location.href = kakaoLoginRes.headers.location;
+                          const redirectUrl = kakaoLoginRes.headers.get('location');
+
+                          if (redirectUrl) {
+                            location.href = redirectUrl;
+                          }
                         } catch (error) {
                           console.error('카카오 로그인 실패', error);
                         }

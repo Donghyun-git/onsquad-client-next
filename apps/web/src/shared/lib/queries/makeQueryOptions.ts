@@ -1,6 +1,6 @@
 import { type UseQueryOptions, queryOptions } from '@tanstack/react-query';
-import type { AxiosResponse } from 'axios';
 
+import type { ApiResponse } from '@/shared/api/common';
 import type { ResponseModel } from '@/shared/api/model';
 
 export const makeQueryOptions = <
@@ -10,7 +10,7 @@ export const makeQueryOptions = <
   TData = TQueryFnData,
 >(
   queryKey: TQueryKey,
-  queryFn: () => Promise<AxiosResponse<TQueryFnData>>,
+  queryFn: () => Promise<ApiResponse<TQueryFnData>>,
 ): UseQueryOptions<TQueryFnData, TError, TData, TQueryKey> => {
   return queryOptions<TQueryFnData, TError, TData, TQueryKey>({
     queryKey,
