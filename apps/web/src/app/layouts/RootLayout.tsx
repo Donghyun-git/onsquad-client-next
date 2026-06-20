@@ -4,7 +4,6 @@ import React from 'react';
 
 import Script from 'next/script';
 import { OverlayProvider } from 'overlay-kit';
-import 'quill/dist/quill.core.css';
 
 import '@/app/styles/globals.css';
 

@@ -12,5 +12,10 @@
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\" --ignore-path .gitignore"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss@<8.5.10": ">=8.5.10"
+    }
   }
 }
