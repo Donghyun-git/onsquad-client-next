@@ -14,6 +14,8 @@ node_modules
 .env
 
 *.sh
+# 모바일 실행 스크립트는 추적 (위 *.sh 예외)
+!apps/mobile/scripts/*.sh
 
 
 # testing
