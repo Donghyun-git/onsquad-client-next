@@ -15,7 +15,9 @@ function makeQueryClient() {
     },
     queryCache: new QueryCache({
       onError: (error) => {
-        throw new Error(error.message);
+        // onError 에서 throw 하면 SSR/ISR prerender 가 크래시한다(특히 백엔드 미가동 시
+        // 서버 prefetch 실패). 관찰만 하고 에러 전파는 각 쿼리의 throwOnError 에 위임한다.
+        console.error('[queryCache] query error:', error.message);
       },
     }),
   });

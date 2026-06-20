@@ -1,29 +1,17 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import Image from 'next/image';
 
-import { CrewList } from '@/widgets/CrewList';
 import { MainDashboard } from '@/widgets/MainDashboard';
 
 // import { SearchContainer } from '@/widgets/SearchContainer';
 
-import type { CrewListData } from '@/entities/crew';
-import { crewQueries } from '@/entities/crew/api/crew.queries';
-
-import { getQueryClient } from '@/shared/lib/queries/get-query-client';
 import { Text } from '@/shared/ui/Text';
 
-async function HomePage() {
-  const queryClient = getQueryClient();
+import { HomeCrewList } from './HomeCrewList';
 
-  // 서버 prefetch 는 베스트에포트: 백엔드가 느리거나 응답이 없어도 최대 3초만 대기한다.
-  // (ISR revalidate 와 함께 동작하며, prefetchQuery 는 에러를 throw 하지 않는다.)
-  await Promise.race([
-    queryClient.prefetchQuery(crewQueries.list()),
-    new Promise((resolve) => setTimeout(resolve, 3000)),
-  ]);
-
-  const crewListData = queryClient.getQueryData<CrewListData>(crewQueries.list().queryKey);
-
+// 메인페이지는 ISR 정적 셸. 크루 리스트는 per-user(권한) 개인화 데이터라 서버에서
+// prefetch 하지 않고 클라이언트(HomeCrewList)에서 가져온다. 서버가 백엔드/auth 에
+// 의존하지 않으므로 백엔드 미가동에도 빌드/ISR prerender 가 깨지지 않는다.
+function HomePage() {
   return (
     <div className="h-full w-full bg-gray-50">
       <div className="flex w-full items-center justify-between rounded-xl bg-[#144A7D] p-9 ease-linear S2:flex-col SE:flex-col mobile:flex-col tablet:flex-col">
@@ -68,9 +56,7 @@ async function HomePage() {
         <MainDashboard />
       </section>
       <section>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <CrewList list={crewListData?.results ?? []} />
-        </HydrationBoundary>
+        <HomeCrewList />
       </section>
     </div>
   );
