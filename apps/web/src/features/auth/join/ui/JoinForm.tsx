@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CircleCheck, CircleX, Loader2 } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -11,6 +13,7 @@ import { nicknameCheckGetFetch } from '@/shared/api/user/nicknameCheckGetFetch';
 import { sendEmailAuthCodePostFetch } from '@/shared/api/user/sendEmailAuthCodePostFetch';
 import { userEmailCheckGetFetch } from '@/shared/api/user/userEmailCheckGetFetch';
 import { userJoinPostFetch } from '@/shared/api/user/userJoinPostFetch';
+import { PATH } from '@/shared/config/paths';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
@@ -28,6 +31,7 @@ const JoinForm = () => {
   const [isNicknameValid, setIsNicknameValid] = useState<boolean>(false);
 
   const { toast } = useToast();
+  const router = useRouter();
 
   const { mutateAsync: userJoin, isPending: isUserJoinPending } = useApiMutation({
     fetcher: userJoinPostFetch,
@@ -39,6 +43,8 @@ const JoinForm = () => {
             className: TOAST.success,
             icon: <CircleCheck />,
           });
+
+          router.push(PATH.login, { scroll: false });
         } else {
           toast({
             title: '회원가입에 실패했어요.',

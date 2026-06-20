@@ -24,6 +24,51 @@ const config = {
       },
     },
     extend: {
+      // 디자인 시스템 typography/spacing 토큰 (Figma node 1-1007)
+      fontSize: {
+        '50': '0.5625rem', // 9px
+        '75': '0.625rem', // 10px
+        '100': '0.75rem', // 12px
+        '200': '0.875rem', // 14px
+        '300': '1rem', // 16px
+        '400': '1.125rem', // 18px
+        '500': '1.25rem', // 20px
+        '600': '1.5rem', // 24px
+        '700': '1.75rem', // 28px
+        '800': '2rem', // 32px
+        '900': '2.25rem', // 36px
+        '1000': '2.5rem', // 40px
+        '1100': '2.75rem', // 44px
+        '1200': '3rem', // 48px
+        '1300': '3.5rem', // 56px
+      },
+      fontWeight: {
+        regular: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+      },
+      lineHeight: {
+        '130': '1.3',
+        '150': '1.5',
+        '160': '1.6',
+      },
+      spacing: {
+        's-10': '0.25rem', // 4px
+        's-20': '0.5rem', // 8px
+        's-25': '0.625rem', // 10px
+        's-30': '0.75rem', // 12px
+        's-35': '0.875rem', // 14px
+        's-40': '1rem', // 16px
+        's-50': '1.25rem', // 20px
+        's-60': '1.5rem', // 24px
+        's-65': '2rem', // 32px
+        's-70': '2.25rem', // 36px
+        's-75': '2.5rem', // 40px
+        's-80': '3rem', // 48px
+        's-90': '3.75rem', // 60px
+        's-100': '4.5rem', // 72px
+      },
       boxShadow: {
         'md-bottom': ' 0 4px 2px -2px rgba(0, 0, 0, 0.1)',
       },
