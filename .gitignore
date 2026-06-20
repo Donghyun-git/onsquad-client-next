@@ -56,3 +56,6 @@ __tests__/fixtures/user.json
 
 # pnpm
 .pnpm-store/
+
+# E2E 픽스처 (apps/web 이동 후 재무시)
+apps/web/__tests__/fixtures/user.json
