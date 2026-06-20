@@ -15,12 +15,15 @@ import { cn } from '@/shared/lib';
 import { searchSchema } from '@/shared/ui/Searchbar/validator';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { Text } from '@/shared/ui/Text';
+import { Button } from '@/shared/ui/ui/button';
 
 import CrewList from './CommunityCrewList';
 import Search from './CommunitySearchbar';
 
 const CommunityContainer = () => {
-  const { data: crewList, isLoading } = useQuery(crewQueries.list());
+  // 전역 throwOnError(true) 를 이 페이지에서만 해제: 에러를 ErrorBoundary 로 던지지 않고
+  // 인라인 재시도 UI 로 graceful 하게 처리한다.
+  const { data: crewList } = useQuery({ ...crewQueries.list(), throwOnError: false });
 
   const method = useForm({
     resolver: yupResolver(searchSchema),
@@ -49,10 +52,19 @@ const CommunityContainer = () => {
 
   const { ref, inView } = useInView();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isError,
+    isLoading: isListLoading,
+    refetch,
+  } = useInfiniteQuery({
     ...crewQueries.infiniteList({
       crewName: debouncedSearchValue,
     }),
+    throwOnError: false,
     initialData:
       !debouncedSearchValue && crewList
         ? {
@@ -99,7 +111,22 @@ const CommunityContainer = () => {
         <Text.lg className="font-semibold">
           <h3>모집중인 크루</h3>
         </Text.lg>
-        {isLoading ? <Skeleton.CrewList /> : <CrewList list={combinedList ?? []} />}
+        {isError ? (
+          <div className="flex flex-col items-center gap-3 py-16 text-center">
+            <Text.sm className="text-[#909090]">크루 목록을 불러오지 못했어요.</Text.sm>
+            <Button
+              variant="ghost"
+              className="h-fit p-2 font-semibold text-[#6C6C6C] hover:text-[#464646]"
+              onClick={() => refetch()}
+            >
+              다시 시도
+            </Button>
+          </div>
+        ) : isListLoading ? (
+          <Skeleton.CrewList className="pt-6" />
+        ) : (
+          <CrewList list={combinedList ?? []} />
+        )}
 
         {combinedList.length > 0 && hasNextPage && (
           <div

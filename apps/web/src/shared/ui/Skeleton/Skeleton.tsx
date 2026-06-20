@@ -42,9 +42,11 @@ const CrewCardSkeleton = () => {
 };
 
 // 리스트용 스켈레톤 (여러 개 카드)
-const CrewListSkeleton = ({ count = 10 }: { count?: number }) => {
+const CrewListSkeleton = ({ count = 10, className = '' }: { count?: number; className?: string }) => {
   return (
-    <div className="grid grid-cols-2 place-items-center gap-y-4 S2:grid-cols-1 SE:grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-1">
+    <div
+      className={`grid grid-cols-2 place-items-center gap-y-4 S2:grid-cols-1 SE:grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-1 ${className}`}
+    >
       {Array.from({ length: count }).map((_, index) => (
         <CrewCardSkeleton key={index} />
       ))}

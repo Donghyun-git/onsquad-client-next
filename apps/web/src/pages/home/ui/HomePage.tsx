@@ -12,12 +12,15 @@ import { crewQueries } from '@/entities/crew/api/crew.queries';
 import { getQueryClient } from '@/shared/lib/queries/get-query-client';
 import { Text } from '@/shared/ui/Text';
 
-export const revalidate = 3600;
-
 async function HomePage() {
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(crewQueries.list());
+  // 서버 prefetch 는 베스트에포트: 백엔드가 느리거나 응답이 없어도 최대 3초만 대기한다.
+  // (ISR revalidate 와 함께 동작하며, prefetchQuery 는 에러를 throw 하지 않는다.)
+  await Promise.race([
+    queryClient.prefetchQuery(crewQueries.list()),
+    new Promise((resolve) => setTimeout(resolve, 3000)),
+  ]);
 
   const crewListData = queryClient.getQueryData<CrewListData>(crewQueries.list().queryKey);
 

@@ -6,14 +6,19 @@ import { ErrorCode } from './model';
 
 type AxiosRequestConfigWithRetry = AxiosRequestConfig & { _retry?: boolean };
 
+// 공통 요청 타임아웃 15초 (백엔드 무응답 시 무한 대기 방지)
+const REQUEST_TIMEOUT_MS = 15_000;
+
 export const publicApiFetch = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
   headers: { 'Content-Type': 'application/json' },
+  timeout: REQUEST_TIMEOUT_MS,
 });
 
 export const apiFetch = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
   headers: { 'Content-Type': 'application/json' },
+  timeout: REQUEST_TIMEOUT_MS,
 });
 
 // 클라이언트 측 인터셉터
