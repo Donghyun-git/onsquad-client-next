@@ -27,7 +27,10 @@ import { ScrollArea } from '@/shared/ui/ui/scroll-area';
 
 import { useAnnouncePinMutation } from '../model/useAnnouncePinMutation';
 
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+const ReactMarkdown = dynamic(() => import('react-markdown'), {
+  ssr: false,
+  loading: () => <Loader2 className="animate-spin" size={12} />,
+});
 
 const AnnounceDetail = ({ crewId, announceId }: { crewId: number; announceId: number }) => {
   const router = useRouter();

@@ -14,6 +14,10 @@ import {
   myCrewListGetFetch,
 } from '@/shared/api/crew';
 import { CrewManageGetFetchParams, crewManageGetFetch } from '@/shared/api/crew/manage/crewManageGetFetch';
+import {
+  CrewParticipantsGetFetchParams,
+  crewParticipantsGetFetch,
+} from '@/shared/api/crew/manage/participants/crewParticipantsGetFetch';
 import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 export const crewQueries = {
@@ -67,6 +71,8 @@ export const crewQueries = {
       queryFn: async () => {
         const res = await crewDetailGetFetch({ crewId });
 
+        console.log(res.data, 'res.data');
+
         return res.data.data;
       },
       throwOnError: true,
@@ -106,4 +112,9 @@ export const crewQueries = {
         return res.data.data;
       },
     }),
+
+  participants: ({ crewId, size = 5, page = 0 }: CrewParticipantsGetFetchParams) =>
+    makeQueryOptions([...crewQueries.lists(), 'participants', crewId, size, page], () =>
+      crewParticipantsGetFetch({ crewId, size, page }),
+    ),
 };

@@ -13,6 +13,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUserStore((state) => state.user);
   const setUserInfo = useUserStore((state) => state.setUserInfo);
 
+  console.log(user, status);
+
   useEffect(() => {
     if (session && !user) {
       setUserInfo?.(session);

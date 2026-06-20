@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { useEffect, useRef } from 'react';
 
+import { overlay } from 'overlay-kit';
 import { FallbackProps } from 'react-error-boundary';
 
 import { ResponseModel } from '@/shared/api/model';
@@ -53,23 +54,28 @@ export function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps)
     }, 0);
   };
 
-  return (
-    <Alert
-      title="알림"
-      headerClassName="pt-6"
-      buttonSlot={
-        <div className="w-full">
-          <Button
-            className={cn(BUTTON.ACTION, 'w-full rounded-bl-md')}
-            onClick={handleNavigation}
-            disabled={isNavigatingRef.current}
-          >
-            확인
-          </Button>
-        </div>
-      }
-    >
-      {(error as Required<NonNullable<PropType<ResponseModel, 'error'>>>).message}
-    </Alert>
-  );
+  useEffect(() => {
+    overlay.open((overlayProps) => (
+      <Alert
+        {...overlayProps}
+        title="알림"
+        headerClassName="pt-6"
+        buttonSlot={
+          <div className="w-full">
+            <Button
+              className={cn(BUTTON.ACTION, 'w-full rounded-bl-md')}
+              onClick={handleNavigation}
+              disabled={isNavigatingRef.current}
+            >
+              확인
+            </Button>
+          </div>
+        }
+      >
+        {(error as Required<NonNullable<PropType<ResponseModel, 'error'>>>).message}
+      </Alert>
+    ));
+  }, []);
+
+  return null;
 }

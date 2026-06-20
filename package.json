@@ -48,6 +48,7 @@
     "embla-carousel-react": "^8.3.0",
     "es-toolkit": "^1.44.0",
     "http-request-fetch": "^1.0.1",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.395.0",
     "msw": "2.1",
     "next": "16.1.4",

@@ -2,6 +2,10 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
 import { CrewManageWrapper } from '@/widgets/CrewManageWrapper';
 
+import { ParticipantList } from '@/features/crew/manage/participants';
+
+import { crewQueries } from '@/entities/crew/api/crew.queries';
+
 import { getQueryClient } from '@/shared/lib/queries';
 
 const ManageParticipantsPage = async ({ params }: { params: { id: string } }) => {
@@ -11,12 +15,14 @@ const ManageParticipantsPage = async ({ params }: { params: { id: string } }) =>
 
   const crewId = parseInt(id, 10);
 
-  // await queryClient.prefetchQuery(crewParticipantsGetFetch({ crewId }));
+  await queryClient.prefetchQuery(crewQueries.participants({ crewId }));
 
   return (
-    <CrewManageWrapper title="참가 신청">
-      <div>ManageParticipantsPage</div>
-    </CrewManageWrapper>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CrewManageWrapper title="참가 신청">
+        <ParticipantList crewId={crewId} />
+      </CrewManageWrapper>
+    </HydrationBoundary>
   );
 };
 

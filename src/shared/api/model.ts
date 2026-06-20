@@ -14,6 +14,13 @@ export enum ErrorCode {
    * @description 사용자가 크루에 속해있지 않음.
    */
   CRM001 = 'CRM001',
+
+  /**
+   * status - 200 (body error)
+   * @code T003
+   * @description 토큰 만료.
+   */
+  T003 = 'T003',
 }
 
 export type HashTag =

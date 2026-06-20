@@ -31,4 +31,4 @@ export interface CrewParticipantsResponseProps extends ResponseModel {
  * 크루 참가신청자 목록 조회
  */
 export const crewParticipantsGetFetch = ({ crewId, size = 5, page = 1 }: CrewParticipantsGetFetchParams) =>
-  apiFetch.get<CrewParticipantsResponseProps>(`/crews/${crewId}/participants?size=${size}&page=${page}`);
+  apiFetch.get<CrewParticipantsResponseProps>(`/crews/${crewId}/requests?size=${size}&page=${page}`);

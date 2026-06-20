@@ -18,6 +18,7 @@ declare module 'next-auth' {
     addressDetail: string;
     accessToken: string;
     refreshToken: string;
+    accessTokenExpires?: number;
     introduce: string;
     profileImage: string;
     mbti: Mbti | '';
@@ -37,10 +38,12 @@ declare module 'next-auth' {
     addressDetail: string;
     accessToken: string;
     refreshToken: string;
+    accessTokenExpires?: number;
     mbti: Mbti | '';
     profileImage?: string;
     introduce: string;
     kakaoLink: string;
+    error?: 'RefreshAccessTokenError';
   }
 }
 
@@ -56,5 +59,6 @@ declare module 'next-auth/jwt' {
     addressDetail: string;
     accessToken: string;
     refreshToken: string;
+    accessTokenExpires?: number;
   }
 }

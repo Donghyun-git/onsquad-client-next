@@ -1,20 +1,17 @@
 import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
 import { PATH } from '@/shared/config/paths';
 
-export async function proxy(request: NextRequest) {
-  const session = await auth();
-
-  const accessToken = session?.accessToken;
+export const proxy = auth((request) => {
+  const accessToken = request.auth?.accessToken;
 
   const { redirect, next } = NextResponse;
 
   if (!accessToken) {
-    const proctectedPaths = ['/crews'];
+    const protectedPaths = ['/crews'];
 
-    if (proctectedPaths.includes(request.nextUrl.pathname)) {
+    if (protectedPaths.includes(request.nextUrl.pathname)) {
       const root = new URL(PATH.root, request.url);
 
       return redirect(root);
@@ -32,7 +29,7 @@ export async function proxy(request: NextRequest) {
   }
 
   return next();
-}
+});
 
 export const config = {
   matcher: ['/login', '/join', '/crews'],

@@ -1,4 +1,4 @@
-import { apiFetch } from '../common';
+import { apiFetch, publicApiFetch } from '../common';
 import { ResponseModel } from '../model';
 
 export interface UserInfoGetFetchParams {
@@ -56,7 +56,7 @@ export const userInfoGetFetch = (params: Partial<UserInfoGetFetchParams>) => {
     return apiFetch.get<UserInfoResponse>('/members/me');
   }
 
-  return apiFetch.get<UserInfoResponse>('/members/me', {
+  return publicApiFetch.get<UserInfoResponse>('/members/me', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

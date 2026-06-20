@@ -1,30 +1,55 @@
+import dayjs from 'dayjs';
+import { jwtDecode } from 'jwt-decode';
 import NextAuth from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 
 import { PATH } from '@/shared/config/paths';
 
 import authConfig from './auth.config';
+import { tokenRefreshGetFetch } from './shared/api/auth/tokenRefreshGetFetch';
 import { userInfoGetFetch } from './shared/api/user/userInfoGetFetch';
 import type { Mbti } from './shared/config';
+
+async function refreshAccessToken(token: JWT) {
+  try {
+    const res = await tokenRefreshGetFetch({
+      refreshToken: token.refreshToken,
+    });
+
+    if (res.data.status === 401) {
+      throw new Error('RefreshAccessTokenError');
+    }
+
+    const newToken = res.data.data;
+
+    return {
+      ...token,
+      accessToken: newToken.accessToken,
+      refreshToken: newToken.refreshToken ?? token.refreshToken,
+      accessTokenExpires: dayjs().add(20, 'minute').unix(),
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError',
+    };
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   callbacks: {
     async jwt({ token, user, trigger }) {
       if (user) {
-        token.id = user.id as unknown as number;
-        token.email = user.email as unknown as string;
-        token.nickname = user.nickname;
-        token.gender = user.gender;
-        token.birth = user.birth;
-        token.userType = user.userType;
-        token.address = user.address;
-        token.addressDetail = user.addressDetail;
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
-        token.mbti = user.mbti as string;
-        token.kakaoLink = user.kakaoLink as string;
-        token.profileImage = user.profileImage as string;
-        token.introduce = user.introduce as string;
+        token = { ...user, ...token, accessTokenExpires: jwtDecode(user.accessToken)?.exp };
+
+        return token;
+      }
+
+      if (token.accessTokenExpires && dayjs().isBefore(dayjs.unix(token.accessTokenExpires))) {
+        return token;
       }
 
       if (trigger === 'update') {
@@ -35,9 +60,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const newData = userInfoResponse.data.data;
 
         token = { ...token, ...newData };
+
+        return token;
       }
 
-      return token;
+      return await refreshAccessToken(token);
     },
 
     async session({ session, token }) {
