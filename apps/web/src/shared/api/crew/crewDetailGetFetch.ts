@@ -6,9 +6,6 @@ export interface CrewDetailGetFetchParams {
    * 크루 pk
    */
   crewId: number;
-
-  /** 서버사이드 prefetch 시 명시 주입 (클라이언트는 store 사용) */
-  accessToken?: string;
 }
 
 export interface CrewDetailResponseProps extends ResponseModel {
@@ -84,5 +81,5 @@ export interface CrewDetailResponseProps extends ResponseModel {
 /**
  * 크루 상세 정보 조회
  */
-export const crewDetailGetFetch = ({ crewId, accessToken }: CrewDetailGetFetchParams) =>
-  apiFetch.get<CrewDetailResponseProps>(`/crews/${crewId}`, { accessToken });
+export const crewDetailGetFetch = ({ crewId }: CrewDetailGetFetchParams) =>
+  apiFetch.get<CrewDetailResponseProps>(`/crews/${crewId}`);

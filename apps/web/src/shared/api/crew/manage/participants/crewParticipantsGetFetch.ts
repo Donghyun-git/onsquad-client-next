@@ -5,9 +5,6 @@ export interface CrewParticipantsGetFetchParams {
   crewId: number;
   size?: number;
   page?: number;
-
-  /** 서버사이드 prefetch 시 명시 주입 (클라이언트는 store 사용) */
-  accessToken?: string;
 }
 
 export interface CrewParticipantsResponseProps extends ResponseModel {
@@ -33,5 +30,5 @@ export interface CrewParticipantsResponseProps extends ResponseModel {
 /**
  * 크루 참가신청자 목록 조회
  */
-export const crewParticipantsGetFetch = ({ crewId, size = 5, page = 1, accessToken }: CrewParticipantsGetFetchParams) =>
-  apiFetch.get<CrewParticipantsResponseProps>(`/crews/${crewId}/requests?size=${size}&page=${page}`, { accessToken });
+export const crewParticipantsGetFetch = ({ crewId, size = 5, page = 1 }: CrewParticipantsGetFetchParams) =>
+  apiFetch.get<CrewParticipantsResponseProps>(`/crews/${crewId}/requests?size=${size}&page=${page}`);

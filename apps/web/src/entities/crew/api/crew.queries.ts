@@ -65,29 +65,27 @@ export const crewQueries = {
       },
     }),
 
-  detail: ({ crewId, accessToken }: CrewDetailGetFetchParams) =>
-    makeQueryOptions([...crewQueries.root(), 'detail', crewId], () => crewDetailGetFetch({ crewId, accessToken })),
+  detail: ({ crewId }: CrewDetailGetFetchParams) =>
+    makeQueryOptions([...crewQueries.root(), 'detail', crewId], () => crewDetailGetFetch({ crewId })),
 
-  home: ({ crewId, page, size, accessToken }: CrewHomeInfoGetFetchParams) =>
+  home: ({ crewId, page, size }: CrewHomeInfoGetFetchParams) =>
     makeQueryOptions([...crewQueries.root(), 'home', crewId, page, size], () =>
-      crewHomeInfoGetFetch({ crewId, page, size, accessToken }),
+      crewHomeInfoGetFetch({ crewId, page, size }),
     ),
 
-  announceList: ({ crewId, accessToken }: CrewAnnounceGetFetchParams) =>
-    makeQueryOptions([...crewQueries.lists(), 'announce', crewId], () =>
-      crewAnnounceGetFetch({ crewId, accessToken }),
-    ),
+  announceList: ({ crewId }: CrewAnnounceGetFetchParams) =>
+    makeQueryOptions([...crewQueries.lists(), 'announce', crewId], () => crewAnnounceGetFetch({ crewId })),
 
-  announceDetail: ({ crewId, announceId, accessToken }: CrewAnnounceDetailGetFetchParams) =>
+  announceDetail: ({ crewId, announceId }: CrewAnnounceDetailGetFetchParams) =>
     makeQueryOptions([...crewQueries.lists(), 'announce', crewId, announceId], () =>
-      crewAnnounceDetailGetFetch({ crewId, announceId, accessToken }),
+      crewAnnounceDetailGetFetch({ crewId, announceId }),
     ),
 
-  manage: ({ crewId, accessToken }: CrewManageGetFetchParams) =>
-    makeQueryOptions([...crewQueries.lists(), 'manage', crewId], () => crewManageGetFetch({ crewId, accessToken })),
+  manage: ({ crewId }: CrewManageGetFetchParams) =>
+    makeQueryOptions([...crewQueries.lists(), 'manage', crewId], () => crewManageGetFetch({ crewId })),
 
-  participants: ({ crewId, size = 5, page = 0, accessToken }: CrewParticipantsGetFetchParams) =>
+  participants: ({ crewId, size = 5, page = 0 }: CrewParticipantsGetFetchParams) =>
     makeQueryOptions([...crewQueries.lists(), 'participants', crewId, size, page], () =>
-      crewParticipantsGetFetch({ crewId, size, page, accessToken }),
+      crewParticipantsGetFetch({ crewId, size, page }),
     ),
 };

@@ -5,9 +5,6 @@ import type { ResponseModel } from '../../model';
 
 export interface CrewAnnounceGetFetchParams {
   crewId: number;
-
-  /** 서버사이드 prefetch 시 명시 주입 (클라이언트는 store 사용) */
-  accessToken?: string;
 }
 
 export interface CrewAnnounceListResponseProps extends ResponseModel {
@@ -74,5 +71,5 @@ export interface CrewAnnounceListResponseProps extends ResponseModel {
  * 크루 별 공지사항 리스트 전체 조회
  * - 일단 전체조회만
  */
-export const crewAnnounceGetFetch = ({ crewId, accessToken }: CrewAnnounceGetFetchParams) =>
-  apiFetch.get<CrewAnnounceListResponseProps>(`/crews/${crewId}/announces`, { accessToken });
+export const crewAnnounceGetFetch = ({ crewId }: CrewAnnounceGetFetchParams) =>
+  apiFetch.get<CrewAnnounceListResponseProps>(`/crews/${crewId}/announces`);
