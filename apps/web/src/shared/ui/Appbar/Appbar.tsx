@@ -151,24 +151,30 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                     <li className="mt-3">
                       <SheetDescription className="mb-3 w-full">내 활동</SheetDescription>
                       <div className="flex flex-col gap-2">
-                        <NavButton>
-                          <div className="flex items-center gap-2">
-                            <span>내 크루</span>
-                            <CountLabel count={12} />
-                          </div>
-                        </NavButton>
-                        <NavButton>
-                          <div className="flex items-center gap-2">
-                            <span>합류신청</span>
-                            <CountLabel count={12} />
-                          </div>
-                        </NavButton>
-                        <NavButton>
-                          <div className="flex items-center gap-2">
-                            <span>활동내역</span>
-                            <CountLabel count={12} />
-                          </div>
-                        </NavButton>
+                        <SheetClose asChild>
+                          <NavButton onClick={() => router.push(PATH.myCrews, { scroll: false })}>
+                            <div className="flex items-center gap-2">
+                              <span>내 크루</span>
+                              <CountLabel count={12} />
+                            </div>
+                          </NavButton>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <NavButton onClick={() => router.push(PATH.myApplications, { scroll: false })}>
+                            <div className="flex items-center gap-2">
+                              <span>합류신청</span>
+                              <CountLabel count={12} />
+                            </div>
+                          </NavButton>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <NavButton onClick={() => router.push(PATH.activity, { scroll: false })}>
+                            <div className="flex items-center gap-2">
+                              <span>활동내역</span>
+                              <CountLabel count={12} />
+                            </div>
+                          </NavButton>
+                        </SheetClose>
                       </div>
                     </li>
                     <li className="mb-6">

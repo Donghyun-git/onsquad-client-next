@@ -1,0 +1,1 @@
+export { MyApplicationsPage } from './ui';
