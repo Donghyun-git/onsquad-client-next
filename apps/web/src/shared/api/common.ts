@@ -71,7 +71,7 @@ class ApiClient {
         signal: controller.signal,
         ...fetchInit,
         headers: {
-          'Content-Type': 'application/json',
+          ...(fetchInit.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
           ...authHeaders,
           ...fetchInit.headers,
         },
@@ -144,7 +144,7 @@ class ApiClient {
     return this.request<T>(path, {
       ...options,
       method: 'POST',
-      body: data === undefined ? undefined : JSON.stringify(data),
+      body: data === undefined ? undefined : data instanceof FormData ? data : JSON.stringify(data),
     });
   }
 
@@ -152,7 +152,7 @@ class ApiClient {
     return this.request<T>(path, {
       ...options,
       method: 'PUT',
-      body: data === undefined ? undefined : JSON.stringify(data),
+      body: data === undefined ? undefined : data instanceof FormData ? data : JSON.stringify(data),
     });
   }
 
@@ -160,7 +160,7 @@ class ApiClient {
     return this.request<T>(path, {
       ...options,
       method: 'PATCH',
-      body: data === undefined ? undefined : JSON.stringify(data),
+      body: data === undefined ? undefined : data instanceof FormData ? data : JSON.stringify(data),
     });
   }
 
@@ -176,7 +176,6 @@ export const publicApiFetch = new ApiClient({
 
 export const apiFetch = new ApiClient({
   baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
-  // 클라이언트 인증 호출은 BFF 경유 (회전 토큰 refresh·persist 를 서버에서 처리, 토큰 비노출)
   clientBaseUrl: '/api/bff',
   withAuth: true,
 });

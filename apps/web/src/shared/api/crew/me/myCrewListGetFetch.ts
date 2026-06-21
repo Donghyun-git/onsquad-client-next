@@ -19,6 +19,7 @@ export interface MyCrewListResponseProps extends ResponseModel {
   }[];
 }
 
+// NOTE(api): 공식 문서 미기재 경로 — 백엔드 실재 여부 확인 필요(내가 개설한 크루)
 /**
  * 내가 개설한 크루 리스트 조회
  */

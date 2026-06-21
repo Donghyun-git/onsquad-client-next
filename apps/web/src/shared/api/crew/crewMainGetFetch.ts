@@ -13,4 +13,4 @@ export interface CrewMainGetFetchResponse extends ResponseModel {
  * 크루 메인 페이지 데이터
  */
 export const crewMainGetFetch = ({ crewId }: CrewMainGetFetchParams) =>
-  apiFetch.get<CrewMainGetFetchResponse>(`/crew/${crewId}/main`);
+  apiFetch.get<CrewMainGetFetchResponse>(`/crews/${crewId}/main`);

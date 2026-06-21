@@ -34,9 +34,5 @@ export const addCrewPostFetch = (params: AddCrewPostFetchParams) => {
     ),
   );
 
-  return apiFetch.post<AddCrewResponseProps>('/crews', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return apiFetch.post<AddCrewResponseProps>('/crews', formData);
 };

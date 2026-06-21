@@ -1,7 +1,7 @@
 import type { CrewRole } from '@/shared/types';
 
 import { apiFetch } from '../../common';
-import type { ResponseModel } from '../../model';
+import type { Mbti, ResponseModel } from '../../model';
 
 export interface CrewAnnounceGetFetchParams {
   crewId: number;
@@ -17,6 +17,7 @@ export interface CrewAnnounceListResponseProps extends ResponseModel {
 
       /**
        * 공지사항 수정 가능 여부
+       * FIXME(api): 문서에 없음 — 소비처 AnnounceList.tsx, AnnounceDetail.tsx 정리 후 제거 검토
        */
       role: CrewRole;
     };
@@ -53,12 +54,15 @@ export interface CrewAnnounceListResponseProps extends ResponseModel {
         writer: {
           id: number;
           nickname: string;
-          role: string;
+          introduce: string;
+          mbti: Mbti;
+          role: string; // FIXME(api): 문서에 없음 — 소비처 AnnounceList.tsx 정리 후 제거 검토
         };
 
         states: {
           /**
            * 공지사항 작성자 역할
+           * FIXME(api): 문서에 없음 — 소비처 AnnounceList.tsx 정리 후 제거 검토
            */
           role: CrewRole;
         };

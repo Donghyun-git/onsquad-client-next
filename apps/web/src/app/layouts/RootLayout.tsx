@@ -20,6 +20,7 @@ import { Toaster } from '@/shared/ui/ui/toaster';
 import { QueryProvider, SessionProvider } from '../providers';
 import NotificationProvider from '../providers/notification-provider';
 import UserProvider from '../providers/user-provider';
+import { WebViewBridge } from '../providers/webview-bridge';
 
 export const metadata: Metadata = {
   title: '온스쿼드 - 취미생활의 아지트',
@@ -42,8 +43,9 @@ export default async function RootLayout({
     <html lang="ko">
       <head></head>
 
-      <Script strategy="lazyOnload" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
+      <Script strategy="lazyOnload" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
       <body className={cn('bg-background antialiased')}>
+        <WebViewBridge />
         <OverlayProvider>
           <SessionProvider>
             <UserProvider>

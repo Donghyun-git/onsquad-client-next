@@ -3,7 +3,6 @@ import { ResponseModel } from '../model';
 
 export interface UserJoinPostFetchParams {
   email: string;
-  authCode: string;
   password: string;
   passwordConfirm: string;
   nickname: string;

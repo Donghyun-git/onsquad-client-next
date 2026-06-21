@@ -27,6 +27,11 @@ export interface CrewListResponseProps extends ResponseModel {
       introduce: string;
 
       /**
+       * 크루 상세 정보
+       */
+      detail: string;
+
+      /**
        * 이미지 링크
        */
       imageUrl: string;
@@ -59,6 +64,11 @@ export interface CrewListResponseProps extends ResponseModel {
          * 크루장 닉네임
          */
         nickname: string;
+
+        /**
+         * 크루장 소개
+         */
+        introduce: string;
 
         /**
          * 엠비티아이

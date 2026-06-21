@@ -1,4 +1,4 @@
-import { apiFetch } from '../common';
+import { publicApiFetch } from '../common';
 import { ResponseModel } from '../model';
 
 export interface SendEmailAuthCodeGetFetchParams {
@@ -13,4 +13,4 @@ export interface SendEmailAuthCodeGetFetchResponse extends ResponseModel {
  * 이메일 인증코드 전송
  */
 export const sendEmailAuthCodePostFetch = ({ email }: SendEmailAuthCodeGetFetchParams) =>
-  apiFetch.post<SendEmailAuthCodeGetFetchResponse>(`/auth/send?email=${email}`);
+  publicApiFetch.post<SendEmailAuthCodeGetFetchResponse>(`/auth/send?email=${email}`);

@@ -10,6 +10,33 @@ import { InputButton } from '@/shared/ui/InputButton';
 
 import { JoinSchemaType } from './validator';
 
+// https 고정: iOS WKWebView ATS(NSAllowsArbitraryLoads=false)는 http://localhost 페이지에서
+// protocol-relative(`//`)로 해석된 외부 http 스크립트를 차단한다. https는 허용된다.
+const DAUM_POSTCODE_SRC = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+
+// daum 우편번호 스크립트를 사용 시점에 로드한다.
+// 이미 로드됐으면 즉시, 로딩 중인 태그가 있으면 그 onload를 기다리고, 없으면 새로 주입한다.
+const loadDaumPostcode = (): Promise<void> =>
+  new Promise((resolve, reject) => {
+    if (window.daum?.Postcode) {
+      resolve();
+      return;
+    }
+
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${DAUM_POSTCODE_SRC}"]`);
+    if (existing) {
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error('daum postcode 로드 실패')), { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = DAUM_POSTCODE_SRC;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('daum postcode 로드 실패'));
+    document.head.appendChild(script);
+  });
+
 interface AddressSearchProps<T extends FieldValues> {
   name: Path<T>;
   onAddressChange: (address: string) => void;
@@ -30,7 +57,9 @@ const AddressSearch = <T extends FieldValues>(props: AddressSearchProps<T>) => {
     wrapRef.current.style.display = 'none';
   };
 
-  const execDaumPostcode = () => {
+  const execDaumPostcode = async () => {
+    await loadDaumPostcode();
+
     const currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
 
     new window.daum.Postcode({

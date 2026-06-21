@@ -1,4 +1,4 @@
-import { apiFetch } from '../common';
+import { publicApiFetch } from '../common';
 import { ResponseModel } from '../model';
 
 export interface AuthCodeCheckGetFetchParams {
@@ -16,4 +16,4 @@ export interface AuthCodeCheckResponseProps extends ResponseModel {
  * 인증코드 확인
  */
 export const authCodeCheckGetFetch = ({ email, authCode }: AuthCodeCheckGetFetchParams) =>
-  apiFetch.get<AuthCodeCheckResponseProps>(`/auth/verify?email=${email}&code=${authCode}`);
+  publicApiFetch.get<AuthCodeCheckResponseProps>(`/auth/verify?email=${email}&code=${authCode}`);

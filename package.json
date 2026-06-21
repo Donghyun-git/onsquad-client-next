@@ -17,5 +17,8 @@
     "overrides": {
       "postcss@<8.5.10": ">=8.5.10"
     }
+  },
+  "devDependencies": {
+    "turbo": "2.8.8"
   }
 }

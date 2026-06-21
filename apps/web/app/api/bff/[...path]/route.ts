@@ -19,17 +19,18 @@ const handler = auth(async (req) => {
   const path = req.nextUrl.pathname.replace(/^\/api\/bff/, '');
   const url = `${BACKEND_BASE}${path}${req.nextUrl.search}`;
 
+  const contentType = req.headers.get('content-type');
   const init: RequestInit = {
     method: req.method,
     headers: {
-      'Content-Type': 'application/json',
+      ...(contentType ? { 'Content-Type': contentType } : {}),
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
     },
   };
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
-    const body = await req.text();
-    if (body) init.body = body;
+    const buf = await req.arrayBuffer();
+    if (buf.byteLength) init.body = buf;
   }
 
   console.log('[DIAG bff] →', req.method, path, '| token?', !!accessToken, '| session.error:', req.auth?.error);

@@ -31,6 +31,7 @@ export interface CrewAnnounceDetailResponseProps extends ResponseModel {
     content: string;
     createdAt: string;
     pinned: boolean;
+    pinnedAt?: string;
     writer: {
       id: number;
       nickname: string;

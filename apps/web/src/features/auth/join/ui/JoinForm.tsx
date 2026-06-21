@@ -177,9 +177,8 @@ const JoinForm = () => {
 
   const handleSubmit = submit(async () => {
     try {
-      await userJoin({
-        ...getValues(),
-      });
+      const { authCode: _authCode, ...joinParams } = getValues();
+      await userJoin(joinParams);
     } catch (error) {
       console.error(error);
     }

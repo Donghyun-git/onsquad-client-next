@@ -28,16 +28,22 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+		<!-- WebView 내부 콘텐츠 로드만 ATS 예외 (네이티브 네트워킹은 그대로 strict).
+		     dev에서 http://localhost 페이지의 daum 우편번호 iframe(//postcode.map.kakao.com)이
+		     http로 해석돼 차단되는 문제 해결. 운영(https)에서는 영향 없음. -->
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>

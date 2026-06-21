@@ -1,5 +1,5 @@
 import { apiFetch, publicApiFetch } from '../common';
-import { ResponseModel } from '../model';
+import type { Mbti, ResponseModel } from '../model';
 
 export interface UserInfoGetFetchParams {
   accessToken: string;
@@ -23,12 +23,34 @@ export interface UserInfoResponse extends ResponseModel {
     email: string;
 
     /**
+     * 소개
+     */
+    introduce: string;
+
+    /**
+     * MBTI
+     */
+    mbti: Mbti | '';
+
+    /**
+     * 카카오 링크
+     */
+    kakaoLink: string;
+
+    /**
+     * 프로필 이미지
+     */
+    profileImage: string;
+
+    /**
      * 성별
+     * FIXME(api): 문서에 없음 — 소비처 auth.ts, next-auth.d.ts 정리 후 제거 검토
      */
     gender: 'male' | 'female';
 
     /**
      * 생년월일
+     * FIXME(api): 문서에 없음 — 소비처 auth.ts, next-auth.d.ts 정리 후 제거 검토
      */
     birth: string;
 

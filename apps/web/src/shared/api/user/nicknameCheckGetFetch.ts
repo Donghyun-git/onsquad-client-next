@@ -1,4 +1,4 @@
-import { apiFetch } from '../common';
+import { publicApiFetch } from '../common';
 import { ResponseModel } from '../model';
 
 export interface NicknameCheckGetFetchParams {
@@ -12,4 +12,4 @@ export interface NicknameCheckResponseProps extends ResponseModel {
 }
 
 export const nicknameCheckGetFetch = ({ nickname }: NicknameCheckGetFetchParams) =>
-  apiFetch.get<NicknameCheckResponseProps>(`/members/check-nickname?value=${nickname}`);
+  publicApiFetch.get<NicknameCheckResponseProps>(`/members/check-nickname?value=${nickname}`);
