@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { userSocialLoginGetFetch } from '@/shared/api/user/userSocialLoginGetFetch';
 import { USER_TYPE } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
-import { useUserStore } from '@/shared/lib/store/useUserStore';
+import { useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { NavButton } from '@/shared/ui/NavButton';
 import { Button } from '@/shared/ui/ui/button';
@@ -27,7 +27,7 @@ export interface AppbarPropsType {
 }
 
 const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
-  const user = useUserStore((state) => state.user);
+  const user = useUser();
 
   const router = useRouter();
 

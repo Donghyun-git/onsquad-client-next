@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic';
 import remarkGfm from 'remark-gfm';
 
 import { CREW_PATH } from '@/shared/config/paths';
-import { useUserStore } from '@/shared/lib/store/useUserStore';
+import { useUser } from '@/shared/lib/hooks';
 import { supabase } from '@/shared/lib/supabse/createClient';
 
 const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), { ssr: false });
@@ -27,7 +27,7 @@ interface TextEditorProps {
 type EditorTab = 'write' | 'preview';
 
 const TextEditor = ({ value = '', onChange, placeholder }: TextEditorProps) => {
-  const user = useUserStore((state) => state.user);
+  const user = useUser();
 
   const [content, setContent] = useState<string>(value);
   const [activeTab, setActiveTab] = useState<EditorTab>('write');

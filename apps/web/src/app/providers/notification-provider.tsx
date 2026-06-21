@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useRef } from 'react';
 
 import { SseClient } from '@/shared/api/sse/sse-client';
-import { useUserStore } from '@/shared/lib/store/useUserStore';
+import { useUser } from '@/shared/lib/hooks';
 
 export const NotificationContext = createContext<SseClient | null>(null);
 
@@ -14,7 +14,7 @@ export const useNotification = () => {
 const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
   const sseRef = useRef<SseClient | null>(null);
 
-  const user = useUserStore((state) => state.user);
+  const user = useUser();
 
   useEffect(() => {
     if (!sseRef.current) {

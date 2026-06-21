@@ -10,13 +10,13 @@ import { LoginAlert } from '@/widgets/LoginAlert';
 
 import { PATH } from '@/shared/config/paths';
 import { TAB_MENUS } from '@/shared/config/tabs';
-import { useUserStore } from '@/shared/lib/store/useUserStore';
+import { useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 
 const BottomTab = () => {
   const segments = useSelectedLayoutSegments();
 
-  const user = useUserStore((state) => state.user);
+  const user = useUser();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex min-w-[20rem] max-w-[45rem] bg-white shadow-md">

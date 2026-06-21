@@ -12,8 +12,7 @@ import { LoginAlert } from '@/widgets/LoginAlert';
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
 import { TOAST } from '@/shared/config/toast';
-import { useToast } from '@/shared/lib/hooks/useToast';
-import { useUserStore } from '@/shared/lib/store/useUserStore';
+import { useToast, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { Alert } from '@/shared/ui/Alert';
 import { Avatar } from '@/shared/ui/Avatar';
@@ -31,7 +30,7 @@ interface CrewDetailProps {
 export const CrewDetail = ({ crewId }: CrewDetailProps) => {
   const router = useRouter();
 
-  const user = useUserStore((state) => state.user);
+  const user = useUser();
 
   const { toast, hide } = useToast();
 

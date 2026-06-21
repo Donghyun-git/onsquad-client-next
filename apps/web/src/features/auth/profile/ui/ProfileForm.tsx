@@ -16,9 +16,8 @@ import AddressSearch from '@/features/auth/join/ui/AddressSearch';
 import { nicknameCheckGetFetch } from '@/shared/api/user/nicknameCheckGetFetch';
 import { MBTI_SELECT_OPTIONS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
-import { useToast } from '@/shared/lib/hooks/useToast';
+import { useToast, useUser } from '@/shared/lib/hooks';
 import { useApiMutation } from '@/shared/lib/queries';
-import { useUserStore } from '@/shared/lib/store/useUserStore';
 import { cn } from '@/shared/lib/utils';
 import { Alert } from '@/shared/ui/Alert';
 import { BUTTON } from '@/shared/ui/Alert/style';
@@ -43,8 +42,7 @@ const ProfileForm = () => {
 
   const router = useRouter();
 
-  const user = useUserStore((state) => state.user);
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
+  const user = useUser();
 
   const [imageUrl, setImageUrl] = useState<string>('/icons/default_profile.svg');
   // const [isDuplicate, setIsDuplicate] = useState<boolean>(true);
@@ -122,11 +120,7 @@ const ProfileForm = () => {
 
       await updateProfileMutate(getUpdateProfileCleansingData(formValues));
 
-      const res = await update({ trigger: 'update' });
-
-      if (res) {
-        setUserInfo?.({ ...user, ...res });
-      }
+      await update({ trigger: 'update' });
 
       toast({
         title: '프로필이 수정되었어요!',

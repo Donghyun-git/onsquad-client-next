@@ -33,8 +33,6 @@ const handler = auth(async (req) => {
     if (buf.byteLength) init.body = buf;
   }
 
-  console.log('[DIAG bff] →', req.method, path, '| token?', !!accessToken, '| session.error:', req.auth?.error);
-
   const backendRes = await fetch(url, init);
   const text = await backendRes.text();
 
