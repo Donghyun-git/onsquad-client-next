@@ -11,7 +11,6 @@ import {
   crewDetailGetFetch,
   crewHomeInfoGetFetch,
   crewListGetFetch,
-  myCrewListGetFetch,
 } from '@/shared/api/crew';
 import { CrewManageGetFetchParams, crewManageGetFetch } from '@/shared/api/crew/manage/crewManageGetFetch';
 import {
@@ -49,20 +48,6 @@ export const crewQueries = {
       },
       getNextPageParam: (lastPage) => lastPage.nextPage,
       initialPageParam: crewName ? 1 : 2,
-    }),
-
-  myCrewList: () =>
-    queryOptions({
-      queryKey: [...crewQueries.lists(), 'my'],
-      queryFn: async () => {
-        const res = await myCrewListGetFetch();
-
-        if (res.data.error) {
-          throw new Error(res.data.error.message);
-        }
-
-        return res.data.data;
-      },
     }),
 
   detail: ({ crewId }: CrewDetailGetFetchParams) =>
