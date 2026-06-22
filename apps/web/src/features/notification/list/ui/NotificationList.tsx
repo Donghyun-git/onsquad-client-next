@@ -9,6 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import { formatNotificationDate, notificationQueries } from '@/entities/notification';
 import type { NotificationListItem } from '@/entities/notification';
 
+import { useReadNotificationMutation } from '../model/useReadNotificationMutation';
 import NotificationCard from './NotificationCard';
 
 // occurredAt 날짜(YYYY.MM.DD) 기준으로 묶어 디자인의 날짜 그룹 헤더를 만든다.
@@ -37,6 +38,8 @@ const NotificationList = () => {
     throwOnError: false,
   });
 
+  const readNotification = useReadNotificationMutation();
+
   const list = data?.pages.flatMap((page) => page.data.results) ?? [];
   const grouped = groupByDate(list);
 
@@ -63,14 +66,19 @@ const NotificationList = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2 px-4 py-6">
+    <div className="flex flex-col gap-s-20">
       {grouped.map(([date, items]) => (
-        <div key={date} className="flex flex-col gap-2">
-          <div className="flex items-center pb-2">
-            <h2 className="text-500 leading-130 font-bold tracking-[-0.4px] text-grayscale900">{date}</h2>
+        <div key={date} className="flex flex-col gap-s-20">
+          <div className="flex items-center pb-s-20">
+            <h2 className="text-500 font-bold leading-130 tracking-[-0.4px] text-grayscale900">{date}</h2>
           </div>
           {items.map((item) => (
-            <NotificationCard key={item.id} item={item} />
+            <NotificationCard
+              key={item.id}
+              item={item}
+              onRead={() => readNotification.mutate(item.id)}
+              isReading={readNotification.isPending}
+            />
           ))}
         </div>
       ))}

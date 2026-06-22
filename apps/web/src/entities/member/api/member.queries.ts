@@ -1,5 +1,8 @@
 import {
+  type MyHistoriesGetFetchParams,
   myCrewParticipantsGetFetch,
+  myCrewRequestsGetFetch,
+  myHistoriesGetFetch,
   mySquadParticipantsGetFetch,
   mySquadRequestsGetFetch,
 } from '@/shared/api/member';
@@ -18,4 +21,12 @@ export const memberQueries = {
     makeQueryOptions([...memberQueries.root(), 'mySquadRequests', page, size], () =>
       mySquadRequestsGetFetch({ page, size }),
     ),
+
+  myCrewRequests: ({ page, size }: { page?: number; size?: number } = {}) =>
+    makeQueryOptions([...memberQueries.root(), 'myCrewRequests', page, size], () =>
+      myCrewRequestsGetFetch({ page, size }),
+    ),
+
+  histories: (params: MyHistoriesGetFetchParams) =>
+    makeQueryOptions([...memberQueries.root(), 'histories', params], () => myHistoriesGetFetch(params)),
 };

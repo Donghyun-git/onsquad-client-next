@@ -37,7 +37,5 @@ export const notificationListGetFetch = ({ page, size }: NotificationListGetFetc
   if (size !== undefined) params.append('size', String(size));
   const query = params.toString();
 
-  return apiFetch.get<NotificationListGetFetchResponseProps>(
-    `/members/me/notifications${query ? `?${query}` : ''}`,
-  );
+  return apiFetch.get<NotificationListGetFetchResponseProps>(`/members/me/notifications${query ? `?${query}` : ''}`);
 };

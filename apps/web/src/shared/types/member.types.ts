@@ -56,3 +56,40 @@ export interface MySquadRequestItem {
   };
   squad: MySquadSummary;
 }
+
+/** 내 크루 신청 내역 항목 (GET /members/me/crew-requests) */
+export interface MyCrewRequestItem {
+  id: number;
+  requestAt: string;
+  crew: {
+    id: number;
+    name: string;
+    introduce: string;
+    kakaoLink: string;
+    imageUrl: string;
+    owner: SquadUserInfo;
+  };
+}
+
+/** 활동 내역 유형 (백엔드 HistoryType enum) */
+export type HistoryType =
+  | 'CREW_CREATE'
+  | 'CREW_REQUEST'
+  | 'CREW_ACCEPT'
+  | 'CREW_REJECT'
+  | 'CREW_CANCEL'
+  | 'SQUAD_CREATE'
+  | 'SQUAD_REQUEST'
+  | 'SQUAD_ACCEPT'
+  | 'SQUAD_REJECT'
+  | 'SQUAD_CANCEL'
+  | 'SQUAD_COMMENT'
+  | 'SQUAD_COMMENT_REPLY';
+
+/** 내 활동 내역 항목 (GET /members/me/histories) — 서버가 표시 문구(message)를 완성해 내려준다 */
+export interface MyActivityHistoryItem {
+  crewId: number;
+  type: HistoryType;
+  message: string;
+  recordedAt: string;
+}
