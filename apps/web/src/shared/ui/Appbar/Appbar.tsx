@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { userSocialLoginGetFetch } from '@/shared/api/user/userSocialLoginGetFetch';
 import { USER_TYPE } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
-import { useUser } from '@/shared/lib/hooks';
+import { useMyActivityCounts, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { NavButton } from '@/shared/ui/NavButton';
 import { Button } from '@/shared/ui/ui/button';
@@ -27,6 +27,8 @@ export interface AppbarPropsType {
 
 const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
   const user = useUser();
+
+  const { crewCount, applicationCount, historyCount } = useMyActivityCounts(!!user);
 
   const router = useRouter();
 
@@ -155,7 +157,7 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                           <NavButton onClick={() => router.push(PATH.myCrews, { scroll: false })}>
                             <div className="flex items-center gap-2">
                               <span>내 크루</span>
-                              <CountLabel count={12} />
+                              {crewCount > 0 && <CountLabel count={crewCount} />}
                             </div>
                           </NavButton>
                         </SheetClose>
@@ -163,7 +165,7 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                           <NavButton onClick={() => router.push(PATH.myApplications, { scroll: false })}>
                             <div className="flex items-center gap-2">
                               <span>합류신청</span>
-                              <CountLabel count={12} />
+                              {applicationCount > 0 && <CountLabel count={applicationCount} />}
                             </div>
                           </NavButton>
                         </SheetClose>
@@ -171,7 +173,7 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
                           <NavButton onClick={() => router.push(PATH.activity, { scroll: false })}>
                             <div className="flex items-center gap-2">
                               <span>활동내역</span>
-                              <CountLabel count={12} />
+                              {historyCount > 0 && <CountLabel count={historyCount} />}
                             </div>
                           </NavButton>
                         </SheetClose>

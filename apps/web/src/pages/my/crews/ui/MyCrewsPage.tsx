@@ -25,51 +25,53 @@ const MyCrewsPage = () => {
   return (
     <>
       <Appbar isMenuHeader={false} title="내 크루" />
-      <div className="flex flex-col gap-4 bg-grayscale50 min-h-screen pt-14">
-        <div className="flex items-center px-4">
-          <button
-            type="button"
-            onClick={() => setActiveTab('crew')}
-            className={`flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] ${
-              activeTab === 'crew' ? 'bg-primary500 text-white' : 'text-grayscale500'
-            }`}
-            aria-selected={activeTab === 'crew'}
-            role="tab"
-          >
-            참여중인 크루
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('squad')}
-            className={`flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] ${
-              activeTab === 'squad' ? 'bg-primary500 text-white' : 'text-grayscale500'
-            }`}
-            aria-selected={activeTab === 'squad'}
-            role="tab"
-          >
-            참여중인 스쿼드
-          </button>
+      <div className="min-h-screen bg-grayscale50 pt-14">
+        <div className="flex flex-col gap-s-40 py-s-60">
+          <div className="flex items-center px-s-40">
+            <button
+              type="button"
+              onClick={() => setActiveTab('crew')}
+              className={`flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] ${
+                activeTab === 'crew' ? 'bg-primary500 text-white' : 'text-grayscale500'
+              }`}
+              aria-selected={activeTab === 'crew'}
+              role="tab"
+            >
+              참여중인 크루
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('squad')}
+              className={`flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] ${
+                activeTab === 'squad' ? 'bg-primary500 text-white' : 'text-grayscale500'
+              }`}
+              aria-selected={activeTab === 'squad'}
+              role="tab"
+            >
+              참여중인 스쿼드
+            </button>
+          </div>
+
+          {activeTab === 'crew' && (
+            <div className="flex flex-col gap-s-30 px-s-40">
+              {crews.length > 0 ? (
+                ownerFirst(crews).map((item) => <MyCrewCard key={item.crew.id} item={item} />)
+              ) : (
+                <p className="py-12 text-center text-300 text-grayscale500">참여중인 크루가 없습니다.</p>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'squad' && (
+            <div className="flex flex-col gap-s-30 px-s-40">
+              {groups.length > 0 ? (
+                ownerFirst(groups).map((group) => <MySquadGroup key={group.crew.id} group={group} />)
+              ) : (
+                <p className="py-12 text-center text-300 text-grayscale500">참여중인 스쿼드가 없습니다.</p>
+              )}
+            </div>
+          )}
         </div>
-
-        {activeTab === 'crew' && (
-          <div className="flex flex-col gap-s-30 px-s-40 pb-s-60">
-            {crews.length > 0 ? (
-              ownerFirst(crews).map((item) => <MyCrewCard key={item.crew.id} item={item} />)
-            ) : (
-              <p className="py-10 text-center text-300 text-grayscale500">참여중인 크루가 없어요.</p>
-            )}
-          </div>
-        )}
-
-        {activeTab === 'squad' && (
-          <div className="flex flex-col gap-s-30 px-s-40 pb-s-60">
-            {groups.length > 0 ? (
-              ownerFirst(groups).map((group) => <MySquadGroup key={group.crew.id} group={group} />)
-            ) : (
-              <p className="py-10 text-center text-300 text-grayscale500">참여중인 스쿼드가 없어요.</p>
-            )}
-          </div>
-        )}
       </div>
     </>
   );

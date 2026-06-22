@@ -8,7 +8,6 @@ import { Loader2 } from 'lucide-react';
 import { memberQueries } from '@/entities/member';
 
 import { cn } from '@/shared/lib/utils';
-import { Text } from '@/shared/ui/Text';
 
 import { useCancelCrewRequestMutation } from '../model/useCancelCrewRequestMutation';
 import { useCancelSquadRequestMutation } from '../model/useCancelSquadRequestMutation';
@@ -72,9 +71,9 @@ const ApplicationList = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-s-40 py-s-60">
       {/* 탭 */}
-      <div className="flex bg-white px-s-40">
+      <div className="flex items-center px-s-40">
         {TABS.map((tab) => (
           <button
             key={tab.key}
@@ -83,19 +82,19 @@ const ApplicationList = () => {
             aria-selected={activeTab === tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={cn(
-              'flex flex-1 items-center justify-center py-s-20 transition-colors',
-              activeTab === tab.key ? 'border-b-2 border-primary500 text-primary500' : 'text-grayscale500',
+              'flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] transition-colors',
+              activeTab === tab.key ? 'bg-primary500 text-white' : 'text-grayscale500',
             )}
           >
-            <Text.base className={cn('font-medium', activeTab === tab.key && 'font-semibold')}>{tab.label}</Text.base>
+            {tab.label}
           </button>
         ))}
       </div>
 
       {/* 카드 목록 */}
-      <div className="flex flex-col gap-s-40 px-s-40 py-s-60">
+      <div className="flex flex-col gap-s-40 px-s-40">
         {isLoading ? (
-          <div className="flex justify-center py-16">
+          <div className="flex justify-center py-12">
             <Loader2 className="h-6 w-6 animate-spin text-primary500" />
           </div>
         ) : list.length > 0 ? (
@@ -108,9 +107,7 @@ const ApplicationList = () => {
             />
           ))
         ) : (
-          <div className="py-16 text-center text-grayscale500">
-            <Text.base>신청 내역이 없습니다.</Text.base>
-          </div>
+          <p className="py-12 text-center text-300 text-grayscale500">신청 내역이 없습니다.</p>
         )}
       </div>
     </div>
