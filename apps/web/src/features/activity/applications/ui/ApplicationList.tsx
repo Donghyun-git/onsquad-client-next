@@ -10,6 +10,8 @@ import { memberQueries } from '@/entities/member';
 import { cn } from '@/shared/lib/utils';
 import { Text } from '@/shared/ui/Text';
 
+import { useCancelCrewRequestMutation } from '../model/useCancelCrewRequestMutation';
+import { useCancelSquadRequestMutation } from '../model/useCancelSquadRequestMutation';
 import ApplicationCard from './ApplicationCard';
 import { type ApplicationItem } from './mock';
 
@@ -33,10 +35,14 @@ const ApplicationList = () => {
     enabled: activeTab === 'squad',
   });
 
+  const crewCancel = useCancelCrewRequestMutation();
+  const squadCancel = useCancelSquadRequestMutation();
+
   // 크루 신청 내역(수락 대기) → 카드 표시 모델로 매핑
   const crewApplications: ApplicationItem[] = (crewData?.data.results ?? []).map((req) => ({
     id: req.id,
     type: 'crew',
+    targetId: req.crew.id,
     targetName: req.crew.name,
     ownerName: `${req.crew.owner.nickname} 크루장`,
     imageUrl: req.crew.imageUrl || undefined,
@@ -47,6 +53,7 @@ const ApplicationList = () => {
   const squadApplications: ApplicationItem[] = (squadData?.data.results ?? []).map((req) => ({
     id: req.id,
     type: 'squad',
+    targetId: req.squad.id,
     targetName: req.squad.title,
     ownerName: `${req.squad.leader.nickname} 스쿼드장`,
     status: 'progress',
@@ -54,6 +61,15 @@ const ApplicationList = () => {
 
   const list = activeTab === 'crew' ? crewApplications : squadApplications;
   const isLoading = activeTab === 'crew' ? isCrewLoading : isSquadLoading;
+
+  // 신청 취소 — 타입별 뮤테이션으로 분기 (대상 id: 크루=crewId, 스쿼드=squadId)
+  const handleCancel = (item: ApplicationItem) => {
+    if (item.type === 'crew') {
+      crewCancel.mutate(item.targetId);
+    } else {
+      squadCancel.mutate(item.targetId);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -83,7 +99,14 @@ const ApplicationList = () => {
             <Loader2 className="h-6 w-6 animate-spin text-primary500" />
           </div>
         ) : list.length > 0 ? (
-          list.map((item) => <ApplicationCard key={item.id} item={item} />)
+          list.map((item) => (
+            <ApplicationCard
+              key={item.id}
+              item={item}
+              onCancel={() => handleCancel(item)}
+              isCanceling={item.type === 'crew' ? crewCancel.isPending : squadCancel.isPending}
+            />
+          ))
         ) : (
           <div className="py-16 text-center text-grayscale500">
             <Text.base>신청 내역이 없습니다.</Text.base>
