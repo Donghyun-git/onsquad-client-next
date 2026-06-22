@@ -44,7 +44,8 @@ const Accordion = (props: AccordionPropsType) => {
 
   return (
     <>
-      <LibAccordion type="multiple" className="w-full" defaultValue={defaultValue}>
+      {/* 한 번에 하나의 그룹만 펼쳐 합산 높이가 시트를 넘쳐 내용이 잘리는 문제를 막는다. */}
+      <LibAccordion type="single" collapsible className="w-full" defaultValue={defaultValue?.[0]}>
         {list.map((item, index) => (
           <AccordionItem key={index} value={item.value}>
             <AccordionTrigger>{item.title}</AccordionTrigger>

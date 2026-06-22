@@ -1,4 +1,4 @@
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { type CrewRequestPostFetchParams, crewRequestPostFetch } from '@/shared/api/crew/detail/crewRequestPostFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';

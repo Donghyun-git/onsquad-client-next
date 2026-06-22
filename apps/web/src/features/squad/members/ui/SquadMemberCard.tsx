@@ -1,26 +1,32 @@
 import { ChevronRight } from 'lucide-react';
 
-import type { SquadMember } from '@/entities/squad';
+import type { SquadParticipantItem } from '@/entities/squad';
 import { Avatar } from '@/shared/ui/Avatar';
 
 interface SquadMemberCardProps {
-  member: SquadMember;
+  item: SquadParticipantItem;
+  canManage: boolean;
+  onManage: () => void;
 }
 
-const SquadMemberCard = ({ member }: SquadMemberCardProps) => {
+const SquadMemberCard = ({ item, canManage, onManage }: SquadMemberCardProps) => {
   return (
     <div className="flex flex-col gap-2 rounded-xl bg-white p-3">
       <div className="flex items-center gap-2">
-        <Avatar className="size-6" imageUrl={member.profileImageUrl} />
+        <Avatar className="size-6" />
         <span className="text-200 font-medium leading-130 text-grayscale900 tracking-[-0.28px]">
-          {member.nickname}
+          {item.member.nickname}
         </span>
       </div>
       <div className="flex items-center justify-between">
         <p className="flex-1 text-200 font-regular leading-130 text-grayscale900 tracking-[-0.28px] [word-break:break-word]">
-          {member.introduce}
+          {item.member.introduce}
         </p>
-        <ChevronRight size={24} className="shrink-0 text-grayscale500" />
+        {canManage && (
+          <button type="button" aria-label="멤버 관리" onClick={onManage}>
+            <ChevronRight size={24} className="shrink-0 text-grayscale500" />
+          </button>
+        )}
       </div>
     </div>
   );

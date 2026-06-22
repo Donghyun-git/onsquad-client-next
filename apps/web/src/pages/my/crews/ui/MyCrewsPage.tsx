@@ -1,62 +1,75 @@
-import { Appbar } from '@/shared/ui/Appbar';
-import { Badge } from '@/shared/ui/Badge';
-import { CrewCard } from '@/shared/ui/Card/CrewCard';
-import { Text } from '@/shared/ui/Text';
+'use client';
 
-const MOCK_MY_CREWS = [
-  {
-    id: 1,
-    name: '공격적인 음악회 크루',
-    introduce: '함께 음악을 즐기는 크루입니다.',
-    owner: { nickname: '홍길동' },
-    imageUrl: undefined,
-    hashtags: ['음악', '밴드', '클래식'],
-  },
-  {
-    id: 2,
-    name: '러닝 클럽',
-    introduce: '매주 함께 달리는 크루입니다.',
-    owner: { nickname: '이경학' },
-    imageUrl: undefined,
-    hashtags: ['러닝', '건강', '운동'],
-  },
-];
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+import { memberQueries } from '@/entities/member';
+import { Appbar } from '@/shared/ui/Appbar';
+
+import MyCrewCard from './MyCrewCard';
+import MySquadGroup from './MySquadGroup';
+
+// 내가 크루장(owner)인 항목을 상단으로. (날짜 필드는 DTO에 없어 그 외 순서는 API 순서 유지)
+const ownerFirst = <T extends { states: { isOwner: boolean } }>(arr: T[]) =>
+  [...arr].sort((a, b) => Number(b.states.isOwner) - Number(a.states.isOwner));
 
 const MyCrewsPage = () => {
+  const [activeTab, setActiveTab] = useState<'crew' | 'squad'>('crew');
+
+  const { data: crewData } = useQuery(memberQueries.myCrewParticipants());
+  const crews = crewData?.data ?? [];
+
+  const { data: squadData } = useQuery(memberQueries.mySquadParticipants());
+  const groups = squadData?.data ?? [];
+
   return (
     <>
       <Appbar isMenuHeader={false} title="내 크루" />
-      <div className="min-h-screen bg-grayscale50 pt-14">
-        <div className="px-s-40 py-s-60">
-          <div className="mb-s-30 flex items-center gap-s-20">
-            <Text.lg className="font-semibold">내가 속한 크루</Text.lg>
-            <Text.sm className="text-grayscale500">총 {MOCK_MY_CREWS.length}개</Text.sm>
-          </div>
-          <div className="flex flex-col gap-s-30">
-            {MOCK_MY_CREWS.length > 0 ? (
-              MOCK_MY_CREWS.map((crew) => (
-                <CrewCard
-                  key={crew.id}
-                  title={crew.name}
-                  ownerName={crew.owner.nickname}
-                  description={crew.introduce}
-                  crewImage={crew.imageUrl}
-                  tagSlot={
-                    <>
-                      {crew.hashtags.map((tag) => (
-                        <Badge key={tag}>{tag}</Badge>
-                      ))}
-                    </>
-                  }
-                />
-              ))
+      <div className="flex flex-col gap-4 bg-grayscale50 min-h-screen pt-14">
+        <div className="flex items-center px-4">
+          <button
+            type="button"
+            onClick={() => setActiveTab('crew')}
+            className={`flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] ${
+              activeTab === 'crew' ? 'bg-primary500 text-white' : 'text-grayscale500'
+            }`}
+            aria-selected={activeTab === 'crew'}
+            role="tab"
+          >
+            참여중인 크루
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('squad')}
+            className={`flex flex-1 items-center justify-center rounded py-2 text-300 font-medium leading-130 text-center tracking-[-0.32px] ${
+              activeTab === 'squad' ? 'bg-primary500 text-white' : 'text-grayscale500'
+            }`}
+            aria-selected={activeTab === 'squad'}
+            role="tab"
+          >
+            참여중인 스쿼드
+          </button>
+        </div>
+
+        {activeTab === 'crew' && (
+          <div className="flex flex-col gap-s-30 px-s-40 pb-s-60">
+            {crews.length > 0 ? (
+              ownerFirst(crews).map((item) => <MyCrewCard key={item.crew.id} item={item} />)
             ) : (
-              <div className="py-16 text-center">
-                <Text.base className="text-grayscale500">속한 크루가 없습니다.</Text.base>
-              </div>
+              <p className="py-10 text-center text-300 text-grayscale500">참여중인 크루가 없어요.</p>
             )}
           </div>
-        </div>
+        )}
+
+        {activeTab === 'squad' && (
+          <div className="flex flex-col gap-s-30 px-s-40 pb-s-60">
+            {groups.length > 0 ? (
+              ownerFirst(groups).map((group) => <MySquadGroup key={group.crew.id} group={group} />)
+            ) : (
+              <p className="py-10 text-center text-300 text-grayscale500">참여중인 스쿼드가 없어요.</p>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

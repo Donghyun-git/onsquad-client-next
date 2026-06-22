@@ -7,10 +7,11 @@ import { CircleX } from 'lucide-react';
 import Image from 'next/image';
 import { overlay } from 'overlay-kit';
 
-import { LoginAlert } from '@/widgets/LoginAlert';
+import { LoginAlert } from '@/shared/ui/LoginAlert';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
+import { CREW_IMAGE_OVERLAY_CLASS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { useToast, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
@@ -94,7 +95,7 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
             />
           ) : null}
 
-          <div className="bg-gradient-to-t absolute bottom-0 left-0 flex w-full flex-col gap-3 overflow-hidden truncate bg-black bg-opacity-20 from-black via-black/30 to-transparent px-5 py-2 font-bold text-white backdrop-blur-sm">
+          <div className={CREW_IMAGE_OVERLAY_CLASS}>
             <div className="flex h-[5dvh] items-center justify-between">
               <Text.base className="font-medium">크루 스페이스</Text.base>
 
@@ -139,12 +140,10 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
         </div>
 
         <div className="tagArea my-6 flex flex-wrap items-center gap-2">
-          {data?.hashtags.map((tag, index) => {
-            if (index === 0) {
-              return <Badge key={index}>멤버 수 {tag}+</Badge>;
-            }
-            return <Badge key={index}>{tag}</Badge>;
-          })}
+          <Badge>멤버 수 {data?.memberCount} 명</Badge>
+          {data?.hashtags.map((tag, index) => (
+            <Badge key={index}>{tag}</Badge>
+          ))}
         </div>
 
         {!isGuestUser && !alreadyParticipant && !isOwner && (

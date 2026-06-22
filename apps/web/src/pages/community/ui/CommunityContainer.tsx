@@ -9,7 +9,7 @@ import { Loader2 } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useInView } from 'react-intersection-observer';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { cn } from '@/shared/lib';
 import { searchSchema } from '@/shared/ui/Searchbar/validator';

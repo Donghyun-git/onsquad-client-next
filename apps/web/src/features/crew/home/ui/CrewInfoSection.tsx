@@ -14,6 +14,7 @@ interface CrewInfoSectionProps {
     introduce: string;
     detail: string;
     hashtags: string[];
+    memberCount: number;
   };
 }
 
@@ -46,12 +47,10 @@ export const CrewInfoSection = ({ crew }: CrewInfoSectionProps) => {
           </div>
 
           <div className="flex flex-wrap items-center gap-1">
-            {crew?.hashtags.map((tag, index) => {
-              if (index === 0) {
-                return <Badge key={index}>멤버 수 {tag}+</Badge>;
-              }
-              return <Badge key={index}>{tag}</Badge>;
-            })}
+            <Badge>멤버 수 {crew?.memberCount} 명</Badge>
+            {crew?.hashtags.map((tag, index) => (
+              <Badge key={index}>{tag}</Badge>
+            ))}
           </div>
         </div>
       }

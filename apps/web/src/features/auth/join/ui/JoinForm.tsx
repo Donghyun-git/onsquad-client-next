@@ -21,7 +21,7 @@ import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { InputButton } from '@/shared/ui/InputButton';
 
-import AddressSearch from './AddressSearch';
+import { AddressSearch } from '@/shared/ui/AddressSearch';
 import { joinSchema } from './validator';
 
 const JoinForm = () => {

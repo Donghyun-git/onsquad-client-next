@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { Appbar } from '@/shared/ui/Appbar';
 

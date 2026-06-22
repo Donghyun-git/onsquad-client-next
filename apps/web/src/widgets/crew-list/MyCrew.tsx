@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { PATH } from '@/shared/config/paths';
 import { usePageMove } from '@/shared/lib/hooks';

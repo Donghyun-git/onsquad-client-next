@@ -65,6 +65,18 @@ class ApiClient {
           ...fetchInit.headers,
         },
       });
+    } catch (error) {
+      // 타임아웃(AbortController) → 시스템 에러 노출 대신 재시도 토스트 안내 후 친화적 에러로 변환.
+      if (controller.signal.aborted) {
+        if (typeof window !== 'undefined') {
+          const { showTimeoutToast } = await import('@/shared/lib/toast/showTimeoutToast');
+          showTimeoutToast();
+        }
+
+        throw new Error('잠시 후 다시 시도해 주세요.');
+      }
+
+      throw error;
     } finally {
       clearTimeout(timer);
     }

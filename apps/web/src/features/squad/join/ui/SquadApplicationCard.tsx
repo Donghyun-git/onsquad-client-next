@@ -1,22 +1,23 @@
 import Image from 'next/image';
 
-import type { SquadApplication } from '@/entities/squad';
+import type { MySquadRequestItem } from '@/entities/member';
 import { Avatar } from '@/shared/ui/Avatar';
 
 interface SquadApplicationCardProps {
-  application: SquadApplication;
+  application: MySquadRequestItem;
+  onCancel: () => void;
 }
 
-const SquadApplicationCard = ({ application }: SquadApplicationCardProps) => {
+const SquadApplicationCard = ({ application, onCancel }: SquadApplicationCardProps) => {
   return (
     <div className="overflow-hidden rounded-lg bg-white">
       {/* 크루 이미지 + 이름 */}
       <div className="relative flex items-end justify-center overflow-hidden">
         <div className="h-24 w-full bg-grayscale200 relative">
-          {application.crewImageUrl && (
+          {application.crew.imageUrl && (
             <Image
-              src={application.crewImageUrl}
-              alt={application.crewName}
+              src={application.crew.imageUrl}
+              alt={application.crew.name}
               fill
               className="object-cover"
             />
@@ -24,7 +25,7 @@ const SquadApplicationCard = ({ application }: SquadApplicationCardProps) => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/9 to-black/30 backdrop-blur-sm" />
           <div className="absolute inset-x-0 bottom-0 px-2 py-3">
             <p className="text-500 font-bold leading-130 text-white tracking-[-0.4px]">
-              {application.crewName}
+              {application.crew.name}
             </p>
           </div>
         </div>
@@ -35,21 +36,23 @@ const SquadApplicationCard = ({ application }: SquadApplicationCardProps) => {
         <div className="flex items-center gap-1">
           <Avatar className="size-4" />
           <span className="text-200 font-regular leading-130 text-grayscale800 tracking-[-0.28px]">
-            {application.authorNickname}
+            {application.squad.leader.nickname}
           </span>
           <span className="text-200 font-regular leading-130 text-grayscale800 tracking-[-0.28px]">
             님의 스쿼드
           </span>
         </div>
         <p className="text-200 font-medium leading-130 text-grayscale900 tracking-[-0.28px]">
-          {application.squadTitle}
+          {application.squad.title}
         </p>
         <div className="flex items-center gap-1">
+          {application.squad.categories.map((c) => (
+            <span key={c} className="rounded px-1 py-0 text-75 font-medium leading-150 text-white bg-primary700 tracking-[-0.2px]">
+              {c}
+            </span>
+          ))}
           <span className="rounded px-1 py-0 text-75 font-medium leading-150 text-white bg-primary700 tracking-[-0.2px]">
-            {application.category}
-          </span>
-          <span className="rounded px-1 py-0 text-75 font-medium leading-150 text-white bg-primary700 tracking-[-0.2px]">
-            {application.currentMembers}/{application.maxMembers} 명
+            {application.squad.remain}/{application.squad.capacity} 명
           </span>
         </div>
       </div>
@@ -60,6 +63,7 @@ const SquadApplicationCard = ({ application }: SquadApplicationCardProps) => {
           type="button"
           className="flex flex-1 items-center justify-center rounded p-2 border border-grayscale500"
           aria-label="합류신청 취소하기"
+          onClick={onCancel}
         >
           <span className="text-100 font-medium leading-130 text-grayscale500 tracking-[-0.24px]">취소하기</span>
         </button>

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { PATH } from '@/shared/config/paths';
 import { CountLabel } from '@/shared/ui/CountLabel';

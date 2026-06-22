@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { isEmpty } from 'es-toolkit/compat';
 import { PencilLine, Star } from 'lucide-react';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { DEFAULT_PROFILE_IMAGE } from '@/shared/config';
 import { getRoleText } from '@/shared/lib';

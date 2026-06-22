@@ -3,6 +3,8 @@ import { type UseQueryOptions, queryOptions } from '@tanstack/react-query';
 import type { ApiResponse } from '@/shared/api/common';
 import type { ResponseModel } from '@/shared/api/model';
 
+import { QueryError } from './useApiQuery';
+
 export const makeQueryOptions = <
   TQueryKey extends readonly unknown[],
   TQueryFnData extends ResponseModel,
@@ -18,7 +20,7 @@ export const makeQueryOptions = <
       const res = await queryFn();
 
       if (res.data.error) {
-        throw new Error(res.data.error.message);
+        throw new QueryError(res.data.error.code, res.data.error.message);
       }
 
       return res.data;

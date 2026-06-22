@@ -12,3 +12,6 @@ export * from './hoc/withBodyBackground';
 // Utils (additional)
 export * from './utils/numberExtract';
 export * from './utils/getRoleText';
+
+// Overlay
+export * from './overlay';

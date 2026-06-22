@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 import type { CrewHomeData } from '@/entities/crew';
 
+import { CREW_IMAGE_OVERLAY_CLASS } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
 import { Text } from '@/shared/ui/Text';
 import { Button } from '@/shared/ui/ui/button';
@@ -36,7 +37,7 @@ export const CrewHeader = ({ crew, canManage }: CrewHeaderProps) => {
           className="w-full px-4"
           loading="eager"
         />
-        <div className="bg-gradient-to-t absolute bottom-0 left-0 flex w-full flex-col gap-3 overflow-hidden truncate bg-black bg-opacity-20 from-black via-black/30 to-transparent px-5 py-2 font-bold text-white backdrop-blur-sm">
+        <div className={CREW_IMAGE_OVERLAY_CLASS}>
           <div className="flex h-[5dvh] items-center justify-between">
             <Text.base className="font-medium">크루 스페이스</Text.base>
 

@@ -5,7 +5,10 @@ import { CircleX } from 'lucide-react';
 import type { ApiResponse } from '@/shared/api/common';
 import { ResponseModel } from '@/shared/api/model';
 import { TOAST } from '@/shared/config/toast';
+import { handleTokenExpiration, isTokenExpiredError } from '@/shared/lib/auth/handleTokenExpiration';
 import { useToast } from '@/shared/lib/hooks/useToast';
+
+import { QueryError } from './useApiQuery';
 
 export const useApiMutation = <
   TMutationKey extends [string, Record<string, unknown>?],
@@ -37,7 +40,7 @@ export const useApiMutation = <
       const res = await fetcher(variables);
 
       if (res.data.error) {
-        throw new Error(res.data.error.message);
+        throw new QueryError(res.data.error.code, res.data.error.message);
       }
 
       return res.data;
@@ -54,6 +57,13 @@ export const useApiMutation = <
       }
     },
     onError: (error) => {
+      // 토큰 만료 시 toast 대신 자동 로그아웃 후 로그인 페이지로 이동한다.
+      if (isTokenExpiredError(error)) {
+        void handleTokenExpiration();
+
+        return error;
+      }
+
       if (error instanceof Error) {
         toast({
           title: error.message,

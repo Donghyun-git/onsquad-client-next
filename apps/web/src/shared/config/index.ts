@@ -5,6 +5,10 @@ import { PATH } from './paths';
 export const DEFAULT_PROFILE_IMAGE = '/icons/default_profile.svg';
 
 export const APPBAR_HEIGHT = 56;
+export const OVERLAY_ANIMATION_DURATION = 300;
+
+export const CREW_IMAGE_OVERLAY_CLASS =
+  'bg-gradient-to-t absolute bottom-0 left-0 flex w-full flex-col gap-3 overflow-hidden truncate bg-black bg-opacity-20 from-black via-black/30 to-transparent px-5 py-2 font-bold text-white backdrop-blur-sm';
 
 export type Mbti =
   | 'ISTJ'

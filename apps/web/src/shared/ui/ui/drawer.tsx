@@ -21,7 +21,7 @@ const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay ref={ref} className={cn('fixed inset-0 z-50 bg-black/20', className)} {...props} />
+  <DrawerPrimitive.Overlay ref={ref} className={cn('fixed inset-0 z-[110] bg-black/20', className)} {...props} />
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
@@ -34,7 +34,8 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
+        // Appbar(z-[100]) 위로 올리고, 시트 높이를 앱바 10px 아래까지로 제한해 화면을 넘치지 않게 한다.
+        'fixed inset-x-0 bottom-0 z-[110] mt-24 flex h-auto max-h-[calc(100svh-var(--app-header-height)-10px)] flex-col overflow-y-auto rounded-t-[10px] border bg-background',
         className,
       )}
       {...props}

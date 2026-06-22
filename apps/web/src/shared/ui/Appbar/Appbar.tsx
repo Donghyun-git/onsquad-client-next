@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { ChevronLeft, Plus, Text as TextIcon } from 'lucide-react';
+import { Bell, ChevronLeft, Text as TextIcon } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,7 +19,6 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTri
 
 import { CountLabel } from '../CountLabel';
 import { Profile } from '../Profile';
-import { Text } from '../Text';
 
 export interface AppbarPropsType {
   isMenuHeader?: boolean;
@@ -30,6 +29,10 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
   const user = useUser();
 
   const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut({ redirectTo: PATH.root });
+  };
 
   if (!isMenuHeader) {
     return (
@@ -59,15 +62,12 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
       </Link>
 
       <div className="relative mr-4 flex items-center gap-2">
-        {user ? (
-          <Button variant="outline" className="flex h-fit items-center gap-0.5 p-2">
-            <Link href="/crews/new" scroll={false}>
-              <Text.xs>크루 개설하기</Text.xs>
-            </Link>
-            <Plus className="mb-0.5" size={8} strokeWidth={2} />
-          </Button>
-        ) : null}
-
+        {/* 알림: 로그인 상태에서만 노출, 햄버거 메뉴 좌측. */}
+        {user && (
+          <Link href={PATH.notifications} aria-label="알림" scroll={false}>
+            <Bell color="#636363" strokeWidth={1.5} className="cursor-pointer" />
+          </Link>
+        )}
         <Sheet>
           <SheetTrigger asChild>
             <TextIcon color="#636363" strokeWidth={1.5} className="cursor-pointer" />
@@ -182,7 +182,7 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
 
                       <div className="mt-6 flex flex-col items-center justify-center gap-2">
                         <SheetClose asChild>
-                          <NavButton onClick={() => signOut()}>로그아웃</NavButton>
+                          <NavButton onClick={handleSignOut}>로그아웃</NavButton>
                         </SheetClose>
                       </div>
                     </li>

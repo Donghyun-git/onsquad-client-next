@@ -38,14 +38,26 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
   }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
   ...authConfig,
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token = { ...user, ...token, accessTokenExpires: jwtDecode(user.accessToken)?.exp };
 
         return token;
+      }
+
+      // BFF 리액티브 refresh(unstable_update)로 전달된 새 토큰을 세션에 반영한다.
+      // isValid 판정보다 먼저 처리해야 갱신이 무시되지 않는다.
+      if (trigger === 'update' && session?.accessToken) {
+        return {
+          ...token,
+          accessToken: session.accessToken,
+          refreshToken: session.refreshToken ?? token.refreshToken,
+          accessTokenExpires: jwtDecode(session.accessToken)?.exp,
+          error: undefined,
+        };
       }
 
       const isValid = !!(token.accessTokenExpires && dayjs().isBefore(dayjs.unix(token.accessTokenExpires)));

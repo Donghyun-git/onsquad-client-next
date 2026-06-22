@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import { closeWithAnimation } from '@/shared/lib/overlay';
 import { cn } from '@/shared/lib/utils';
 import type { OverlayProps } from '@/shared/types/overlay';
 import {
@@ -61,13 +62,7 @@ export interface AlertProps extends Partial<Omit<OverlayProps, 'isOpen'>>, Pick<
 const Alert = (props: AlertProps) => {
   const { title, headerClassName, children, buttonSlot, isOpen, close, unmount } = props;
 
-  const handleClose = () => {
-    close?.();
-
-    setTimeout(() => {
-      unmount?.();
-    }, 300);
-  };
+  const handleClose = () => closeWithAnimation(close, unmount);
 
   return (
     <AlertDialog open={isOpen}>

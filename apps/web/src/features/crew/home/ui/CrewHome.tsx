@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { CrewHeader } from './CrewHeader';
 import { CrewInfoSlider } from './CrewInfoSlider';
@@ -27,7 +27,7 @@ export const CrewHome = ({ crewId }: CrewHomeProps) => {
 
         <div className="mx-5 mt-6 flex flex-col items-center gap-6">
           <CrewMemberRanking members={data?.rankers} />
-          <CrewSquadList squads={data?.squads} />
+          <CrewSquadList squads={data?.squads} crewId={crewId} />
         </div>
       </div>
     </div>

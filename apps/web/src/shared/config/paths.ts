@@ -7,6 +7,7 @@ export const PATH = Object.freeze({
   addCrew: '/crews/new' as const,
   changePassword: '/change-password' as const,
   profile: '/profile' as const,
+  notifications: '/notifications' as const,
   // 스쿼드 도메인 (feat/squad)
   addSquad: '/squads/new' as const,
   // 내 활동 도메인 (feat/my-activity)

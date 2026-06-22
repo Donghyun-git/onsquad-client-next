@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import AddressSearch from '@/features/auth/join/ui/AddressSearch';
+import { AddressSearch } from '@/shared/ui/AddressSearch';
 
 import { nicknameCheckGetFetch } from '@/shared/api/user/nicknameCheckGetFetch';
 import { MBTI_SELECT_OPTIONS } from '@/shared/config';

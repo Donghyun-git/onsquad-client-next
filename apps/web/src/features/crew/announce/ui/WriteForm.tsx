@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CircleCheck, CircleX } from 'lucide-react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib';

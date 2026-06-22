@@ -10,7 +10,7 @@ import { CircleCheck, Loader2, SquarePen, Star } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import remarkGfm from 'remark-gfm';
 
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { DEFAULT_PROFILE_IMAGE } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';

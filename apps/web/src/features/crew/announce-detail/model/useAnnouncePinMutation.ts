@@ -1,4 +1,4 @@
-import { crewQueries } from '@/entities/crew/api/crew.queries';
+import { crewQueries } from '@/entities/crew';
 
 import { type AnnouncePinPatchFetchParams, announcePinPatchFetch } from '@/shared/api/crew';
 import { useApiMutation } from '@/shared/lib/queries';

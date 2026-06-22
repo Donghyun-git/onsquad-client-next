@@ -49,12 +49,10 @@ const CrewList = ({ list }: CrewListPropsType) => {
                       description={crew?.introduce || ''}
                       tagSlot={
                         <>
-                          {crew.hashtags.map((tag, i) => {
-                            if (i === 0) {
-                              return <Badge key={i}>멤버 수 {tag}+</Badge>;
-                            }
-                            return <Badge key={i}>{tag}</Badge>;
-                          })}
+                          <Badge>멤버 수 {crew.memberCount} 명</Badge>
+                          {crew.hashtags.map((tag, i) => (
+                            <Badge key={i}>{tag}</Badge>
+                          ))}
                         </>
                       }
                       onClick={() => router.push(`/crews/${crew.id}`, { scroll: false })}

@@ -2,14 +2,11 @@
 
 import { Component, ComponentType, ErrorInfo, ReactNode } from 'react';
 
+import type { FallbackProps } from '@/shared/types/error';
+
 interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
-}
-
-export interface FallbackProps {
-  error: Error | null;
-  resetErrorBoundary: () => void;
 }
 
 type ErrorBoundaryProps = {

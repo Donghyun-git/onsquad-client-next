@@ -36,7 +36,7 @@ export const useApiQuery = <
       const res = await fetcher();
 
       if (res.data.error) {
-        throw new Error(res.data.error.message);
+        throw new QueryError(res.data.error.code, res.data.error.message);
       }
 
       return res.data;

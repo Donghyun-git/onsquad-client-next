@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { ChangeEvent, useRef, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,6 +10,7 @@ import Image from 'next/image';
 import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { crewQueries } from '@/entities/crew';
 import { addCrewPostFetch } from '@/shared/api/crew/new/addCrewPostFetch';
 import { crewCheckGetFetch } from '@/shared/api/crew/new/crewCheckGetFetch';
 import { ACCORDION_HASH_TAG_LIST } from '@/shared/config';
@@ -30,6 +33,8 @@ import { addCrewSchema } from './validator';
  * 크루 개설하기 작성 폼
  */
 const AddForm = () => {
+  const router = useRouter();
+
   const { toast, hide } = useToast();
 
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -39,7 +44,7 @@ const AddForm = () => {
   const { mutateAsync: addCrew } = useApiMutation({
     mutationKey: ['@add-crew'],
     fetcher: addCrewPostFetch,
-    invalidateKey: ['@crew-list'],
+    invalidateKey: crewQueries.lists(),
   });
 
   const { mutateAsync: checkCrewName } = useApiMutation({
@@ -134,7 +139,8 @@ const AddForm = () => {
       });
 
       setTimeout(() => {
-        location.href = '/';
+        // 생성 페이지는 히스토리에서 replace 해 뒤로가기로 폼에 돌아오지 않게 한다.
+        router.replace('/');
       }, 1000);
     } catch (error) {
       console.error(error);
