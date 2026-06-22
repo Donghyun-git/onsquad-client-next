@@ -8,8 +8,9 @@ import { useInView } from 'react-intersection-observer';
 
 import { formatNotificationDate, notificationQueries } from '@/entities/notification';
 
-import { cn } from '@/shared/lib/utils';
 import { Text } from '@/shared/ui/Text';
+
+import { useReadNotificationMutation } from '../model/useReadNotificationMutation';
 
 const NotificationTab = () => {
   const { ref, inView } = useInView();
@@ -18,6 +19,8 @@ const NotificationTab = () => {
     ...notificationQueries.infiniteList(),
     throwOnError: false,
   });
+
+  const readNotification = useReadNotificationMutation();
 
   const list = data?.pages.flatMap((page) => page.data.results) ?? [];
 
@@ -45,15 +48,25 @@ const NotificationTab = () => {
 
   return (
     <div className="flex flex-col gap-s-10 px-s-40 py-s-60">
-      {list.map((item) => (
-        <div
-          key={item.id}
-          className={cn('flex flex-col gap-s-10 rounded-xl p-s-30', item.read ? 'bg-white' : 'bg-primary50')}
-        >
-          <Text.sm className="leading-130 tracking-tight text-grayscale900">{item.payload?.message ?? ''}</Text.sm>
-          <Text.xs className="text-grayscale500">{formatNotificationDate(item.occurredAt)}</Text.xs>
-        </div>
-      ))}
+      {list.map((item) =>
+        item.read ? (
+          <div key={item.id} className="flex flex-col gap-s-10 rounded-xl bg-white p-s-30">
+            <Text.sm className="leading-130 tracking-tight text-grayscale900">{item.payload?.message ?? ''}</Text.sm>
+            <Text.xs className="text-grayscale500">{formatNotificationDate(item.occurredAt)}</Text.xs>
+          </div>
+        ) : (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => readNotification.mutate(item.id)}
+            disabled={readNotification.isPending}
+            className="flex flex-col gap-s-10 rounded-xl bg-primary50 p-s-30 text-left disabled:opacity-60"
+          >
+            <Text.sm className="leading-130 tracking-tight text-grayscale900">{item.payload?.message ?? ''}</Text.sm>
+            <Text.xs className="text-grayscale500">{formatNotificationDate(item.occurredAt)}</Text.xs>
+          </button>
+        ),
+      )}
 
       {hasNextPage && (
         <div ref={ref} className="flex justify-center py-s-20">
