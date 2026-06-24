@@ -59,9 +59,9 @@ const CrewMemberList = ({ crewId }: CrewMemberListProps) => {
               </OverlayButton>
               <OverlayButton
                 className={BUTTON.ACTION}
-                onClick={async () => {
+                onClick={() => {
                   handleClose();
-                  await kickMutation.mutateAsync(id);
+                  kickMutation.mutate(id);
                 }}
               >
                 강퇴
@@ -90,9 +90,9 @@ const CrewMemberList = ({ crewId }: CrewMemberListProps) => {
               </OverlayButton>
               <OverlayButton
                 className={BUTTON.ACTION}
-                onClick={async () => {
+                onClick={() => {
                   handleClose();
-                  await delegateMutation.mutateAsync(id);
+                  delegateMutation.mutate(id);
                 }}
               >
                 위임
@@ -167,6 +167,7 @@ const CrewMemberList = ({ crewId }: CrewMemberListProps) => {
 
       {hasNextPage && (
         <Button
+          variant="ghost"
           isLoading={isFetchingNextPage}
           onClick={() => fetchNextPage()}
           className="mx-auto h-auto rounded-full bg-primary50 px-4 py-2 text-sm font-medium text-primary700 hover:bg-primary50 hover:text-primary700"
