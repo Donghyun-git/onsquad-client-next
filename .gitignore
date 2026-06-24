@@ -7,7 +7,9 @@ node_modules
 .pnp.js
 .yarn/install-state.gz
 .playwright-mcp
-/docs
+docs
+playwright-report
+test-results
 .claude
 
 #.env

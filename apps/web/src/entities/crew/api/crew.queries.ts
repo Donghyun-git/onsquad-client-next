@@ -17,6 +17,10 @@ import {
   CrewParticipantsGetFetchParams,
   crewParticipantsGetFetch,
 } from '@/shared/api/crew/manage/participants/crewParticipantsGetFetch';
+import {
+  CrewMembersGetFetchParams,
+  crewMembersGetFetch,
+} from '@/shared/api/crew/manage/members';
 import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 export const crewQueries = {
@@ -73,4 +77,18 @@ export const crewQueries = {
     makeQueryOptions([...crewQueries.lists(), 'participants', crewId, size, page], () =>
       crewParticipantsGetFetch({ crewId, size, page }),
     ),
+
+  members: ({ crewId, size = 5 }: Pick<CrewMembersGetFetchParams, 'crewId' | 'size'>) =>
+    infiniteQueryOptions({
+      queryKey: [...crewQueries.lists(), 'members', crewId, size],
+      queryFn: async ({ pageParam }) => {
+        const res = await crewMembersGetFetch({ crewId, size, page: pageParam });
+        return {
+          data: res.data.data,
+          nextPage: res.data.data.resultsSize === size ? pageParam + 1 : undefined,
+        };
+      },
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+      initialPageParam: 0,
+    }),
 };

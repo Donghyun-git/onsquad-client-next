@@ -5,7 +5,7 @@
   "scripts": {
     "emulator": "bash scripts/emulator.sh",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone 15 Pro'",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
     "start": "react-native start",

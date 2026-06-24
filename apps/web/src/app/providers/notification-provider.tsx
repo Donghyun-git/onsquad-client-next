@@ -2,7 +2,12 @@
 
 import React, { createContext, useContext, useEffect, useRef } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
+import { crewQueries } from '@/entities/crew';
+import { memberQueries } from '@/entities/member';
 import {
+  NOTIFICATION_DETAIL,
   NOTIFICATION_SSE_EVENT,
   getNotificationToastTitle,
   type NotificationMessage,
@@ -23,6 +28,8 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
   const sseRef = useRef<SseClient | null>(null);
 
   const user = useUser();
+
+  const queryClient = useQueryClient();
 
   const { toast } = useToast();
 
@@ -54,6 +61,19 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
 
               if (title) {
                 toast({ title, className: TOAST.primary });
+              }
+
+              // 합류신청 결과(수락/거절) 알림 수신 시, 소비자 화면의 가입 상태가 즉시 갱신되도록
+              // 관련 쿼리를 무효화한다. (크루 상세에서 '가입신청' 상태가 남아있는 문제 해결)
+              const crewId = data.payload?.crewId;
+              if (
+                (data.detail === NOTIFICATION_DETAIL.CREW_ACCEPT ||
+                  data.detail === NOTIFICATION_DETAIL.CREW_REJECT) &&
+                crewId != null
+              ) {
+                queryClient.invalidateQueries({ queryKey: crewQueries.detail({ crewId }).queryKey });
+                queryClient.invalidateQueries({ queryKey: memberQueries.myCrewRequests().queryKey });
+                queryClient.invalidateQueries({ queryKey: memberQueries.myCrewParticipants().queryKey });
               }
             } catch {
               // heartbeat/connect 등 파싱 불가하거나 매핑 없는 이벤트는 무시한다.
