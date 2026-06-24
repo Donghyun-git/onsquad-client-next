@@ -49,7 +49,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
             <CountLabel count={squadCnt} />
           </div>
         </NavButton>
-        <NavButton>
+        <NavButton onClick={() => router.push(`${PATH.crews}/${crewId}/manage/members`)}>
           <div className="flex items-center gap-2">
             <Text.sm>크루원</Text.sm>
             <CountLabel count={memberCnt} />
