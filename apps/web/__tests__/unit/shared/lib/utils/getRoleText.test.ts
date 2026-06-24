@@ -24,7 +24,6 @@ describe('getRoleText', () => {
   });
 
   it('알 수 없는 값은 "멤버"를 반환한다', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(getRoleText('UNKNOWN' as any)).toBe('멤버');
+    expect(getRoleText('UNKNOWN' as never)).toBe('멤버');
   });
 });
