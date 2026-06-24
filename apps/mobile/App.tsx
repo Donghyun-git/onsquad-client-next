@@ -6,10 +6,14 @@
  * @format
  */
 
-import { useEffect, useRef } from 'react';
-import { useColorScheme, StatusBar, StyleSheet } from 'react-native';
+import { useEffect, useRef, type ComponentRef } from 'react';
+import { useColorScheme, StatusBar, StyleSheet, BackHandler } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { WebView, type WebViewMessageEvent } from 'react-native-webview';
+import {
+  WebView,
+  type WebViewMessageEvent,
+  type WebViewNavigation,
+} from 'react-native-webview';
 import BootSplash from 'react-native-bootsplash';
 
 // iOS·Android 모두 localhost 를 사용한다. (Android 는 `adb reverse tcp:3000 tcp:3000` 로 호스트에 매핑 — run-emulator 스킬)
@@ -23,6 +27,9 @@ const SPLASH_FALLBACK_MS = 6000;
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
   const hiddenRef = useRef(false);
+  const webRef = useRef<ComponentRef<typeof WebView>>(null);
+  // WebView 의 브라우저 history 에 뒤로 갈 페이지가 있는지 추적한다.
+  const canGoBackRef = useRef(false);
 
   const hideSplash = () => {
     if (hiddenRef.current) return;
@@ -35,6 +42,20 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Android 하드웨어 백 버튼: web history 가 남아있으면 WebView 를 뒤로,
+  // 없으면 기본 동작(앱 종료)에 맡긴다. (iOS 에서는 발생하지 않는 이벤트)
+  useEffect(() => {
+    const onHardwareBack = () => {
+      if (canGoBackRef.current) {
+        webRef.current?.goBack();
+        return true;
+      }
+      return false;
+    };
+    const sub = BackHandler.addEventListener('hardwareBackPress', onHardwareBack);
+    return () => sub.remove();
+  }, []);
+
   // 웹: window.ReactNativeWebView.postMessage('APP_READY')
   const onMessage = (event: WebViewMessageEvent) => {
     if (event.nativeEvent.data === 'APP_READY') {
@@ -42,11 +63,24 @@ function App() {
     }
   };
 
+  const onNavigationStateChange = (navState: WebViewNavigation) => {
+    canGoBackRef.current = navState.canGoBack;
+  };
+
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-        <WebView source={{ uri: WEB_URL }} style={styles.webview} onMessage={onMessage} onError={hideSplash} />
+        <WebView
+          ref={webRef}
+          source={{ uri: WEB_URL }}
+          style={styles.webview}
+          onMessage={onMessage}
+          onError={hideSplash}
+          onNavigationStateChange={onNavigationStateChange}
+          // iOS: 엣지 스와이프로 web history 뒤로가기 (native 슬라이드 트랜지션)
+          allowsBackForwardNavigationGestures
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );
