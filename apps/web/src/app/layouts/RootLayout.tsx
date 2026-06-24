@@ -49,15 +49,15 @@ export default async function RootLayout({
         <OverlayProvider>
           <SessionProvider>
             <UserProvider>
-              <NotificationProvider>
-                <ErrorHandlingWrapper fallbackComponent={ErrorFallback} suspenseFallback={<Spinner />}>
-                  <QueryProvider>
+              <ErrorHandlingWrapper fallbackComponent={ErrorFallback} suspenseFallback={<Spinner />}>
+                <QueryProvider>
+                  <NotificationProvider>
                     <OAuthCallback />
                     <Wrapper>{children}</Wrapper>
-                  </QueryProvider>
-                </ErrorHandlingWrapper>
-                <Toaster />
-              </NotificationProvider>
+                    <Toaster />
+                  </NotificationProvider>
+                </QueryProvider>
+              </ErrorHandlingWrapper>
             </UserProvider>
           </SessionProvider>
         </OverlayProvider>
