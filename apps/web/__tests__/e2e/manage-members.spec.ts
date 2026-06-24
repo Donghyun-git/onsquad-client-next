@@ -145,7 +145,7 @@ test.describe('크루원 관리 플로우', () => {
     });
 
     await test.step('"더보기" 버튼이 표시된다', async () => {
-      await expect(page.getByRole('button', { name: /더보기/ })).toBeVisible();
+      await expect(page.getByRole('button', { name: /더보기\s*1\s*\/\s*2/ })).toBeVisible();
     });
 
     await test.step('"더보기" 버튼을 클릭하면 추가 크루원이 로드된다', async () => {
@@ -161,8 +161,8 @@ test.describe('크루원 관리 플로우', () => {
       expect(countAfter).toBeGreaterThan(countBefore);
     });
 
-    await test.step('더보기 버튼의 페이지 카운터가 업데이트된다', async () => {
-      await expect(page.getByRole('button', { name: /2\/2/ })).toBeHidden();
+    await test.step('더보기로 다음 페이지를 로드하면 행이 늘고, 모두 로드되면 더보기 버튼이 사라진다', async () => {
+      await expect(page.getByRole('button', { name: /더보기/ })).toBeHidden();
     });
   });
 
