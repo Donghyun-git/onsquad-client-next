@@ -20,7 +20,13 @@
  */
 import { HTMLAttributes } from 'react';
 
-import { vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, vi } from 'vitest';
+
+import { server } from './setup/msw/server';
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 /**
  * Next.js Image 컴포넌트 모킹
