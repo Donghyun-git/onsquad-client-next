@@ -34,4 +34,14 @@ describe('getUpdateProfileCleansingData', () => {
     expect(result.introduce).toBe('');
     expect(result.kakaoLink).toBe('');
   });
+
+  it('addressDetail만 있을 때 해당 필드만 채워지고 나머지는 빈 문자열이다', () => {
+    const result = getUpdateProfileCleansingData({ addressDetail: '101호' });
+    expect(result.addressDetail).toBe('101호');
+    expect(result.nickname).toBe('');
+    expect(result.introduce).toBe('');
+    expect(result.mbti).toBe('');
+    expect(result.kakaoLink).toBe('');
+    expect(result.address).toBe('');
+  });
 });
