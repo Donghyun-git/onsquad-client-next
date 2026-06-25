@@ -8,8 +8,7 @@
     "ios": "react-native run-ios --simulator='iPhone 15 Pro'",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
-    "start": "react-native start",
-    "test": "jest"
+    "start": "react-native start"
   },
   "dependencies": {
     "react": "19.2.3",
