@@ -11,6 +11,7 @@ docs
 playwright-report
 test-results
 .claude
+coverage
 
 #.env
 .env
