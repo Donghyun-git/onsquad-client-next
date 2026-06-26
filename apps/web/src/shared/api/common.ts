@@ -86,7 +86,10 @@ class ApiClient {
 
     // 2xx 가 아니면 axios 처럼 reject (React Query 가 에러로 처리)
     if (!response.ok) {
-      throw new Error(meta?.error?.message ?? `요청 실패 (HTTP ${response.status})`);
+      throw Object.assign(new Error(meta?.error?.message ?? `요청 실패 (HTTP ${response.status})`), {
+        code: meta?.error?.code,
+        status: response.status,
+      });
     }
 
     return { data: body as T, headers: response.headers };

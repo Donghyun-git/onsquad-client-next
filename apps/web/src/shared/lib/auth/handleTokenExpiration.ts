@@ -3,9 +3,12 @@ import { signOut } from 'next-auth/react';
 import { ErrorCode } from '@/shared/api/model';
 import { PATH } from '@/shared/config/paths';
 
-/** 토큰 만료(T003) 응답으로 발생한 에러인지 판별한다. */
-export const isTokenExpiredError = (error: unknown): boolean =>
-  typeof error === 'object' && error !== null && (error as { code?: unknown }).code === ErrorCode.T003;
+/** 토큰 만료(T003 코드 또는 HTTP 401) 응답으로 발생한 에러인지 판별한다. */
+export const isTokenExpiredError = (error: unknown): boolean => {
+  if (typeof error !== 'object' || error === null) return false;
+  const e = error as { code?: unknown; status?: unknown };
+  return e.code === ErrorCode.T003 || e.status === 401;
+};
 
 // 여러 쿼리/뮤테이션이 동시에 만료 응답을 받아도 로그아웃은 한 번만 수행한다.
 let isHandlingExpiration = false;

@@ -22,4 +22,16 @@ describe('isTokenExpiredError', () => {
   it('code 필드가 없는 객체이면 false를 반환한다', () => {
     expect(isTokenExpiredError({ message: 'error' })).toBe(false);
   });
+
+  it('status가 401인 객체는 true를 반환한다', () => {
+    expect(isTokenExpiredError({ status: 401 })).toBe(true);
+  });
+
+  it('status가 401이고 code가 없어도 true를 반환한다', () => {
+    expect(isTokenExpiredError(Object.assign(new Error('요청 실패 (HTTP 401)'), { status: 401 }))).toBe(true);
+  });
+
+  it('status가 401이 아닌 다른 값이면 false를 반환한다', () => {
+    expect(isTokenExpiredError({ status: 500 })).toBe(false);
+  });
 });
