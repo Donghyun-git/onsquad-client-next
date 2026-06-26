@@ -33,7 +33,9 @@ const Appbar = ({ isMenuHeader = true, title }: AppbarPropsType) => {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    await signOut({ redirectTo: PATH.root });
+    await signOut();
+
+    location.href = PATH.root;
   };
 
   if (!isMenuHeader) {
