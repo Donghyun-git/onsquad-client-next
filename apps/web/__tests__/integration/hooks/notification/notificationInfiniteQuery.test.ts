@@ -4,27 +4,9 @@ import { HttpResponse, http } from 'msw';
 import { describe, expect, it } from 'vitest';
 
 import { notificationQueries } from '@/entities/notification';
-import type { NotificationListGetFetchResponseProps } from '@/shared/api/notification';
 
-import { mockNotificationItem } from '../../../setup/msw/handlers/notification.handlers';
 import { server } from '../../../setup/msw/server';
 import { createWrapper } from '../../utils/wrapper';
-
-const makeNotificationResponse = (resultsSize: number): NotificationListGetFetchResponseProps => ({
-  success: true,
-  status: 200,
-  data: {
-    size: 10,
-    page: 0,
-    totalPages: 1,
-    totalCount: resultsSize,
-    resultsSize,
-    results: Array.from({ length: resultsSize }, (_, i) => ({
-      ...mockNotificationItem,
-      id: i + 1,
-    })),
-  },
-});
 
 describe('notificationQueries.infiniteList() — infiniteQuery', () => {
   it('초기 로드 시 알림 목록을 반환한다', async () => {
