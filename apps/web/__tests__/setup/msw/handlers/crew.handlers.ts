@@ -1,5 +1,7 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 
+import type { CrewListResponseProps } from '@/shared/api/crew';
+import type { HashTag, Mbti } from '@/shared/api/model';
 import type { CrewMemberItem, CrewMembersResponseProps } from '@/shared/api/crew/manage/members';
 
 const BASE = 'http://localhost/api/bff';
@@ -10,9 +12,26 @@ export const mockCrewMemberItem: CrewMemberItem = {
   member: { id: 1, nickname: '홍길동', introduce: '반갑습니다', mbti: 'INFP' },
 };
 
+export const mockCrewListResult: CrewListResponseProps['data']['results'][0] = {
+  id: 1,
+  name: '테스트 크루',
+  introduce: '크루 소개입니다.',
+  detail: '크루 상세 정보입니다.',
+  imageUrl: 'https://example.com/image.jpg',
+  kakaoLink: 'https://open.kakao.com/test',
+  hashtags: ['활발한' as HashTag],
+  memberCount: 5,
+  owner: {
+    id: 10,
+    nickname: '크루장',
+    introduce: '크루장입니다.',
+    mbti: 'ENFP' as Mbti,
+  },
+};
+
 export const crewHandlers = [
-  http.get(`${BASE}/crews/:crewId/members`, () => {
-    return HttpResponse.json<CrewMembersResponseProps>({
+  http.get(`${BASE}/crews/:crewId/members`, () =>
+    HttpResponse.json<CrewMembersResponseProps>({
       success: true,
       status: 200,
       data: {
@@ -23,14 +42,29 @@ export const crewHandlers = [
         resultsSize: 1,
         results: [mockCrewMemberItem],
       },
-    });
-  }),
+    }),
+  ),
 
-  http.delete(`${BASE}/crews/:crewId/members/:memberId`, () => {
-    return HttpResponse.json({ success: true, status: 200 });
-  }),
+  http.delete(`${BASE}/crews/:crewId/members/:memberId`, () =>
+    HttpResponse.json({ success: true, status: 200 }),
+  ),
 
-  http.patch(`${BASE}/crews/:crewId/members/:memberId/owner`, () => {
-    return HttpResponse.json({ success: true, status: 200 });
-  }),
+  http.patch(`${BASE}/crews/:crewId/members/:memberId/owner`, () =>
+    HttpResponse.json({ success: true, status: 200 }),
+  ),
+
+  http.get(`${BASE}/crews`, () =>
+    HttpResponse.json<CrewListResponseProps>({
+      success: true,
+      status: 200,
+      data: {
+        page: 2,
+        size: 10,
+        totalPages: 3,
+        totalCount: 25,
+        resultsSize: 10,
+        results: [mockCrewListResult],
+      },
+    }),
+  ),
 ];
