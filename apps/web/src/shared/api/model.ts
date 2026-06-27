@@ -1,3 +1,12 @@
+export interface PageResponse<T> {
+  size: number;
+  page: number;
+  totalPages: number;
+  totalCount: number;
+  resultsSize: number;
+  results: T[];
+}
+
 export interface ResponseModel {
   success?: boolean;
   error?: {

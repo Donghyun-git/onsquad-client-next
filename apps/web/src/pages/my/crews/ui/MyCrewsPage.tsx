@@ -17,7 +17,7 @@ const MyCrewsPage = () => {
   const [activeTab, setActiveTab] = useState<'crew' | 'squad'>('crew');
 
   const { data: crewData } = useQuery(memberQueries.myCrewParticipants());
-  const crews = crewData?.data ?? [];
+  const crews = crewData?.data?.results ?? [];
 
   const { data: squadData } = useQuery(memberQueries.mySquadParticipants());
   const groups = squadData?.data ?? [];

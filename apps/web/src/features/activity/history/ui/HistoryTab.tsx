@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { Loader2, MoreVertical } from 'lucide-react';
 
 import { memberQueries } from '@/entities/member';
@@ -12,23 +13,17 @@ import { Text } from '@/shared/ui/Text';
 
 // recordedAt(ISO) → 날짜 그룹 라벨 (YYYY.MM.DD)
 const formatDate = (iso: string): string => {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return iso;
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}.${month}.${day}`;
+  const d = dayjs(iso);
+  if (!d.isValid()) return iso;
+  return d.format('YYYY.MM.DD');
 };
-
-const toQueryDate = (date: Date) => date.toISOString().slice(0, 10);
 
 const HistoryTab = () => {
   // histories 는 from·to 가 필수다. 별도 기간 필터 UI 가 없으므로 기본 최근 1년을 조회한다.
   const range = useMemo(() => {
-    const to = new Date();
-    const from = new Date(to);
-    from.setFullYear(to.getFullYear() - 1);
-    return { from: toQueryDate(from), to: toQueryDate(to) };
+    const to = dayjs();
+    const from = to.subtract(1, 'year');
+    return { from: from.format('YYYY-MM-DD'), to: to.format('YYYY-MM-DD') };
   }, []);
 
   const { data, isLoading } = useQuery({ ...memberQueries.histories(range), throwOnError: false });

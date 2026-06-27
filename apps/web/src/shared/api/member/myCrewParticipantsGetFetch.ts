@@ -1,10 +1,9 @@
 import { apiFetch } from '../common';
-import type { ResponseModel } from '../model';
+import type { PageResponse, ResponseModel } from '../model';
 import type { MyCrewParticipantItem } from '@/shared/types/member.types';
 
 export interface MyCrewParticipantsGetFetchResponseProps extends ResponseModel {
-  /** 내가 참여중인 크루 목록 (페이지네이션 없음) */
-  data: MyCrewParticipantItem[];
+  data: PageResponse<MyCrewParticipantItem>;
 }
 
 /**
