@@ -3,13 +3,20 @@
 import { useRouter } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
+import { overlay } from 'overlay-kit';
 
 import { crewQueries } from '@/entities/crew';
 
 import { PATH } from '@/shared/config/paths';
+import { closeWithAnimation } from '@/shared/lib/overlay';
+import { Alert } from '@/shared/ui/Alert';
+import { BUTTON } from '@/shared/ui/Alert/style';
 import { CountLabel } from '@/shared/ui/CountLabel';
 import { NavButton } from '@/shared/ui/NavButton';
 import { Text } from '@/shared/ui/Text';
+import { Button as OverlayButton } from '@/shared/ui/ui/button';
+
+import { useDeleteCrewMutation } from '../model/useDeleteCrewMutation';
 
 interface CrewManageListProps {
   crewId: number;
@@ -19,6 +26,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
   const router = useRouter();
 
   const { data: manageRes } = useQuery(crewQueries.manage({ crewId }));
+  const { mutate: deleteMutate, isPending: isDeletePending } = useDeleteCrewMutation({ crewId });
 
   const data = manageRes?.data;
 
@@ -58,7 +66,39 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
       </div>
 
       {canDelete && (
-        <button className="mx-auto w-fit border-b border-grayscale500 text-grayscale500">
+        <button
+          className="mx-auto w-fit border-b border-grayscale500 text-grayscale500 disabled:opacity-50"
+          disabled={isDeletePending}
+          onClick={() => {
+            overlay.open(({ isOpen, close, unmount }) => {
+              const handleClose = () => closeWithAnimation(close, unmount);
+              return (
+                <Alert
+                  isOpen={isOpen}
+                  title="크루를 삭제할까요?"
+                  buttonSlot={
+                    <div className="grid grid-cols-2">
+                      <OverlayButton className={BUTTON.CANCEL} onClick={handleClose}>
+                        취소
+                      </OverlayButton>
+                      <OverlayButton
+                        className={BUTTON.ACTION}
+                        onClick={() => {
+                          handleClose();
+                          deleteMutate(undefined, { onSuccess: () => router.push(PATH.crews) });
+                        }}
+                      >
+                        삭제
+                      </OverlayButton>
+                    </div>
+                  }
+                >
+                  삭제된 크루는 복구할 수 없습니다.
+                </Alert>
+              );
+            });
+          }}
+        >
           <Text.sm>크루 삭제</Text.sm>
         </button>
       )}
