@@ -12,8 +12,7 @@ export const PATH = Object.freeze({
   addSquad: '/squads/new' as const,
   // 내 활동 도메인 (feat/my-activity)
   activity: '/activity' as const,
-  mySquads: '/my-squads' as const,
-  myApplications: '/my/applications' as const,
+myApplications: '/my/applications' as const,
   myCrews: '/my/crews' as const,
 });
 
