@@ -53,6 +53,10 @@ export const crewHandlers = [
     HttpResponse.json({ success: true, status: 200 }),
   ),
 
+  http.delete(`${BASE}/crews/:crewId/members/me`, () =>
+    HttpResponse.json({ success: true, status: 200 }),
+  ),
+
   http.get(`${BASE}/crews`, () =>
     HttpResponse.json<CrewListResponseProps>({
       success: true,

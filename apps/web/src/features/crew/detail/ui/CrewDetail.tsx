@@ -13,16 +13,20 @@ import { crewQueries } from '@/entities/crew';
 
 import { CREW_IMAGE_OVERLAY_CLASS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
+import { closeWithAnimation } from '@/shared/lib/overlay';
 import { useToast, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { Alert } from '@/shared/ui/Alert';
+import { BUTTON } from '@/shared/ui/Alert/style';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
 import { Text } from '@/shared/ui/Text';
+import { Button as OverlayButton } from '@/shared/ui/ui/button';
 
 import { useCancelRequestMutation } from '../model/useCancelRequestMutation';
 import { useCrewRequestMutation } from '../model/useCrewRequestMutation';
+import { useLeaveCrewMutation } from '../model/useLeaveCrewMutation';
 
 interface CrewDetailProps {
   crewId: number;
@@ -37,6 +41,7 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
 
   const { mutateAsync: crewRequestMutate, isPending: isCrewRequestPending } = useCrewRequestMutation({ crewId });
   const { mutateAsync: cancelRequestMutate, isPending: isCancelRequestPending } = useCancelRequestMutation({ crewId });
+  const { mutate: leaveMutate, isPending: isLeavePending } = useLeaveCrewMutation({ crewId });
 
   const { data: crewDetail } = useQuery(crewQueries.detail({ crewId }));
 
@@ -77,8 +82,38 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
     await cancelRequestMutate(crewId);
   };
 
+  const handleLeave = () => {
+    overlay.open(({ isOpen, close, unmount }) => {
+      const handleClose = () => closeWithAnimation(close, unmount);
+      return (
+        <Alert
+          isOpen={isOpen}
+          title="크루를 나갈까요?"
+          buttonSlot={
+            <div className="grid grid-cols-2">
+              <OverlayButton className={BUTTON.CANCEL} onClick={handleClose}>
+                취소
+              </OverlayButton>
+              <OverlayButton
+                className={BUTTON.ACTION}
+                onClick={() => {
+                  handleClose();
+                  leaveMutate(undefined, { onSuccess: () => router.back() });
+                }}
+              >
+                나가기
+              </OverlayButton>
+            </div>
+          }
+        >
+          크루를 나가면 다시 가입 신청이 필요합니다.
+        </Alert>
+      );
+    });
+  };
+
   return (
-    <div className="-mx-5 -mt-5 min-h-[calc(100dvh-var(--app-header-height))] bg-white px-0">
+    <div className="-mx-5 -mt-5 min-h-[calc(100dvh-var(--app-header-height))] bg-white px-0 flex flex-col">
       <div
         className="w-full cursor-pointer transition-all duration-200 hover:shadow-md S2:w-full SE:w-full mobile:w-full tablet:w-full"
         onClick={handleCrewHomeMove}
@@ -109,7 +144,7 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
         </div>
       </div>
 
-      <div className="mb-6 px-5">
+      <div className="mb-6 px-5 flex-1">
         <div className="my-6">
           <div className="flex flex-col gap-2">
             <div className="flex gap-3">
@@ -168,7 +203,21 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
             ) : null}
           </div>
         )}
+
       </div>
+
+      {alreadyParticipant && !isOwner && (
+        <div className="pb-10 flex justify-center">
+          <button
+            type="button"
+            disabled={isLeavePending}
+            onClick={handleLeave}
+            className="mx-auto w-fit border-b border-grayscale500 text-grayscale500 disabled:opacity-50"
+          >
+            <Text.sm>크루 나가기</Text.sm>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
