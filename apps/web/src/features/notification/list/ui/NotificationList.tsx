@@ -35,7 +35,6 @@ const NotificationList = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     ...notificationQueries.infiniteList(),
-    throwOnError: false,
   });
 
   const readNotification = useReadNotificationMutation();
@@ -66,11 +65,11 @@ const NotificationList = () => {
   }
 
   return (
-    <div className="flex flex-col gap-s-20">
+    <div className="gap-s-20 flex flex-col">
       {grouped.map(([date, items]) => (
-        <div key={date} className="flex flex-col gap-s-20">
-          <div className="flex items-center pb-s-20">
-            <h2 className="text-500 font-bold leading-130 tracking-[-0.4px] text-grayscale900">{date}</h2>
+        <div key={date} className="gap-s-20 flex flex-col">
+          <div className="pb-s-20 flex items-center">
+            <h2 className="text-500 leading-130 font-bold tracking-[-0.4px] text-grayscale900">{date}</h2>
           </div>
           {items.map((item) => (
             <NotificationCard

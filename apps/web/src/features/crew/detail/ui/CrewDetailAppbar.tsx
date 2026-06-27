@@ -13,7 +13,6 @@ interface CrewDetailAppbarProps {
 export const CrewDetailAppbar = ({ crewId }: CrewDetailAppbarProps) => {
   const { data: crewDetail } = useQuery({
     ...crewQueries.detail({ crewId }),
-    throwOnError: false,
   });
 
   return <Appbar isMenuHeader={false} title={crewDetail?.data?.name} />;

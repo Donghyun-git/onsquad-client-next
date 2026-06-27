@@ -13,7 +13,6 @@ interface SquadDetailAppbarProps {
 export const SquadDetailAppbar = ({ squadId }: SquadDetailAppbarProps) => {
   const { data: squadDetail } = useQuery({
     ...squadQueries.detail({ squadId }),
-    throwOnError: false,
   });
 
   const squadAppbarTitle = squadDetail?.data?.title;

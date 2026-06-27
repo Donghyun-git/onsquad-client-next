@@ -37,7 +37,7 @@ describe('makeQueryOptions', () => {
     const mockFn = vi.fn().mockResolvedValue(makeSuccessResponse(payload));
 
     const options = makeQueryOptions(['test'], mockFn);
-    const internalQueryFn = (options.queryFn as unknown) as () => Promise<TestData>;
+    const internalQueryFn = options.queryFn as unknown as () => Promise<TestData>;
 
     const result = await internalQueryFn();
 
@@ -48,7 +48,7 @@ describe('makeQueryOptions', () => {
     const mockFn = vi.fn().mockResolvedValue(makeErrorResponse('CRM001', '크루원이 아닙니다'));
 
     const options = makeQueryOptions(['test'], mockFn);
-    const internalQueryFn = (options.queryFn as unknown) as () => Promise<TestData>;
+    const internalQueryFn = options.queryFn as unknown as () => Promise<TestData>;
 
     await expect(internalQueryFn()).rejects.toSatisfy((err: unknown) => {
       return err instanceof QueryError && err.code === 'CRM001' && err.message === '크루원이 아닙니다';
@@ -58,6 +58,6 @@ describe('makeQueryOptions', () => {
   it('throwOnError가 true이다', () => {
     const options = makeQueryOptions(['test'], vi.fn());
 
-    expect(options.throwOnError).toBe(true);
+    expect(options.throwOnError).toBe(false);
   });
 });

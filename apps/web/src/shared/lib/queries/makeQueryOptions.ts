@@ -25,6 +25,6 @@ export const makeQueryOptions = <
 
       return res.data;
     },
-    throwOnError: true,
+    throwOnError: false,
   });
 };

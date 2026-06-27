@@ -17,7 +17,6 @@ const NotificationTab = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     ...notificationQueries.infiniteList(),
-    throwOnError: false,
   });
 
   const readNotification = useReadNotificationMutation();
@@ -32,7 +31,7 @@ const NotificationTab = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-s-60">
+      <div className="py-s-60 flex justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-primary500" />
       </div>
     );
@@ -40,17 +39,17 @@ const NotificationTab = () => {
 
   if (list.length === 0) {
     return (
-      <div className="flex justify-center py-s-60">
+      <div className="py-s-60 flex justify-center">
         <Text.sm className="text-grayscale500">받은 알림이 없어요.</Text.sm>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-s-10 px-s-40 py-s-60">
+    <div className="gap-s-10 px-s-40 py-s-60 flex flex-col">
       {list.map((item) =>
         item.read ? (
-          <div key={item.id} className="flex flex-col gap-s-10 rounded-xl bg-white p-s-30">
+          <div key={item.id} className="gap-s-10 p-s-30 flex flex-col rounded-xl bg-white">
             <Text.sm className="leading-130 tracking-tight text-grayscale900">{item.payload?.message ?? ''}</Text.sm>
             <Text.xs className="text-grayscale500">{formatNotificationDate(item.occurredAt)}</Text.xs>
           </div>
@@ -60,7 +59,7 @@ const NotificationTab = () => {
             type="button"
             onClick={() => readNotification.mutate(item.id)}
             disabled={readNotification.isPending}
-            className="flex flex-col gap-s-10 rounded-xl bg-primary50 p-s-30 text-left disabled:opacity-60"
+            className="gap-s-10 p-s-30 flex flex-col rounded-xl bg-primary50 text-left disabled:opacity-60"
           >
             <Text.sm className="leading-130 tracking-tight text-grayscale900">{item.payload?.message ?? ''}</Text.sm>
             <Text.xs className="text-grayscale500">{formatNotificationDate(item.occurredAt)}</Text.xs>
@@ -69,7 +68,7 @@ const NotificationTab = () => {
       )}
 
       {hasNextPage && (
-        <div ref={ref} className="flex justify-center py-s-20">
+        <div ref={ref} className="py-s-20 flex justify-center">
           <Loader2 className="h-6 w-6 animate-spin text-primary500" />
         </div>
       )}
