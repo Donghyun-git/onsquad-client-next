@@ -5,7 +5,7 @@ import { MyCrewsView } from './MyCrewsView';
 const MyCrewsPage = () => {
   return (
     <>
-      <Appbar isMenuHeader={false} title="내 크루" />
+      <Appbar title="내 크루" />
       <MyCrewsView />
     </>
   );

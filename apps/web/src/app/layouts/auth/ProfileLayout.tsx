@@ -10,7 +10,7 @@ const ProfileLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
 
   return (
-    <NoTabContentLayout header={<Appbar isMenuHeader={false} title={`${session?.nickname}의 프로필`} />}>
+    <NoTabContentLayout header={<Appbar title={`${session?.nickname}의 프로필`} />}>
       {children}
     </NoTabContentLayout>
   );

@@ -5,7 +5,7 @@ import { ActivityTabs } from './ActivityTabs';
 const ActivityPage = () => {
   return (
     <>
-      <Appbar isMenuHeader={false} title="활동내역" />
+      <Appbar title="활동내역" />
       <ActivityTabs />
     </>
   );

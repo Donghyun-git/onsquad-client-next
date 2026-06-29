@@ -11,7 +11,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <Appbar isMenuHeader={false} title={`${session?.nickname}의 프로필`} />
+      <Appbar title={`${session?.nickname}의 프로필`} />
       <ProfileForm />
     </>
   );

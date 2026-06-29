@@ -6,7 +6,7 @@ import NoTabContentLayout from '../NoTabContentLayout';
 
 const ChangePasswordLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <NoTabContentLayout header={<Appbar isMenuHeader={false} title="비밀번호 변경" />}>{children}</NoTabContentLayout>
+    <NoTabContentLayout header={<Appbar title="비밀번호 변경" />}>{children}</NoTabContentLayout>
   );
 };
 

@@ -6,7 +6,7 @@ import NoTabContentLayout from '../NoTabContentLayout';
 
 const AddCrewLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <NoTabContentLayout header={<Appbar isMenuHeader={false} title="크루 개설하기" />}>{children}</NoTabContentLayout>
+    <NoTabContentLayout header={<Appbar title="크루 개설하기" />}>{children}</NoTabContentLayout>
   );
 };
 

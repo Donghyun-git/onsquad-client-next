@@ -13,7 +13,7 @@ export default async function Page({ params }: PageProps) {
   const crewName = MOCK_SQUAD.crewName;
 
   return (
-    <NoTabContentLayout header={<Appbar isMenuHeader={false} title={crewName} />}>
+    <NoTabContentLayout header={<Appbar title={crewName} />}>
       <SquadRecruitPage />
     </NoTabContentLayout>
   );

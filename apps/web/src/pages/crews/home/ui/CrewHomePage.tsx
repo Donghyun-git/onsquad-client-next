@@ -10,7 +10,7 @@ async function CrewHomePage({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <Appbar isMenuHeader={false} />
+      <Appbar />
       <CrewHome crewId={crewId} />
     </>
   );

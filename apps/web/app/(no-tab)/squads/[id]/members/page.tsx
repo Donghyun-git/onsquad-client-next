@@ -10,7 +10,7 @@ export default async function Page({ params }: PageProps) {
   const { id } = await params;
 
   return (
-    <NoTabContentLayout header={<Appbar isMenuHeader={false} title="스쿼드원" />}>
+    <NoTabContentLayout header={<Appbar title="스쿼드원" />}>
       <SquadMembersPage squadId={Number(id)} />
     </NoTabContentLayout>
   );
