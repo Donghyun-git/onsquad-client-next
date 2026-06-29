@@ -11,14 +11,13 @@ import Image from 'next/image';
 import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { AddressSearch } from '@/shared/ui/AddressSearch';
-
 import { nicknameCheckGetFetch } from '@/shared/api/user/nicknameCheckGetFetch';
 import { MBTI_SELECT_OPTIONS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { useToast, useUser } from '@/shared/lib/hooks';
 import { useApiMutation } from '@/shared/lib/queries';
 import { cn } from '@/shared/lib/utils';
+import { AddressSearch } from '@/shared/ui/AddressSearch';
 import { Alert } from '@/shared/ui/Alert';
 import { BUTTON } from '@/shared/ui/Alert/style';
 import { Button } from '@/shared/ui/Button';

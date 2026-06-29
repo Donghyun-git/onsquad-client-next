@@ -13,6 +13,9 @@ vi.mock('@/shared/ui/Text', () => ({
     xl: ({ children, className }: { children: React.ReactNode; className?: string }) => (
       <span className={className}>{children}</span>
     ),
+    xxs: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+      <span className={className}>{children}</span>
+    ),
   },
 }));
 
@@ -44,19 +47,25 @@ describe('MyCrewCard', () => {
     expect(screen.getByRole('button', { name: '테스트 크루 크루로 이동' })).toBeDefined();
   });
 
-  it('states.isOwner=true일 때 "내 크루" 텍스트가 렌더링된다', () => {
+  it('crew.owner.nickname 기반 "오너닉 크루장" 텍스트가 렌더링된다', () => {
+    render(<MyCrewCard item={mockItem} />);
+
+    expect(screen.getByText('오너닉 크루장')).toBeDefined();
+  });
+
+  it('states.isOwner=true일 때 "내 크루" 배지가 렌더링된다', () => {
     const ownerItem: MyCrewParticipantItem = {
       ...mockItem,
       states: { isOwner: true },
     };
     render(<MyCrewCard item={ownerItem} />);
 
-    expect(screen.getByText('내 크루')).toBeDefined();
+    expect(screen.getByLabelText('내 크루')).toBeDefined();
   });
 
-  it('states.isOwner=false일 때 "내 크루" 텍스트가 없다', () => {
+  it('states.isOwner=false일 때 "내 크루" 배지가 없다', () => {
     render(<MyCrewCard item={mockItem} />);
 
-    expect(screen.queryByText('내 크루')).toBeNull();
+    expect(screen.queryByLabelText('내 크루')).toBeNull();
   });
 });

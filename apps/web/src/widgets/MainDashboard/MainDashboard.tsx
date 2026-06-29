@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 
 import { Article } from '@/shared/ui/Article';

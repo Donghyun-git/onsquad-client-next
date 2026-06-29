@@ -10,35 +10,32 @@ import { tokenRefreshGetFetch } from './shared/api/auth/tokenRefreshGetFetch';
 import { userInfoGetFetch } from './shared/api/user/userInfoGetFetch';
 import type { Mbti } from './shared/config';
 
+/**
+ * refresh token 으로 백엔드에 토큰 재발급을 요청한다(서버 전용).
+ * 자동(지연) 호출하지 않고, 클라이언트의 명시적 'token-refresh' update 트리거로만 1회 호출된다.
+ */
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
-    const res = await tokenRefreshGetFetch({
-      refreshToken: token.refreshToken,
-    });
+    const res = await tokenRefreshGetFetch({ refreshToken: token.refreshToken });
+    const newToken = res.data.data;
 
-    if (res.data.status === 401) {
+    if (res.data.error || !newToken?.accessToken) {
       throw new Error('RefreshAccessTokenError');
     }
-
-    const newToken = res.data.data;
 
     return {
       ...token,
       accessToken: newToken.accessToken,
       refreshToken: newToken.refreshToken ?? token.refreshToken,
-      // 갱신 후 만료시각은 새 액세스 토큰의 실제 exp 를 사용한다.
-      // (하드코딩 20분으로 두면 실제 30초 만료 토큰을 jwt 콜백이 '유효'로 오판해 stale token 으로 T003 발생)
       accessTokenExpires: jwtDecode(newToken.accessToken)?.exp,
+      error: undefined,
     };
   } catch {
-    return {
-      ...token,
-      error: 'RefreshAccessTokenError',
-    };
+    return { ...token, error: 'RefreshAccessTokenError' };
   }
 }
 
-export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   callbacks: {
     async jwt({ token, user, trigger, session }) {
@@ -48,16 +45,11 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
         return token;
       }
 
-      // BFF 리액티브 refresh(unstable_update)로 전달된 새 토큰을 세션에 반영한다.
-      // isValid 판정보다 먼저 처리해야 갱신이 무시되지 않는다.
-      if (trigger === 'update' && session?.accessToken) {
-        return {
-          ...token,
-          accessToken: session.accessToken,
-          refreshToken: session.refreshToken ?? token.refreshToken,
-          accessTokenExpires: jwtDecode(session.accessToken)?.exp,
-          error: undefined,
-        };
+      // 명시적 토큰 재발급 트리거: 클라이언트가 만료(T003)를 만나면 single-flight 로
+      // update({ type: 'token-refresh' }) 를 1회 호출한다. 재발급은 서버(여기)에서만 일어나
+      // refresh token 이 JS 에 노출되지 않고, /api/auth/session 응답으로 세션 쿠키가 네이티브 영속화된다.
+      if (trigger === 'update' && (session as { type?: string } | null)?.type === 'token-refresh') {
+        return await refreshAccessToken(token);
       }
 
       const isValid = !!(token.accessTokenExpires && dayjs().isBefore(dayjs.unix(token.accessTokenExpires)));
@@ -78,7 +70,10 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
         return token;
       }
 
-      return await refreshAccessToken(token);
+      // 만료여도 여기서 자동 reissue 하지 않는다.
+      // (병렬 세션 읽기마다 회전하면 strict 회전 백엔드와 레이스 → T005. 그래서 자동 refresh 제거.)
+      // 재발급은 위의 'token-refresh' update 트리거(클라이언트 single-flight)로만 일어난다.
+      return token;
     },
 
     async session({ session, token }) {

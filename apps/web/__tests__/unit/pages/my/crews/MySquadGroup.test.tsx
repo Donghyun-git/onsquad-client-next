@@ -14,20 +14,14 @@ vi.mock('@/shared/config/paths', () => ({
   },
 }));
 
-vi.mock('@/shared/ui/Badge', () => ({
-  Badge: ({ children }: { children: React.ReactNode }) => <span data-testid="badge">{children}</span>,
-}));
-
-vi.mock('@/shared/ui/Text', () => ({
-  Text: {
-    base: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-      <span className={className}>{children}</span>
-    ),
-    xs: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-      <span className={className}>{children}</span>
-    ),
-  },
-}));
+vi.mock('@/shared/ui/Text', () => {
+  const Span = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+    <span className={className}>{children}</span>
+  );
+  return {
+    Text: { base: Span, sm: Span, xl: Span, xxs: Span },
+  };
+});
 
 const mockLeader = {
   id: 2,
@@ -79,10 +73,10 @@ describe('MySquadGroup', () => {
     expect(screen.getByText('테스트 스쿼드')).toBeDefined();
   });
 
-  it('squad.remain/squad.capacity "7/10 명" 텍스트가 렌더링된다', () => {
+  it('현재 인원(capacity - remain)/capacity "3/10 명" 텍스트가 렌더링된다', () => {
     render(<MySquadGroup group={mockGroup} />);
 
-    expect(screen.getByText('7/10 명')).toBeDefined();
+    expect(screen.getByText('3/10 명')).toBeDefined();
   });
 
   it('squad.kakaoLink가 있을 때 "오픈채팅" 버튼이 렌더링된다', () => {
