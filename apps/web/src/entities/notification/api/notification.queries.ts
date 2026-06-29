@@ -1,6 +1,6 @@
 import { infiniteQueryOptions } from '@tanstack/react-query';
 
-import { notificationListGetFetch } from '@/shared/api/notification';
+import { notificationListGetFetch } from './notificationListGetFetch';
 
 const PAGE_SIZE = 10;
 

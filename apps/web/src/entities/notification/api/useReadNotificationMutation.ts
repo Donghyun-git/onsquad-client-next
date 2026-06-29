@@ -1,4 +1,4 @@
-import { notificationReadPatchFetch } from '@/shared/api/notification';
+import { notificationReadPatchFetch } from './notificationReadPatchFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 import { notificationQueries } from './notification.queries';

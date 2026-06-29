@@ -1,5 +1,5 @@
-import { apiFetch } from '../common';
-import type { ResponseModel } from '../model';
+import { apiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
 
 export interface NotificationReadPatchFetchParams {
   /** 읽음 처리할 알림 id */

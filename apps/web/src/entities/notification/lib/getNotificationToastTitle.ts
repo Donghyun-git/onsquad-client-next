@@ -1,4 +1,4 @@
-import type { NotificationMessage } from '../model/notification.types';
+import type { NotificationMessage } from '../types/notification.types';
 
 /**
  * SSE 알림 → 토스트 문구.

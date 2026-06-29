@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 
-import type { NotificationListGetFetchResponseProps } from '@/shared/api/notification';
-import type { NotificationListItem } from '@/shared/types/notification.types';
+import type { NotificationListGetFetchResponseProps } from '@/entities/notification/api/notificationListGetFetch';
+import type { NotificationListItem } from '@/entities/notification';
 
 const BASE = 'http://localhost/api/bff';
 

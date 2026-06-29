@@ -1,7 +1,7 @@
-import type { NotificationListItem } from '@/shared/types/notification.types';
+import type { NotificationListItem } from '../types/notification.types';
 
-import { apiFetch } from '../common';
-import type { ResponseModel } from '../model';
+import { apiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
 
 export interface NotificationListGetFetchParams {
   /** 페이지 번호 (0부터 시작) */
