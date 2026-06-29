@@ -42,13 +42,11 @@ const AddForm = () => {
   const [isDuplicate, setIsDuplicate] = useState<boolean>(true);
 
   const { mutateAsync: addCrew } = useApiMutation({
-    mutationKey: ['@add-crew'],
     fetcher: addCrewPostFetch,
     invalidateKey: crewQueries.lists(),
   });
 
   const { mutateAsync: checkCrewName } = useApiMutation({
-    mutationKey: ['@check-crew-name'],
     fetcher: crewCheckGetFetch,
   });
 

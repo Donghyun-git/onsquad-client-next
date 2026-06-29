@@ -1,7 +1,7 @@
-import { notificationQueries } from '@/entities/notification';
-
 import { notificationReadPatchFetch } from '@/shared/api/notification';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
+
+import { notificationQueries } from './notification.queries';
 
 /**
  * 알림 단건 읽음 처리

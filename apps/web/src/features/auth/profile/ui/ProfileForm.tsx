@@ -75,7 +75,6 @@ const ProfileForm = () => {
   const { mutateAsync: updateProfileMutate, isPending: isUpdateProfilePending } = useProfileUpdateMutation();
 
   const { mutateAsync: nicknameCheck } = useApiMutation({
-    mutationKey: ['@nickname-check'],
     fetcher: nicknameCheckGetFetch,
     options: {
       onSuccess: (data) => {

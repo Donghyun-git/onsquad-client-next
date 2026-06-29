@@ -18,7 +18,6 @@ export const CommentSection = ({ squadId }: CommentSectionProps) => {
   const comments = data?.data.results ?? [];
 
   const createMutation = useApiMutation({
-    mutationKey: ['@squad-comment-create'],
     fetcher: squadCommentCreateFetch,
     invalidateKey: [...squadQueries.root(), 'comments', squadId],
   });

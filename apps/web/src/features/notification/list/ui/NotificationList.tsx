@@ -6,10 +6,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
-import { formatNotificationDate, notificationQueries } from '@/entities/notification';
+import { formatNotificationDate, notificationQueries, useReadNotificationMutation } from '@/entities/notification';
 import type { NotificationListItem } from '@/entities/notification';
-
-import { useReadNotificationMutation } from '../model/useReadNotificationMutation';
 import NotificationCard from './NotificationCard';
 
 // occurredAt 날짜(YYYY.MM.DD) 기준으로 묶어 디자인의 날짜 그룹 헤더를 만든다.

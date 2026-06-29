@@ -33,19 +33,16 @@ const SquadMembers = ({ squadId }: SquadMembersProps) => {
   const members = membersData?.data.results ?? [];
 
   const deleteMutation = useApiMutation({
-    mutationKey: ['@squad-delete'],
     fetcher: squadDeleteFetch,
     invalidateKey: squadQueries.root(),
   });
 
   const kickMutation = useApiMutation({
-    mutationKey: ['@squad-kick'],
     fetcher: squadKickFetch,
     invalidateKey: squadQueries.root(),
   });
 
   const delegateMutation = useApiMutation({
-    mutationKey: ['@squad-delegate-leader'],
     fetcher: squadDelegateLeaderFetch,
     invalidateKey: squadQueries.root(),
   });

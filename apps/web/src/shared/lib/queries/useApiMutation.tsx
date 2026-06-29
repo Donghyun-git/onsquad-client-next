@@ -11,20 +11,17 @@ import { useToast } from '@/shared/lib/hooks/useToast';
 import { QueryError } from './useApiQuery';
 
 export const useApiMutation = <
-  TMutationKey extends [string, Record<string, unknown>?],
   TMutationFnData extends ResponseModel,
   TInvalidateKey extends unknown[],
   TError = Error,
   TVariables = void,
   TContext = unknown,
 >({
-  mutationKey,
   fetcher,
   invalidateKey,
   invalidateKeys,
   options,
 }: {
-  mutationKey?: TMutationKey;
   invalidateKey?: TInvalidateKey;
   invalidateKeys?: TInvalidateKey[];
   fetcher: (variables: TVariables) => Promise<ApiResponse<TMutationFnData>>;
@@ -35,7 +32,6 @@ export const useApiMutation = <
   const { toast, hide } = useToast();
 
   return useMutation<TMutationFnData, TError, TVariables, TContext>({
-    mutationKey,
     mutationFn: async (variables: TVariables) => {
       const res = await fetcher(variables);
 

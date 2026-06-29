@@ -27,7 +27,6 @@ const SquadJoin = () => {
   const requests = data?.data.results ?? [];
 
   const cancelMutation = useApiMutation({
-    mutationKey: ['@squad-request-cancel'],
     fetcher: squadRequestCancelFetch,
     invalidateKey: memberQueries.root(),
   });

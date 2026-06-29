@@ -57,7 +57,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: nicknameCheck } = useApiMutation({
-    mutationKey: ['@nickname-check'],
     fetcher: nicknameCheckGetFetch,
     options: {
       onSuccess: (data) => {
@@ -81,7 +80,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: emailCheck } = useApiMutation({
-    mutationKey: ['@email-check'],
     fetcher: userEmailCheckGetFetch,
     options: {
       onSuccess: (data) => {
@@ -105,7 +103,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: sendEmailAuthCode } = useApiMutation({
-    mutationKey: ['@send-email-auth-code'],
     fetcher: sendEmailAuthCodePostFetch,
     options: {
       onSuccess: (data) => {
@@ -129,7 +126,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: authCodeCheck } = useApiMutation({
-    mutationKey: ['@auth-code-check'],
     fetcher: authCodeCheckGetFetch,
     options: {
       onSuccess: (data) => {

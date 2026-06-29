@@ -39,19 +39,16 @@ export const SquadDetail = ({ id }: SquadDetailProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const requestMutation = useApiMutation({
-    mutationKey: ['@squad-request'],
     fetcher: squadRequestPostFetch,
     invalidateKey: squadQueries.root(),
   });
 
   const cancelMutation = useApiMutation({
-    mutationKey: ['@squad-request-cancel'],
     fetcher: squadRequestCancelFetch,
     invalidateKey: squadQueries.root(),
   });
 
   const leaveMutation = useApiMutation({
-    mutationKey: ['@squad-leave'],
     fetcher: squadLeaveFetch,
     invalidateKey: squadQueries.root(),
   });

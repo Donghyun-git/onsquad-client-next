@@ -44,7 +44,6 @@ const SquadNewForm = () => {
   const [displaySpinner, setDisplaySpinner] = useState(false);
 
   const { mutateAsync: createSquad } = useApiMutation({
-    mutationKey: ['@create-squad'],
     fetcher: squadCreatePostFetch,
     invalidateKey: crewQueries.root(),
   });
