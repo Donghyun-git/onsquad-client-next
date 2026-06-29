@@ -5,7 +5,7 @@ import { CircleX } from 'lucide-react';
 import type { ApiResponse } from '@/shared/api/common';
 import { ResponseModel } from '@/shared/api/model';
 import { TOAST } from '@/shared/config/toast';
-import { handleTokenExpiration, isTokenExpiredError } from '@/shared/lib/auth/handleTokenExpiration';
+import { isTokenExpiredError } from '@/shared/lib/auth/isTokenExpiredError';
 import { useToast } from '@/shared/lib/hooks/useToast';
 
 import { QueryError } from './useApiQuery';
@@ -57,10 +57,9 @@ export const useApiMutation = <
       }
     },
     onError: (error) => {
-      // 토큰 만료 시 toast 대신 자동 로그아웃 후 로그인 페이지로 이동한다.
+      // 토큰 만료 로그아웃은 MutationCache.onError(get-query-client)에서 중앙 처리한다.
+      // 여기서는 만료 에러에 대해 toast 만 띄우지 않도록 조기 반환한다.
       if (isTokenExpiredError(error)) {
-        void handleTokenExpiration();
-
         return error;
       }
 

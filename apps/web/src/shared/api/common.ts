@@ -1,7 +1,13 @@
-import { type ResponseModel } from './model';
+import { refreshSession } from '@/shared/lib/auth/sessionRefresh';
+
+import { ErrorCode, type ResponseModel } from './model';
 
 // 공통 요청 타임아웃 15초 (백엔드 무응답 시 무한 대기 방지)
 const REQUEST_TIMEOUT_MS = 15_000;
+
+/** 백엔드가 모든 응답을 HTTP 200 으로 내려주므로 만료는 body error.code(T003) 로도 판별한다. */
+const isTokenExpired = (status: number, meta?: ResponseModel): boolean =>
+  status === 401 || meta?.error?.code === ErrorCode.T003;
 
 /**
  * 응답 래퍼. axios 의 `{ data }` 형태를 유지해 기존 호출부(res.data.data)와 호환한다.
@@ -14,7 +20,7 @@ export interface ApiResponse<T> {
 
 interface ApiClientOptions {
   baseUrl: string;
-  /** 클라이언트(브라우저) 전용 base. 인증 호출을 BFF(/api/bff)로 보내 회전 토큰 refresh·persist 를 서버에서 처리한다. 없으면 baseUrl 사용. */
+  /** 클라이언트(브라우저) 전용 base. 인증 호출을 BFF(/api/bff)로 보내 서버가 토큰을 주입하게 한다(토큰 비노출). 없으면 baseUrl 사용. */
   clientBaseUrl?: string;
   withAuth: boolean;
 }
@@ -43,7 +49,11 @@ class ApiClient {
     return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
   }
 
-  private async request<T>(path: string, options: InternalRequestOptions = {}): Promise<ApiResponse<T>> {
+  private async request<T>(
+    path: string,
+    options: InternalRequestOptions = {},
+    allowRetry = true,
+  ): Promise<ApiResponse<T>> {
     const { accessToken, ...fetchInit } = options;
     const authHeaders = this.getAuthHeaders(accessToken);
 
@@ -70,6 +80,7 @@ class ApiClient {
       if (controller.signal.aborted) {
         if (typeof window !== 'undefined') {
           const { showTimeoutToast } = await import('@/shared/lib/toast/showTimeoutToast');
+
           showTimeoutToast();
         }
 
@@ -82,7 +93,19 @@ class ApiClient {
     }
 
     const body = (await response.json().catch(() => undefined)) as T | undefined;
+
     const meta = body as ResponseModel | undefined;
+
+    // 인증 인스턴스(BFF) + 브라우저에서 토큰 만료 응답을 받으면, 세션을 1회 갱신한 뒤 원요청을 재시도한다.
+    // refreshSession 은 single-flight(useSession().update 기반)라 동시 만료 요청들이 갱신 1회를 공유한다.
+    // 갱신 실패 시 재시도하지 않고 만료 응답을 그대로 흘려보내 상위(QueryCache.onError)에서 로그아웃되게 한다.
+    if (allowRetry && this.options.withAuth && typeof window !== 'undefined' && isTokenExpired(response.status, meta)) {
+      const refreshed = await refreshSession();
+
+      if (refreshed) {
+        return this.request<T>(path, options, false);
+      }
+    }
 
     // 2xx 가 아니면 axios 처럼 reject (React Query 가 에러로 처리)
     if (!response.ok) {

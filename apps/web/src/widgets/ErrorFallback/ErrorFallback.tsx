@@ -7,13 +7,13 @@ import { useEffect, useRef } from 'react';
 import { overlay } from 'overlay-kit';
 
 import { PATH } from '@/shared/config/paths';
-import { handleTokenExpiration, isTokenExpiredError } from '@/shared/lib/auth/handleTokenExpiration';
+import { isTokenExpiredError } from '@/shared/lib/auth/isTokenExpiredError';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { cn } from '@/shared/lib/utils';
+import type { FallbackProps } from '@/shared/types/error';
 import { Alert } from '@/shared/ui/Alert';
 import { BUTTON } from '@/shared/ui/Alert/style';
 import { Button } from '@/shared/ui/ui/button';
-import type { FallbackProps } from '@/shared/types/error';
 
 const DEFAULT_MESSAGE = '일시적인 오류가 발생했어요. 잠시 후 다시 시도해 주세요.';
 
@@ -22,14 +22,9 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   // StrictMode 이중 호출/리렌더에도 alert 를 한 번만 연다.
   const hasOpenedRef = useRef(false);
 
+  // 토큰 만료 로그아웃은 QueryClient 의 QueryCache.onError(get-query-client)에서 중앙 처리한다.
+  // 여기서는 만료 에러일 때 일반 에러 alert 를 띄우지 않도록 게이트로만 사용한다.
   const isTokenExpired = isTokenExpiredError(error);
-
-  // 토큰 만료 시 alert 를 띄우지 않고 자동 로그아웃 후 로그인 페이지로 이동한다.
-  useEffect(() => {
-    if (isTokenExpired) {
-      void handleTokenExpiration();
-    }
-  }, [isTokenExpired]);
 
   useEffect(() => {
     if (isTokenExpired) return;
@@ -74,7 +69,6 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         </Alert>
       );
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTokenExpired]);
 
   return null;
