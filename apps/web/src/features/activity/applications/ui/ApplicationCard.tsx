@@ -25,7 +25,13 @@ const ApplicationCard = ({ item, onCancel, isCanceling }: ApplicationCardProps) 
     <div className="overflow-hidden rounded-lg bg-white">
       {/* 이미지 영역 */}
       <div className="relative h-32 w-full overflow-hidden rounded-t-lg">
-        <Image src={item.imageUrl || '/images/mock1.png'} alt={item.targetName} fill className="object-cover" />
+        <Image
+          src={item.imageUrl || '/images/mock1.png'}
+          alt={item.targetName}
+          fill
+          className="object-cover"
+          loading="eager"
+        />
         <div className="bg-gradient-to-t absolute inset-0 flex items-end from-black/50 to-black/10 p-s-20">
           <Text.xl className="font-bold text-white">{item.targetName}</Text.xl>
         </div>

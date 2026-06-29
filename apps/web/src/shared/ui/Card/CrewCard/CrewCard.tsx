@@ -77,8 +77,8 @@ const CrewCard = (props: CrewCardPropsType) => {
           height={0}
           sizes="100vw"
           style={{ width: '100%', height: 'auto' }}
-          // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="w-full rounded-t-lg px-4"
+          loading="eager"
         />
         <Text.xl className="bg-gradient-to-t absolute bottom-0 left-0 flex w-full items-center overflow-hidden truncate from-black via-black/30 to-transparent p-2 font-bold text-white backdrop-blur-sm">
           {title}
