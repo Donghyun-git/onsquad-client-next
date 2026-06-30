@@ -7,3 +7,4 @@ export { default as JoinLayout } from './auth/JoinLayout';
 export { default as ChangePasswordLayout } from './auth/ChangePasswordLayout';
 export { default as CrewLayout } from './crew/CrewLayout';
 export { default as AddCrewLayout } from './crew/AddCrewLayout';
+export { default as SquadNewLayout } from './SquadNewLayout';
