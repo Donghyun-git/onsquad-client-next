@@ -1,5 +1,5 @@
-import { publicApiFetch } from '../common';
-import type { ResponseModel } from '../model';
+import { publicApiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
 
 export interface CategoriesGetFetchResponseProps extends ResponseModel {
   /**

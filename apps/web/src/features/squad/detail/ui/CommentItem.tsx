@@ -9,7 +9,7 @@ import {
   squadCommentUpdateFetch,
   squadCommentDeleteFetch,
   squadReplyCreateFetch,
-} from '@/shared/api/squad';
+} from '@/entities/squad/api';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { OVERLAY_ANIMATION_DURATION } from '@/shared/config';
 import { useApiMutation } from '@/shared/lib/queries';

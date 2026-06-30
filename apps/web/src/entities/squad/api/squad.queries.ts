@@ -5,7 +5,7 @@ import {
   squadDetailGetFetch,
   squadMemberListGetFetch,
   squadRequestListGetFetch,
-} from '@/shared/api/squad';
+} from '@/entities/squad/api';
 import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 export const squadQueries = {

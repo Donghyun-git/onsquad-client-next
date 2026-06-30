@@ -7,7 +7,7 @@ import { overlay } from 'overlay-kit';
 
 import { squadQueries } from '@/entities/squad';
 import type { SquadParticipantItem } from '@/entities/squad';
-import { squadDeleteFetch, squadDelegateLeaderFetch, squadKickFetch } from '@/shared/api/squad';
+import { squadDeleteFetch, squadDelegateLeaderFetch, squadKickFetch } from '@/entities/squad/api';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { OVERLAY_ANIMATION_DURATION } from '@/shared/config';
 import { useApiMutation } from '@/shared/lib/queries';

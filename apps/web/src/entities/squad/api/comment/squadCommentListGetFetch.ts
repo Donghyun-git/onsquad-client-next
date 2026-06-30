@@ -1,6 +1,6 @@
-import { apiFetch } from '../../common';
-import type { ResponseModel } from '../../model';
-import type { SquadCommentItem } from '@/shared/types/squad.types';
+import { apiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
+import type { SquadCommentItem } from '@/entities/squad/types/squad.types';
 
 export interface SquadCommentListGetFetchParams {
   /**

@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 
 import { squadQueries } from '@/entities/squad/api/squad.queries';
-import { squadLeaveFetch, squadRequestCancelFetch, squadRequestPostFetch } from '@/shared/api/squad';
+import { squadLeaveFetch, squadRequestCancelFetch, squadRequestPostFetch } from '@/entities/squad/api';
 import { SQUAD_PATH } from '@/shared/config/paths';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';

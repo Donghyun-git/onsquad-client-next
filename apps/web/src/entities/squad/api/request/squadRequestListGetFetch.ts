@@ -1,6 +1,6 @@
-import { apiFetch } from '../../common';
-import type { ResponseModel } from '../../model';
-import type { SquadRequestItem } from '@/shared/types/squad.types';
+import { apiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
+import type { SquadRequestItem } from '@/entities/squad/types/squad.types';
 
 export interface SquadRequestListGetFetchParams {
   /**
