@@ -7,10 +7,11 @@ import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { userSocialLoginGetFetch } from '@/shared/api/user/userSocialLoginGetFetch';
+import { userSocialLoginGetFetch } from '@/entities/auth/api/userSocialLoginGetFetch';
 import { USER_TYPE } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
-import { useMyActivityCounts, useUser } from '@/shared/lib/hooks';
+import { useMyActivityCounts } from '@/entities/member';
+import { useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { NavButton } from '@/shared/ui/NavButton';
 import { CountLabel } from '@/shared/ui/CountLabel';

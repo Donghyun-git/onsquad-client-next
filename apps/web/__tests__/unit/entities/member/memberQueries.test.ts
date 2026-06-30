@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { memberQueries } from '@/entities/member/api/member.queries';
 
-vi.mock('@/shared/api/member', () => ({
+vi.mock('@/entities/member/api', () => ({
   myCrewParticipantsGetFetch: vi.fn(),
   mySquadParticipantsGetFetch: vi.fn(),
   mySquadRequestsGetFetch: vi.fn(),

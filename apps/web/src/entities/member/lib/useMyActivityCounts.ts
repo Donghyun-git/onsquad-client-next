@@ -8,9 +8,9 @@ import {
   myCrewRequestsGetFetch,
   myHistoriesGetFetch,
   mySquadRequestsGetFetch,
-} from '@/shared/api/member';
+} from '@/entities/member/api';
 
-import { makeQueryOptions } from '../queries/makeQueryOptions';
+import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 // Appbar '내 활동' 메뉴 배지 카운트.
 // 쿼리 키·페처는 entities/member 의 memberQueries 와 동일하게 맞춰 페이지 캐시·무효화를 공유한다.

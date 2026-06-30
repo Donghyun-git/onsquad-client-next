@@ -1,7 +1,7 @@
-import type { HistoryType, MyActivityHistoryItem } from '@/shared/types/member.types';
+import type { HistoryType, MyActivityHistoryItem } from '../types/member.types';
 
-import { apiFetch } from '../common';
-import type { ResponseModel } from '../model';
+import { apiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
 
 export interface MyHistoriesGetFetchParams {
   /** 조회 시작 날짜 (yyyy-MM-dd) */

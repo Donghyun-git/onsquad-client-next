@@ -1,6 +1,6 @@
-import { apiFetch } from '../common';
-import type { PageResponse, ResponseModel } from '../model';
-import type { MyCrewParticipantItem } from '@/shared/types/member.types';
+import { apiFetch } from '@/shared/api/common';
+import type { PageResponse, ResponseModel } from '@/shared/api/model';
+import type { MyCrewParticipantItem } from '../types/member.types';
 
 export interface MyCrewParticipantsGetFetchResponseProps extends ResponseModel {
   data: PageResponse<MyCrewParticipantItem>;

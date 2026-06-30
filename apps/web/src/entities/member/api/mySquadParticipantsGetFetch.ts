@@ -1,6 +1,6 @@
-import { apiFetch } from '../common';
-import type { ResponseModel } from '../model';
-import type { MySquadParticipantGroup } from '@/shared/types/member.types';
+import { apiFetch } from '@/shared/api/common';
+import type { ResponseModel } from '@/shared/api/model';
+import type { MySquadParticipantGroup } from '../types/member.types';
 
 export interface MySquadParticipantsGetFetchResponseProps extends ResponseModel {
   /** 크루별로 그룹핑된 내 참여 스쿼드 목록 */
