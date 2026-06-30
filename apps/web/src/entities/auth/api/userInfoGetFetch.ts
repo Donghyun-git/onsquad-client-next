@@ -1,5 +1,5 @@
-import { apiFetch, publicApiFetch } from '../common';
-import type { Mbti, ResponseModel } from '../model';
+import { apiFetch, publicApiFetch } from '@/shared/api/common';
+import type { Mbti, ResponseModel } from '@/shared/api/model';
 
 export interface UserInfoGetFetchParams {
   accessToken: string;

@@ -1,5 +1,5 @@
-import { publicApiFetch } from '../common';
-import { ResponseModel } from '../model';
+import { publicApiFetch } from '@/shared/api/common';
+import { ResponseModel } from '@/shared/api/model';
 
 export interface UserEmailCheckGetFetchParams {
   email: string;

@@ -1,6 +1,6 @@
-import { apiFetch } from '../common';
-import { ResponseModel } from '../model';
-import { Mbti } from './../../config';
+import { apiFetch } from '@/shared/api/common';
+import { ResponseModel } from '@/shared/api/model';
+import { Mbti } from '@/shared/config';
 
 export interface UserProfilePutFetchParams {
   nickname: string;

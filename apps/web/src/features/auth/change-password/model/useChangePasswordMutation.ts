@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 
 import { CircleCheck, CircleX } from 'lucide-react';
 
-import { changePasswordPatchFetch } from '@/shared/api/user/changePasswordPatchFetch';
+import { changePasswordPatchFetch } from '@/entities/auth/api/changePasswordPatchFetch';
 import { PATH } from '@/shared/config/paths';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';

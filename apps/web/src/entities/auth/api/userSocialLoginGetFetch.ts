@@ -1,5 +1,5 @@
-import { apiFetch } from '../common';
-import { ResponseModel } from '../model';
+import { apiFetch } from '@/shared/api/common';
+import { ResponseModel } from '@/shared/api/model';
 
 export interface SocialLoginGetFetchParams {
   platform: 'kakao' | 'google';
