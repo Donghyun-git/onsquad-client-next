@@ -2,7 +2,7 @@
 
 import { ChevronRight, MoreVertical } from 'lucide-react';
 
-import type { CrewMemberItem } from '@/shared/api/crew/manage/members';
+import type { CrewMemberItem } from '@/entities/crew/api/manage/members';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Text } from '@/shared/ui/Text';
 

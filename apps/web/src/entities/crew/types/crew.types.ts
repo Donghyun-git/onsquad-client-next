@@ -1,7 +1,7 @@
-import { CrewAnnounceListResponseProps } from '@/shared/api/crew/announce/crewAnnounceGetFetch';
-import { CrewDetailResponseProps } from '@/shared/api/crew/crewDetailGetFetch';
-import { CrewListResponseProps } from '@/shared/api/crew/crewListGetFetch';
-import { CrewHomeInfoResponseProps } from '@/shared/api/crew/home/crewHomeInfoGetFetch';
+import { CrewAnnounceListResponseProps } from '@/entities/crew/api/announce/crewAnnounceGetFetch';
+import { CrewDetailResponseProps } from '@/entities/crew/api/crewDetailGetFetch';
+import { CrewListResponseProps } from '@/entities/crew/api/crewListGetFetch';
+import { CrewHomeInfoResponseProps } from '@/entities/crew/api/home/crewHomeInfoGetFetch';
 
 export type CrewDetailData = PropType<CrewDetailResponseProps, 'data'>;
 export type CrewHomeData = PropType<CrewHomeInfoResponseProps, 'data'>;

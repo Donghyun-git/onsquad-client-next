@@ -1,8 +1,8 @@
 import { HttpResponse, http } from 'msw';
 
-import type { CrewListResponseProps } from '@/shared/api/crew';
+import type { CrewListResponseProps } from '@/entities/crew/api';
 import type { HashTag, Mbti } from '@/shared/api/model';
-import type { CrewMemberItem, CrewMembersResponseProps } from '@/shared/api/crew/manage/members';
+import type { CrewMemberItem, CrewMembersResponseProps } from '@/entities/crew/api/manage/members';
 
 const BASE = 'http://localhost/api/bff';
 

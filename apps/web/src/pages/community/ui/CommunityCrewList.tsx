@@ -1,6 +1,6 @@
 'use client';
 
-import type { CrewListResponseProps } from '@/shared/api/crew/crewListGetFetch';
+import type { CrewListResponseProps } from '@/entities/crew/api/crewListGetFetch';
 import { cn } from '@/shared/lib';
 import { usePageMove } from '@/shared/lib/hooks';
 import { Badge } from '@/shared/ui/Badge';

@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 
 import type { HashTag, Mbti } from '@/shared/api/model';
-import type { CrewListResponseProps } from '@/shared/api/crew/crewListGetFetch';
+import type { CrewListResponseProps } from '@/entities/crew/api/crewListGetFetch';
 
 import CommunityCrewList from '@/pages/community/ui/CommunityCrewList';
 

@@ -1,7 +1,7 @@
 import type { CrewRole } from '@/shared/types';
 
-import { apiFetch } from '../../common';
-import type { Mbti, ResponseModel } from '../../model';
+import { apiFetch } from '@/shared/api/common';
+import type { Mbti, ResponseModel } from '@/shared/api/model';
 
 export interface CrewAnnounceDetailGetFetchParams {
   crewId: number;

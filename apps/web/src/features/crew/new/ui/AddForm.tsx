@@ -11,8 +11,8 @@ import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { crewQueries } from '@/entities/crew';
-import { addCrewPostFetch } from '@/shared/api/crew/new/addCrewPostFetch';
-import { crewCheckGetFetch } from '@/shared/api/crew/new/crewCheckGetFetch';
+import { addCrewPostFetch } from '@/entities/crew/api/new/addCrewPostFetch';
+import { crewCheckGetFetch } from '@/entities/crew/api/new/crewCheckGetFetch';
 import { ACCORDION_HASH_TAG_LIST } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';

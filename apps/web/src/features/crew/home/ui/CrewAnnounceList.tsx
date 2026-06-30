@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { Star } from 'lucide-react';
 
-import type { CrewHomeInfoResponseProps } from '@/shared/api/crew/home/crewHomeInfoGetFetch';
+import type { CrewHomeInfoResponseProps } from '@/entities/crew/api/home/crewHomeInfoGetFetch';
 import { getRoleText } from '@/shared/lib';
 import { cn } from '@/shared/lib/utils';
 import type { CrewRole } from '@/shared/types';

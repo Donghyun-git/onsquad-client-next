@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 
-import type { CrewMemberItem } from '@/shared/api/crew/manage/members';
+import type { CrewMemberItem } from '@/entities/crew/api/manage/members';
 
 import CrewMemberCard from '@/features/crew/manage/members/ui/CrewMemberCard';
 

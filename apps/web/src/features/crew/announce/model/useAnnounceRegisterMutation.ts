@@ -1,6 +1,6 @@
 import { crewQueries } from '@/entities/crew';
 
-import { type CrewAnnouncePostFetchParams, crewAnnouncePostFetch } from '@/shared/api/crew';
+import { type CrewAnnouncePostFetchParams, crewAnnouncePostFetch } from '@/entities/crew/api';
 import { useApiMutation } from '@/shared/lib/queries';
 
 /**

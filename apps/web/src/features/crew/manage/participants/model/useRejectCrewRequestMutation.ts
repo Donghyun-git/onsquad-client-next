@@ -1,6 +1,6 @@
 import { crewQueries } from '@/entities/crew';
 
-import { crewRequestRejectFetch } from '@/shared/api/crew/manage/participants/crewRequestRejectFetch';
+import { crewRequestRejectFetch } from '@/entities/crew/api/manage/participants/crewRequestRejectFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 /**

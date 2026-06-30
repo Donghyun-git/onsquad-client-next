@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { crewQueries } from '@/entities/crew/api/crew.queries';
 
-vi.mock('@/shared/api/crew', () => ({
+vi.mock('@/entities/crew/api', () => ({
   crewListGetFetch: vi.fn(),
   crewDetailGetFetch: vi.fn(),
   crewHomeInfoGetFetch: vi.fn(),
@@ -10,15 +10,15 @@ vi.mock('@/shared/api/crew', () => ({
   crewAnnounceDetailGetFetch: vi.fn(),
 }));
 
-vi.mock('@/shared/api/crew/manage/crewManageGetFetch', () => ({
+vi.mock('@/entities/crew/api/manage/crewManageGetFetch', () => ({
   crewManageGetFetch: vi.fn(),
 }));
 
-vi.mock('@/shared/api/crew/manage/participants/crewParticipantsGetFetch', () => ({
+vi.mock('@/entities/crew/api/manage/participants/crewParticipantsGetFetch', () => ({
   crewParticipantsGetFetch: vi.fn(),
 }));
 
-vi.mock('@/shared/api/crew/manage/members', () => ({
+vi.mock('@/entities/crew/api/manage/members', () => ({
   crewMembersGetFetch: vi.fn(),
 }));
 

@@ -1,5 +1,5 @@
-import { apiFetch } from '../common';
-import type { HashTag, Mbti, ResponseModel } from '../model';
+import { apiFetch } from '@/shared/api/common';
+import type { HashTag, Mbti, ResponseModel } from '@/shared/api/model';
 
 export interface CrewListGetFetchParams {
   size?: number;

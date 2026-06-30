@@ -1,6 +1,6 @@
 'use client';
 
-import type { CrewMemberItem } from '@/shared/api/crew/manage/members';
+import type { CrewMemberItem } from '@/entities/crew/api/manage/members';
 import { Avatar } from '@/shared/ui/Avatar';
 import { BottomSheet } from '@/shared/ui/BottomSheet';
 import { Text } from '@/shared/ui/Text';
