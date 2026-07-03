@@ -4,7 +4,7 @@ import { memberQueries } from '@/entities/member';
 import {
   type CancelRequestDeleteFetchParams,
   cancelRequestDeleteFetch,
-} from '@/shared/api/crew/detail/cancelRequestDeleteFetch';
+} from '@/entities/crew/api/detail/cancelRequestDeleteFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 export const useCancelRequestMutation = ({ crewId }: { crewId: number }) => {

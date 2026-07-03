@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { getNotificationToastTitle } from '@/entities/notification/lib/getNotificationToastTitle';
-import type { NotificationMessage } from '@/shared/types/notification.types';
+import type { NotificationMessage } from '@/entities/notification';
 
 const makeNotification = (payload?: NotificationMessage['payload']): NotificationMessage => ({
   topic: 'USER',

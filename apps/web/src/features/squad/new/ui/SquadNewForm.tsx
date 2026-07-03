@@ -14,7 +14,7 @@ import { AddressSearch } from '@/shared/ui/AddressSearch';
 import { crewQueries } from '@/entities/crew';
 import { SQUAD_CATEGORIES } from '@/entities/squad';
 
-import { squadCreatePostFetch } from '@/shared/api/squad';
+import { squadCreatePostFetch } from '@/entities/squad/api';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { closeWithAnimation } from '@/shared/lib/overlay';
@@ -44,7 +44,6 @@ const SquadNewForm = () => {
   const [displaySpinner, setDisplaySpinner] = useState(false);
 
   const { mutateAsync: createSquad } = useApiMutation({
-    mutationKey: ['@create-squad'],
     fetcher: squadCreatePostFetch,
     invalidateKey: crewQueries.root(),
   });

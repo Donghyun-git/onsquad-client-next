@@ -6,11 +6,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
-import { formatNotificationDate, notificationQueries } from '@/entities/notification';
+import { formatNotificationDate, notificationQueries, useReadNotificationMutation } from '@/entities/notification';
 
 import { Text } from '@/shared/ui/Text';
-
-import { useReadNotificationMutation } from '../model/useReadNotificationMutation';
 
 const NotificationTab = () => {
   const { ref, inView } = useInView();

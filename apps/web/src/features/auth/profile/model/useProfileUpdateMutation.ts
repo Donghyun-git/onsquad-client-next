@@ -1,4 +1,4 @@
-import { type UserProfilePutFetchParams, userProfilePutFetch } from '@/shared/api/user/userProfilePutFetch';
+import { type UserProfilePutFetchParams, userProfilePutFetch } from '@/entities/auth/api/userProfilePutFetch';
 import { useApiMutation } from '@/shared/lib/queries';
 
 export const useProfileUpdateMutation = () => {

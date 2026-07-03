@@ -17,5 +17,5 @@ export const SquadDetailAppbar = ({ squadId }: SquadDetailAppbarProps) => {
 
   const squadAppbarTitle = squadDetail?.data?.title;
 
-  return <Appbar isMenuHeader={false} title={squadAppbarTitle} />;
+  return <Appbar title={squadAppbarTitle} />;
 };

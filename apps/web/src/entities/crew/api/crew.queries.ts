@@ -11,16 +11,16 @@ import {
   crewDetailGetFetch,
   crewHomeInfoGetFetch,
   crewListGetFetch,
-} from '@/shared/api/crew';
-import { CrewManageGetFetchParams, crewManageGetFetch } from '@/shared/api/crew/manage/crewManageGetFetch';
+} from '@/entities/crew/api';
+import { CrewManageGetFetchParams, crewManageGetFetch } from '@/entities/crew/api/manage/crewManageGetFetch';
 import {
   CrewParticipantsGetFetchParams,
   crewParticipantsGetFetch,
-} from '@/shared/api/crew/manage/participants/crewParticipantsGetFetch';
+} from '@/entities/crew/api/manage/participants/crewParticipantsGetFetch';
 import {
   CrewMembersGetFetchParams,
   crewMembersGetFetch,
-} from '@/shared/api/crew/manage/members';
+} from '@/entities/crew/api/manage/members';
 import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 export const crewQueries = {

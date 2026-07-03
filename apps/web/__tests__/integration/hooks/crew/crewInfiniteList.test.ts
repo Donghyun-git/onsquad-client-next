@@ -4,7 +4,7 @@ import { HttpResponse, http } from 'msw';
 import { describe, expect, it } from 'vitest';
 
 import { crewQueries } from '@/entities/crew';
-import type { CrewListResponseProps } from '@/shared/api/crew';
+import type { CrewListResponseProps } from '@/entities/crew/api';
 
 import { mockCrewListResult } from '../../../setup/msw/handlers/crew.handlers';
 import { server } from '../../../setup/msw/server';

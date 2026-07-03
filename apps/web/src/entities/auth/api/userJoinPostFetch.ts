@@ -1,0 +1,23 @@
+import { apiFetch } from '@/shared/api/common';
+import { ResponseModel } from '@/shared/api/model';
+
+export interface UserJoinPostFetchParams {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  nickname: string;
+  address: string;
+  addressDetail?: string;
+}
+
+export interface UserJoinPostResponseProps extends ResponseModel {
+  data: {
+    token: string;
+  };
+}
+
+/**
+ * 회원가입
+ */
+export const userJoinPostFetch = (params: UserJoinPostFetchParams) =>
+  apiFetch.post<UserJoinPostResponseProps>('/members', params);

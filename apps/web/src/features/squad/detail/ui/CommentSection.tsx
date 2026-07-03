@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { squadQueries } from '@/entities/squad/api/squad.queries';
-import { squadCommentCreateFetch } from '@/shared/api/squad';
+import { squadCommentCreateFetch } from '@/entities/squad/api';
 import { useApiMutation } from '@/shared/lib/queries';
 
 import { CommentInput } from './CommentInput';
@@ -18,7 +18,6 @@ export const CommentSection = ({ squadId }: CommentSectionProps) => {
   const comments = data?.data.results ?? [];
 
   const createMutation = useApiMutation({
-    mutationKey: ['@squad-comment-create'],
     fetcher: squadCommentCreateFetch,
     invalidateKey: [...squadQueries.root(), 'comments', squadId],
   });

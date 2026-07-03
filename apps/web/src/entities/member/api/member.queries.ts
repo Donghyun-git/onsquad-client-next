@@ -5,7 +5,7 @@ import {
   myHistoriesGetFetch,
   mySquadParticipantsGetFetch,
   mySquadRequestsGetFetch,
-} from '@/shared/api/member';
+} from '@/entities/member/api';
 import { makeQueryOptions } from '@/shared/lib/queries/makeQueryOptions';
 
 export const memberQueries = {

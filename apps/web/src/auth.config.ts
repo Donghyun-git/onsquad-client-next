@@ -1,8 +1,8 @@
 import { CredentialsSignin, type NextAuthConfig, type User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-import { userInfoGetFetch } from '@/shared/api/user/userInfoGetFetch';
-import { userLoginPostFetch } from '@/shared/api/user/userLoginPostFetch';
+import { userInfoGetFetch } from '@/entities/auth/api/userInfoGetFetch';
+import { userLoginPostFetch } from '@/entities/auth/api/userLoginPostFetch';
 
 class InvalidLoginError extends CredentialsSignin {
   code: string;

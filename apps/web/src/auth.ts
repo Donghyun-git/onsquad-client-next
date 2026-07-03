@@ -7,7 +7,7 @@ import { PATH } from '@/shared/config/paths';
 
 import authConfig from './auth.config';
 import { tokenRefreshGetFetch } from './shared/api/auth/tokenRefreshGetFetch';
-import { userInfoGetFetch } from './shared/api/user/userInfoGetFetch';
+import { userInfoGetFetch } from './entities/auth/api/userInfoGetFetch';
 import type { Mbti } from './shared/config';
 
 /**

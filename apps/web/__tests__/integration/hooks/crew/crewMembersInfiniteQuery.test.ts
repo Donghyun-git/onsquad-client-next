@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { crewQueries } from '@/entities/crew';
 import { useDelegateCrewOwnerMutation } from '@/features/crew/manage/members/model/useDelegateCrewOwnerMutation';
 import { useKickCrewMemberMutation } from '@/features/crew/manage/members/model/useKickCrewMemberMutation';
-import type { CrewMembersResponseProps } from '@/shared/api/crew/manage/members';
+import type { CrewMembersResponseProps } from '@/entities/crew/api/manage/members';
 
 import { mockCrewMemberItem } from '../../../setup/msw/handlers/crew.handlers';
 import { server } from '../../../setup/msw/server';

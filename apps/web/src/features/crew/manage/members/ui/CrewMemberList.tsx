@@ -5,7 +5,7 @@ import { overlay } from 'overlay-kit';
 
 import { crewQueries } from '@/entities/crew';
 
-import type { CrewMemberItem } from '@/shared/api/crew/manage/members';
+import type { CrewMemberItem } from '@/entities/crew/api/manage/members';
 import { OVERLAY_ANIMATION_DURATION } from '@/shared/config';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { Alert } from '@/shared/ui/Alert';

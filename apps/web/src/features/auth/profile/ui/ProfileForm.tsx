@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { nicknameCheckGetFetch } from '@/shared/api/user/nicknameCheckGetFetch';
+import { nicknameCheckGetFetch } from '@/entities/auth/api/nicknameCheckGetFetch';
 import { MBTI_SELECT_OPTIONS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { useToast, useUser } from '@/shared/lib/hooks';
@@ -75,7 +75,6 @@ const ProfileForm = () => {
   const { mutateAsync: updateProfileMutate, isPending: isUpdateProfilePending } = useProfileUpdateMutation();
 
   const { mutateAsync: nicknameCheck } = useApiMutation({
-    mutationKey: ['@nickname-check'],
     fetcher: nicknameCheckGetFetch,
     options: {
       onSuccess: (data) => {

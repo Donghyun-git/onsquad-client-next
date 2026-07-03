@@ -7,7 +7,7 @@ import { overlay } from 'overlay-kit';
 
 import { squadQueries } from '@/entities/squad';
 import type { SquadParticipantItem } from '@/entities/squad';
-import { squadDeleteFetch, squadDelegateLeaderFetch, squadKickFetch } from '@/shared/api/squad';
+import { squadDeleteFetch, squadDelegateLeaderFetch, squadKickFetch } from '@/entities/squad/api';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { OVERLAY_ANIMATION_DURATION } from '@/shared/config';
 import { useApiMutation } from '@/shared/lib/queries';
@@ -33,19 +33,16 @@ const SquadMembers = ({ squadId }: SquadMembersProps) => {
   const members = membersData?.data.results ?? [];
 
   const deleteMutation = useApiMutation({
-    mutationKey: ['@squad-delete'],
     fetcher: squadDeleteFetch,
     invalidateKey: squadQueries.root(),
   });
 
   const kickMutation = useApiMutation({
-    mutationKey: ['@squad-kick'],
     fetcher: squadKickFetch,
     invalidateKey: squadQueries.root(),
   });
 
   const delegateMutation = useApiMutation({
-    mutationKey: ['@squad-delegate-leader'],
     fetcher: squadDelegateLeaderFetch,
     invalidateKey: squadQueries.root(),
   });

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import { publicApiFetch } from '@/shared/api/common';
-import type { CrewDetailResponseProps } from '@/shared/api/crew/crewDetailGetFetch';
+import type { CrewDetailResponseProps } from '@/entities/crew/api/crewDetailGetFetch';
 
 const FALLBACK_CREW: Metadata = { title: '크루 | OnSquad' };
 

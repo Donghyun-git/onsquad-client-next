@@ -15,5 +15,5 @@ export const CrewDetailAppbar = ({ crewId }: CrewDetailAppbarProps) => {
     ...crewQueries.detail({ crewId }),
   });
 
-  return <Appbar isMenuHeader={false} title={crewDetail?.data?.name} />;
+  return <Appbar title={crewDetail?.data?.name} />;
 };

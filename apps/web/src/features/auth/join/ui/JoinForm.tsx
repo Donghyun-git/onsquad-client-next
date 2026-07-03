@@ -8,11 +8,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CircleCheck, CircleX, Loader2 } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { authCodeCheckGetFetch } from '@/shared/api/user/authCodeCheckGetFetch';
-import { nicknameCheckGetFetch } from '@/shared/api/user/nicknameCheckGetFetch';
-import { sendEmailAuthCodePostFetch } from '@/shared/api/user/sendEmailAuthCodePostFetch';
-import { userEmailCheckGetFetch } from '@/shared/api/user/userEmailCheckGetFetch';
-import { userJoinPostFetch } from '@/shared/api/user/userJoinPostFetch';
+import { authCodeCheckGetFetch } from '@/entities/auth/api/authCodeCheckGetFetch';
+import { nicknameCheckGetFetch } from '@/entities/auth/api/nicknameCheckGetFetch';
+import { sendEmailAuthCodePostFetch } from '@/entities/auth/api/sendEmailAuthCodePostFetch';
+import { userEmailCheckGetFetch } from '@/entities/auth/api/userEmailCheckGetFetch';
+import { userJoinPostFetch } from '@/entities/auth/api/userJoinPostFetch';
 import { PATH } from '@/shared/config/paths';
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib/hooks/useToast';
@@ -57,7 +57,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: nicknameCheck } = useApiMutation({
-    mutationKey: ['@nickname-check'],
     fetcher: nicknameCheckGetFetch,
     options: {
       onSuccess: (data) => {
@@ -81,7 +80,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: emailCheck } = useApiMutation({
-    mutationKey: ['@email-check'],
     fetcher: userEmailCheckGetFetch,
     options: {
       onSuccess: (data) => {
@@ -105,7 +103,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: sendEmailAuthCode } = useApiMutation({
-    mutationKey: ['@send-email-auth-code'],
     fetcher: sendEmailAuthCodePostFetch,
     options: {
       onSuccess: (data) => {
@@ -129,7 +126,6 @@ const JoinForm = () => {
   });
 
   const { mutateAsync: authCodeCheck } = useApiMutation({
-    mutationKey: ['@auth-code-check'],
     fetcher: authCodeCheckGetFetch,
     options: {
       onSuccess: (data) => {

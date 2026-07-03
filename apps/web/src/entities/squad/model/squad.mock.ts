@@ -1,10 +1,4 @@
-import type {
-  Squad,
-  SquadApplication,
-  SquadComment,
-  SquadMember,
-  SquadNotice,
-} from '../types/squad.types';
+import type { Squad, SquadNotice } from '../types/squad.types';
 
 export const MOCK_SQUAD: Squad = {
   id: '1',
@@ -53,72 +47,6 @@ export const MOCK_SQUAD_NOTICES: SquadNotice[] = [
     authorRole: '크루장',
     createdAt: '2023-01-22',
   },
-];
-
-export const MOCK_SQUAD_MEMBERS: SquadMember[] = [
-  {
-    id: '1',
-    nickname: '브레멘',
-    role: '크루장',
-    introduce: '안녕하세요. 빵빵',
-  },
-  {
-    id: '2',
-    nickname: '브레멘',
-    role: '일반',
-    introduce: '안녕하세요. 빵빵',
-  },
-  {
-    id: '3',
-    nickname: '브레멘',
-    role: '일반',
-    introduce: '안녕하세요. 빵빵',
-  },
-  {
-    id: '4',
-    nickname: '스쿼드원으로스쿼드원보는사람(본인)',
-    role: '일반',
-    introduce: '안녕하세요. 빵빵',
-  },
-];
-
-export const MOCK_SQUAD_APPLICATIONS: SquadApplication[] = [
-  {
-    id: '1',
-    squadId: '1',
-    squadTitle: '고정 겜팟 구해요 선착순',
-    crewName: '공격적인 음악회 크루',
-    category: '게임',
-    maxMembers: 8,
-    currentMembers: 7,
-    authorNickname: 'dsadsssdaaaadsa32142',
-    status: 'pending',
-  },
-  {
-    id: '2',
-    squadId: '2',
-    squadTitle: '고정 겜팟 구해요 선착순',
-    crewName: '공격적인 음악회 크루',
-    category: '게임',
-    maxMembers: 8,
-    currentMembers: 7,
-    authorNickname: 'dsadsssdaaaadsa32142',
-    status: 'pending',
-  },
-];
-
-export const MOCK_SQUAD_COMMENTS: SquadComment[] = [
-  { id: '1', authorNickname: '브레멘', content: '저요제발저요제발', createdAt: '2023-01-22' },
-  { id: '2', authorNickname: '브레멘', content: '저요제발\n저요제발', createdAt: '2023-01-22' },
-  { id: '3', authorNickname: '브레멘', content: '저요제발저요제발', createdAt: '2023-01-22' },
-  {
-    id: '4',
-    authorNickname: '브레멘',
-    content:
-      '저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발저요제발',
-    createdAt: '2023-01-22',
-  },
-  { id: '5', authorNickname: '브레멘', content: '저요제발저요제발', createdAt: '2023-01-22' },
 ];
 
 export const SQUAD_CATEGORIES: { group: string; items: string[] }[] = [

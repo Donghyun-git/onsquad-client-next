@@ -1,6 +1,6 @@
 import { memberQueries } from '@/entities/member';
 
-import { squadRequestCancelFetch } from '@/shared/api/squad/request/squadRequestCancelFetch';
+import { squadRequestCancelFetch } from '@/entities/squad/api/request/squadRequestCancelFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 /**

@@ -9,7 +9,7 @@ import {
   squadCommentUpdateFetch,
   squadCommentDeleteFetch,
   squadReplyCreateFetch,
-} from '@/shared/api/squad';
+} from '@/entities/squad/api';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { OVERLAY_ANIMATION_DURATION } from '@/shared/config';
 import { useApiMutation } from '@/shared/lib/queries';
@@ -37,19 +37,16 @@ export const CommentItem = ({ squadId, comment, isReply = false }: CommentItemPr
   const invalidateKey = [...squadQueries.root(), 'comments', squadId];
 
   const updateMutation = useApiMutation({
-    mutationKey: ['@squad-comment-update'],
     fetcher: squadCommentUpdateFetch,
     invalidateKey,
   });
 
   const deleteMutation = useApiMutation({
-    mutationKey: ['@squad-comment-delete'],
     fetcher: squadCommentDeleteFetch,
     invalidateKey,
   });
 
   const replyMutation = useApiMutation({
-    mutationKey: ['@squad-reply-create'],
     fetcher: squadReplyCreateFetch,
     invalidateKey,
   });

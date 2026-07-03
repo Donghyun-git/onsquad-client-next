@@ -1,6 +1,6 @@
 import { crewQueries } from '@/entities/crew';
 
-import { crewMemberDelegateOwnerFetch } from '@/shared/api/crew/manage/members';
+import { crewMemberDelegateOwnerFetch } from '@/entities/crew/api/manage/members';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 /**

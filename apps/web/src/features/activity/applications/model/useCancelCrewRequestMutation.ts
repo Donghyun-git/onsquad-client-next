@@ -1,7 +1,7 @@
 import { crewQueries } from '@/entities/crew';
 import { memberQueries } from '@/entities/member';
 
-import { cancelRequestDeleteFetch } from '@/shared/api/crew/detail/cancelRequestDeleteFetch';
+import { cancelRequestDeleteFetch } from '@/entities/crew/api/detail/cancelRequestDeleteFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 /**

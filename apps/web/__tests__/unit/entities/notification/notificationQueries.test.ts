@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { notificationQueries } from '@/entities/notification/api/notification.queries';
 
-vi.mock('@/shared/api/notification', () => ({
+vi.mock('@/entities/notification/api/notificationListGetFetch', () => ({
   notificationListGetFetch: vi.fn(),
 }));
 

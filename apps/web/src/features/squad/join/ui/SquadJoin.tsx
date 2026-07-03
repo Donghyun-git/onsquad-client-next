@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { overlay } from 'overlay-kit';
 
 import { memberQueries, type MySquadRequestItem } from '@/entities/member';
-import { squadRequestCancelFetch } from '@/shared/api/squad';
+import { squadRequestCancelFetch } from '@/entities/squad/api';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { useApiMutation } from '@/shared/lib/queries';
 import { Alert } from '@/shared/ui/Alert';
@@ -27,7 +27,6 @@ const SquadJoin = () => {
   const requests = data?.data.results ?? [];
 
   const cancelMutation = useApiMutation({
-    mutationKey: ['@squad-request-cancel'],
     fetcher: squadRequestCancelFetch,
     invalidateKey: memberQueries.root(),
   });

@@ -1,6 +1,6 @@
 'use client';
 
-import type { CrewHomeInfoResponseProps } from '@/shared/api/crew/home/crewHomeInfoGetFetch';
+import type { CrewHomeInfoResponseProps } from '@/entities/crew/api/home/crewHomeInfoGetFetch';
 import { Slider } from '@/shared/ui/Slider';
 
 import { CrewAnnounceList } from './CrewAnnounceList';

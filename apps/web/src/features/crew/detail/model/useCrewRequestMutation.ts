@@ -1,7 +1,7 @@
 import { crewQueries } from '@/entities/crew';
 import { memberQueries } from '@/entities/member';
 
-import { type CrewRequestPostFetchParams, crewRequestPostFetch } from '@/shared/api/crew/detail/crewRequestPostFetch';
+import { type CrewRequestPostFetchParams, crewRequestPostFetch } from '@/entities/crew/api/detail/crewRequestPostFetch';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 
 export const useCrewRequestMutation = ({ crewId }: { crewId: number }) => {
