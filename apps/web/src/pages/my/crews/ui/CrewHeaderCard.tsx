@@ -1,9 +1,10 @@
 'use client';
 
-import { ChevronRight, Zap } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
 import { Text } from '@/shared/ui/Text';
+import { ZapBadge } from '@/shared/ui/ZapBadge';
 
 interface CrewHeaderCardProps {
   name: string;
@@ -33,14 +34,7 @@ const CrewHeaderCard = ({ name, imageUrl, ownerNickname, isOwner }: CrewHeaderCa
             height={24}
             className="h-full w-full rounded-full object-cover"
           />
-          {isOwner && (
-            <span
-              aria-label="내 크루"
-              className="absolute -left-s-10 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary500"
-            >
-              <Zap className="h-3 w-3 fill-white text-white" />
-            </span>
-          )}
+          {isOwner && <ZapBadge aria-label="내 크루" className="absolute -left-s-10 top-0.5" />}
         </div>
         <Text.xxs className="font-semibold text-grayscale900">{ownerNickname} 크루장</Text.xxs>
       </div>

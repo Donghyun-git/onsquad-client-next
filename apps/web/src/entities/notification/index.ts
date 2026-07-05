@@ -3,3 +3,4 @@ export * from './lib/getNotificationToastTitle';
 export * from './lib/formatNotificationDate';
 export * from './api/notification.queries';
 export * from './api/useReadNotificationMutation';
+export * from './api/useReadAllNotificationMutation';

@@ -2,7 +2,7 @@ import { MoreVertical } from 'lucide-react';
 
 import type { NotificationListItem } from '@/entities/notification';
 
-import { cn } from '@/shared/lib/utils';
+import { ZapBadge } from '@/shared/ui/ZapBadge';
 
 interface NotificationCardProps {
   item: NotificationListItem;
@@ -16,12 +16,8 @@ const NotificationCard = ({ item, onRead, isReading }: NotificationCardProps) =>
   const message = item.payload?.message ?? '';
 
   return (
-    <div
-      className={cn(
-        'flex w-full items-center justify-between rounded-xl p-s-30',
-        item.read ? 'bg-white' : 'bg-primary50',
-      )}
-    >
+    <div className="flex w-full items-center gap-s-20 rounded-xl bg-white p-s-30">
+      {!item.read && <ZapBadge aria-label="안읽음" className="shrink-0" />}
       <button
         type="button"
         onClick={onRead}

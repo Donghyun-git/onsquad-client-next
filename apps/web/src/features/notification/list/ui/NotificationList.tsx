@@ -6,7 +6,12 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
-import { formatNotificationDate, notificationQueries, useReadNotificationMutation } from '@/entities/notification';
+import {
+  formatNotificationDate,
+  notificationQueries,
+  useReadAllNotificationMutation,
+  useReadNotificationMutation,
+} from '@/entities/notification';
 import type { NotificationListItem } from '@/entities/notification';
 import NotificationCard from './NotificationCard';
 
@@ -36,9 +41,11 @@ const NotificationList = () => {
   });
 
   const readNotification = useReadNotificationMutation();
+  const readAllNotification = useReadAllNotificationMutation();
 
   const list = data?.pages.flatMap((page) => page.data.results) ?? [];
   const grouped = groupByDate(list);
+  const hasUnread = list.some((item) => !item.read);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -63,28 +70,41 @@ const NotificationList = () => {
   }
 
   return (
-    <div className="gap-s-20 flex flex-col">
-      {grouped.map(([date, items]) => (
-        <div key={date} className="gap-s-20 flex flex-col">
-          <div className="pb-s-20 flex items-center">
-            <h2 className="text-500 leading-130 font-bold tracking-[-0.4px] text-grayscale900">{date}</h2>
-          </div>
-          {items.map((item) => (
-            <NotificationCard
-              key={item.id}
-              item={item}
-              onRead={() => readNotification.mutate(item.id)}
-              isReading={readNotification.isPending}
-            />
-          ))}
-        </div>
-      ))}
+    <div className="flex flex-col">
+      <div className="pb-s-20 flex justify-end">
+        <button
+          type="button"
+          onClick={() => readAllNotification.mutate()}
+          disabled={!hasUnread || readAllNotification.isPending}
+          className="text-200 font-medium leading-130 text-primary500 disabled:text-grayscale400"
+        >
+          모두 읽음
+        </button>
+      </div>
 
-      {hasNextPage && (
-        <div ref={ref} className="flex justify-center py-4">
-          <Loader2 className="h-6 w-6 animate-spin text-primary500" />
-        </div>
-      )}
+      <div className="gap-s-60 flex flex-col">
+        {grouped.map(([date, items]) => (
+          <div key={date} className="gap-s-20 flex flex-col">
+            <div className="flex items-center">
+              <h2 className="text-500 leading-130 font-bold tracking-[-0.4px] text-grayscale900">{date}</h2>
+            </div>
+            {items.map((item) => (
+              <NotificationCard
+                key={item.id}
+                item={item}
+                onRead={() => readNotification.mutate(item.id)}
+                isReading={readNotification.isPending}
+              />
+            ))}
+          </div>
+        ))}
+
+        {hasNextPage && (
+          <div ref={ref} className="flex justify-center py-4">
+            <Loader2 className="h-6 w-6 animate-spin text-primary500" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
