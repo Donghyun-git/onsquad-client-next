@@ -7,4 +7,5 @@ export * from './userInfoGetFetch';
 export * from './userJoinPostFetch';
 export * from './userLoginPostFetch';
 export * from './userProfilePutFetch';
+export * from './userProfileImagePatchFetch';
 export * from './userSocialLoginGetFetch';

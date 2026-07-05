@@ -52,6 +52,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return await refreshAccessToken(token);
       }
 
+      // 프로필(정보/이미지) 수정 후 세션 갱신 트리거: 토큰 유효성과 무관하게 최신 회원정보를
+      // 다시 받아 세션에 병합한다. (update({ type: 'user-update' }) 로 1회 호출)
+      if (trigger === 'update' && (session as { type?: string } | null)?.type === 'user-update') {
+        const userInfoResponse = await userInfoGetFetch({ accessToken: token.accessToken });
+
+        return { ...token, ...userInfoResponse.data.data };
+      }
+
       const isValid = !!(token.accessTokenExpires && dayjs().isBefore(dayjs.unix(token.accessTokenExpires)));
 
       if (isValid) {

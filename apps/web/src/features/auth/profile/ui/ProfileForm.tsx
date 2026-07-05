@@ -30,6 +30,7 @@ import { Textarea } from '@/shared/ui/Textarea';
 import { getUpdateProfileCleansingData } from '../lib/getUpdateProfileCleansingData';
 import { profileSchema } from '../model/profileSchema';
 import { useProfileUpdateMutation } from '../model/useProfileUpdateMutation';
+import { useUpdateProfileImageMutation } from '../model/useUpdateProfileImageMutation';
 
 /**
  * 프로필 페이지
@@ -73,6 +74,7 @@ const ProfileForm = () => {
   } = method;
 
   const { mutateAsync: updateProfileMutate, isPending: isUpdateProfilePending } = useProfileUpdateMutation();
+  const { mutateAsync: updateProfileImage, isPending: isUpdateImagePending } = useUpdateProfileImageMutation();
 
   const { mutateAsync: nicknameCheck } = useApiMutation({
     fetcher: nicknameCheckGetFetch,
@@ -118,7 +120,14 @@ const ProfileForm = () => {
 
       await updateProfileMutate(getUpdateProfileCleansingData(formValues));
 
-      await update({ trigger: 'update' });
+      const profileImage = getValues('profileImage');
+
+      if (profileImage instanceof File) {
+        await updateProfileImage(profileImage);
+      }
+
+      // 정보/이미지 수정 후 세션의 회원정보를 최신화한다(토큰 유효성 무관하게 userInfoGetFetch 재호출).
+      await update({ type: 'user-update' });
 
       toast({
         title: '프로필이 수정되었어요!',
@@ -181,7 +190,7 @@ const ProfileForm = () => {
         <div className="mb-12 flex w-full items-center justify-center gap-2">
           <div className="relative flex h-24 w-24 items-center justify-center rounded-3xl border border-[#f8f8f8]">
             <div
-              className={cn(`h-full w-full cursor-pointer overflow-hidden rounded-3xl object-cover`)}
+              className={cn(`relative h-full w-full cursor-pointer overflow-hidden rounded-3xl object-cover`)}
               onClick={() => {
                 fileRef.current?.click();
               }}
@@ -263,8 +272,8 @@ const ProfileForm = () => {
           <Input name="addressDetail" type="text" />
         </div>
         <div className="mt-36 h-full pb-12">
-          <Button className="w-full" onClick={handleSubmit} isLoading={isUpdateProfilePending}>
-            {isUpdateProfilePending ? (
+          <Button className="w-full" onClick={handleSubmit} isLoading={isUpdateProfilePending || isUpdateImagePending}>
+            {isUpdateProfilePending || isUpdateImagePending ? (
               <div className="flex items-center justify-center gap-1">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 프로필을 수정하고 있어요
