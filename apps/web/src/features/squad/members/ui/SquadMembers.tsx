@@ -181,9 +181,14 @@ const SquadMembers = ({ squadId }: SquadMembersProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 bg-grayscale50 px-4 py-6 min-h-screen">
+    <div className="flex flex-col gap-4">
       {/* 스쿼드 정보 카드 (상단 요약) */}
-      <div className="overflow-hidden rounded-lg border-t-2 border-primary700 bg-white">
+      <div className="relative overflow-hidden rounded-lg bg-white">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[2px]"
+          style={{ background: 'linear-gradient(to right, #BF5000, transparent)' }}
+        />
         <div className="flex flex-col gap-1 p-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
@@ -219,6 +224,13 @@ const SquadMembers = ({ squadId }: SquadMembersProps) => {
             </span>
           </div>
         </div>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <h2 className="text-[20px] font-bold leading-[28px] text-black">참여자 목록</h2>
+        <span className="text-300 font-regular leading-130 text-black tracking-[-0.32px]">
+          {membersData?.data.totalCount ?? members.length}/{squad.capacity}
+        </span>
       </div>
 
       {/* 스쿼드원 목록 */}

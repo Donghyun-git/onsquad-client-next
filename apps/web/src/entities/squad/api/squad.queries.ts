@@ -1,6 +1,9 @@
+import { infiniteQueryOptions } from '@tanstack/react-query';
+
 import {
   categoriesGetFetch,
   crewSquadListGetFetch,
+  crewSquadManageListGetFetch,
   squadCommentListGetFetch,
   squadDetailGetFetch,
   squadMemberListGetFetch,
@@ -28,6 +31,20 @@ export const squadQueries = {
     makeQueryOptions([...squadQueries.root(), 'members', squadId, page, size], () =>
       squadMemberListGetFetch({ squadId, page, size }),
     ),
+
+  manageList: ({ crewId, size = 5 }: { crewId: number; size?: number }) =>
+    infiniteQueryOptions({
+      queryKey: [...squadQueries.root(), 'manageList', crewId, size],
+      queryFn: async ({ pageParam }) => {
+        const res = await crewSquadManageListGetFetch({ crewId, size, page: pageParam });
+        return {
+          data: res.data.data,
+          nextPage: res.data.data.resultsSize === size ? pageParam + 1 : undefined,
+        };
+      },
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+      initialPageParam: 0,
+    }),
 
   comments: ({ squadId, page, size }: { squadId: number; page?: number; size?: number }) =>
     makeQueryOptions([...squadQueries.root(), 'comments', squadId, page, size], () =>

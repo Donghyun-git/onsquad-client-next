@@ -2,6 +2,7 @@ export * from './categoriesGetFetch';
 export * from './squadCreatePostFetch';
 export * from './squadDetailGetFetch';
 export * from './crewSquadListGetFetch';
+export * from './crewSquadManageListGetFetch';
 export * from './squadDeleteFetch';
 export * from './request/squadRequestPostFetch';
 export * from './request/squadRequestListGetFetch';

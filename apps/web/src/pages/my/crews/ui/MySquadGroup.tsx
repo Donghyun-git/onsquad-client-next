@@ -1,9 +1,7 @@
 'use client';
 
-import Image from 'next/image';
-import { Zap } from 'lucide-react';
-
 import type { MySquadParticipantGroup, MySquadParticipantItem } from '@/entities/member';
+import { SquadCard } from '@/entities/squad';
 import { SQUAD_PATH } from '@/shared/config/paths';
 import { usePageMove } from '@/shared/lib/hooks';
 import { Text } from '@/shared/ui/Text';
@@ -14,60 +12,38 @@ interface MySquadGroupProps {
   group: MySquadParticipantGroup;
 }
 
-const SquadLabel = ({ children }: { children: React.ReactNode }) => (
-  <span className="shrink-0 rounded bg-primary700 px-s-10 text-[0.625rem] font-medium leading-150 text-white">
-    {children}
-  </span>
-);
-
 const MySquadCard = ({ item }: { item: MySquadParticipantItem }) => {
   const { handlePageMove } = usePageMove();
   const { squad, states } = item;
 
   return (
-    <div className="border-t border-grayscale100">
-      <div className="flex flex-col gap-s-10 p-s-20">
-        <div className="flex items-center gap-s-10">
-          {states.isLeader && <Zap className="h-[18px] w-[18px] shrink-0 fill-primary500 text-primary500" />}
-          <Image
-            src="/icons/no_profile.svg"
-            alt=""
-            width={16}
-            height={16}
-            className="h-4 w-4 shrink-0 rounded-full object-cover"
-          />
-          <Text.sm className="text-grayscale800">{squad.leader.nickname} 님의 스쿼드</Text.sm>
-        </div>
-        <Text.sm className="font-medium text-grayscale900">{squad.title}</Text.sm>
-        <div className="flex flex-wrap items-center gap-s-10">
-          {squad.categories.map((c) => (
-            <SquadLabel key={c}>{c}</SquadLabel>
-          ))}
-          <SquadLabel>
-            {squad.capacity - squad.remain}/{squad.capacity} 명
-          </SquadLabel>
-        </div>
-      </div>
-
-      <div className="flex gap-s-10 p-s-10">
-        {squad.kakaoLink && (
-          <button
-            type="button"
-            onClick={() => window.open(squad.kakaoLink, '_blank')}
-            className="flex flex-1 items-center justify-center rounded border border-primary700 p-s-20 text-xs font-medium text-primary700"
-          >
-            오픈채팅
-          </button>
-        )}
+    <SquadCard
+      leaderNickname={squad.leader.nickname}
+      title={squad.title}
+      categories={squad.categories}
+      capacity={squad.capacity}
+      remain={squad.remain}
+      isLeader={states.isLeader}
+      showTopAccent={false}
+      className="rounded-none border-t border-grayscale100"
+    >
+      {squad.kakaoLink && (
         <button
           type="button"
-          onClick={() => handlePageMove(SQUAD_PATH.detail(squad.id))}
-          className="flex flex-1 items-center justify-center rounded bg-primary500 p-s-20 text-xs font-medium text-white"
+          onClick={() => window.open(squad.kakaoLink, '_blank')}
+          className="flex flex-1 items-center justify-center rounded border border-primary700 p-s-20 text-xs font-medium text-primary700"
         >
-          스쿼드 바로가기
+          오픈채팅
         </button>
-      </div>
-    </div>
+      )}
+      <button
+        type="button"
+        onClick={() => handlePageMove(SQUAD_PATH.detail(squad.id))}
+        className="flex flex-1 items-center justify-center rounded bg-primary500 p-s-20 text-xs font-medium text-white"
+      >
+        스쿼드 바로가기
+      </button>
+    </SquadCard>
   );
 };
 

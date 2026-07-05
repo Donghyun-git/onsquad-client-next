@@ -88,6 +88,30 @@ export interface SquadDetailData {
 
 export type SquadListItem = Omit<SquadDetailData, 'states'>;
 
+export interface SquadManageStates {
+  /** 리더 여부 */
+  isLeader: boolean;
+  /** 삭제(파기) 가능 여부 */
+  canDestroy: boolean;
+}
+
+export interface SquadManageListItem {
+  /** 상태 정보 (리더/삭제 권한) */
+  states: SquadManageStates;
+  /** 스쿼드 pk */
+  id: number;
+  /** 스쿼드 제목 */
+  title: string;
+  /** 모집 인원 */
+  capacity: number;
+  /** 남은 자리 */
+  remain: number;
+  /** 모집 카테고리 목록 */
+  categories: string[];
+  /** 스쿼드 리더 정보 */
+  leader: SquadUserInfo;
+}
+
 export interface CreateSquadBody {
   /** 스쿼드 제목 */
   title: string;
