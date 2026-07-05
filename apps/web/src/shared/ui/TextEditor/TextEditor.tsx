@@ -192,10 +192,10 @@ const TextEditor = ({ value = '', onChange, placeholder }: TextEditorProps) => {
         )}
       </div>
 
-      <div className="mt-2 text-xs text-gray-500">
+      <div className="relative mt-2 text-xs text-gray-500">
         <details className="cursor-pointer">
-          <summary className="hover:text-gray-700">마크다운 문법 도움말</summary>
-          <div className="mt-2 space-y-1 pl-4">
+          <summary className="hover:text-gray-700">글쓰기 가이드</summary>
+          <div className="absolute bottom-full left-0 z-20 mb-1 w-full space-y-1 rounded-md border border-gray-200 bg-white p-3 shadow-md">
             <p># 제목 (H1) ~ ###### 제목 (H6)</p>
             <p>**굵게** or __굵게__</p>
             <p>*기울임* or _기울임_</p>
