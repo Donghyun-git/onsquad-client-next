@@ -5,6 +5,7 @@ import { categoryQueries, squadQueries } from '@/entities/squad/api/squad.querie
 vi.mock('@/entities/squad/api', () => ({
   categoriesGetFetch: vi.fn(),
   crewSquadListGetFetch: vi.fn(),
+  crewSquadManageListGetFetch: vi.fn(),
   squadCommentListGetFetch: vi.fn(),
   squadDetailGetFetch: vi.fn(),
   squadMemberListGetFetch: vi.fn(),
@@ -58,6 +59,18 @@ describe('squadQueries', () => {
     it('옵셔널 파라미터 미전달 시 queryKey에 undefined가 포함된다', () => {
       const opts = squadQueries.members({ squadId: 7 });
       expect(opts.queryKey).toEqual(['squad', 'members', 7, undefined, undefined]);
+    });
+  });
+
+  describe('manageList', () => {
+    it('queryKey에 root, manageList, crewId, size가 포함된다', () => {
+      const opts = squadQueries.manageList({ crewId: 3, size: 10 });
+      expect(opts.queryKey).toEqual(['squad', 'manageList', 3, 10]);
+    });
+
+    it('size 미전달 시 기본값 5가 queryKey에 포함된다', () => {
+      const opts = squadQueries.manageList({ crewId: 3 });
+      expect(opts.queryKey).toEqual(['squad', 'manageList', 3, 5]);
     });
   });
 
