@@ -9,3 +9,6 @@ export * from './announce/crewAnnouncePostFetch';
 export * from './announce/crewAnnounceDetailGetFetch';
 export * from './announce/announcePinPatchFetch';
 export * from './announce/crewAnnouncePutFetch';
+export * from './manage/crewUpdatePutFetch';
+export * from './manage/crewImagePatchFetch';
+export * from './manage/crewImageDeleteFetch';

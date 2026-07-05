@@ -39,7 +39,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
     <>
       <div className="flex grow flex-col gap-2">
         {canModify && (
-          <NavButton>
+          <NavButton onClick={() => handlePageMove(`${PATH.crews}/${crewId}/manage/edit`)}>
             <Text.sm>크루정보 수정</Text.sm>
           </NavButton>
         )}
@@ -50,7 +50,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
             <CountLabel count={requestCnt} />
           </div>
         </NavButton>
-        <NavButton>
+        <NavButton onClick={() => handlePageMove(`${PATH.crews}/${crewId}/manage/squads`)}>
           <div className="flex items-center gap-2">
             <Text.sm>스쿼드</Text.sm>
             <CountLabel count={squadCnt} />
