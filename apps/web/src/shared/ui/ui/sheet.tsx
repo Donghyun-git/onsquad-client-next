@@ -23,7 +23,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      'fixed inset-0 z-[101] bg-black/20 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      'pointer-events-auto absolute inset-0 z-[101] bg-black/20 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
     {...props}
@@ -33,7 +33,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  'fixed z-[102] gap-4 bg-background p-6 mb-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 focus-visible:outline-none focus-visible:border-0',
+  'pointer-events-auto absolute z-[102] gap-4 bg-background p-6 mb-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 focus-visible:outline-none focus-visible:border-0',
   {
     variants: {
       side: {
@@ -55,19 +55,28 @@ interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>, VariantProps<typeof sheetVariants> {}
 
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = 'right', className, children, ...props }, ref) => (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content
-        ref={ref}
-        className={cn('z-[101]', sheetVariants({ side }), className)}
-        {...props}
-        onOpenAutoFocus={(e) => e.preventDefault()}
-      >
-        {children}
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  ),
+  ({ side = 'right', className, children, ...props }, ref) => {
+    // 앱 컬럼 폭에 스코프된 포탈 타깃. 없으면(테스트 등) radix 기본값(body)으로 폴백.
+    const [container, setContainer] = React.useState<HTMLElement | null>(null);
+
+    React.useEffect(() => {
+      setContainer(document.getElementById('app-portal-root'));
+    }, []);
+
+    return (
+      <SheetPortal container={container ?? undefined}>
+        <SheetOverlay />
+        <SheetPrimitive.Content
+          ref={ref}
+          className={cn('z-[101]', sheetVariants({ side }), className)}
+          {...props}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+          {children}
+        </SheetPrimitive.Content>
+      </SheetPortal>
+    );
+  },
 );
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useLayoutEffect } from 'react';
+import { ReactNode, useLayoutEffect, useState } from 'react';
 
 import { X } from 'lucide-react';
 
@@ -12,7 +12,6 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
   DrawerTitle,
 } from '@/shared/ui/ui/drawer';
 
@@ -26,10 +25,15 @@ export interface BottomSheetPropsType {
 const BottomSheet = (props: BottomSheetPropsType) => {
   const { isOpen, onClose, children, title } = props;
 
+  // 바텀시트를 앱 컬럼 폭에 스코프시키기 위한 포탈 타깃(사이드바와 동일). 없으면 vaul 기본값(body)으로 폴백.
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
+
   useLayoutEffect(() => {
     const body = document.querySelector('body') as HTMLBodyElement;
 
     body.style.setProperty('position', 'relative');
+
+    setPortalContainer(document.getElementById('app-portal-root'));
 
     return () => {
       body.style.removeProperty('position');
@@ -37,9 +41,14 @@ const BottomSheet = (props: BottomSheetPropsType) => {
   }, []);
 
   return (
-    <Drawer open={isOpen} onClose={onClose} preventScrollRestoration={true} modal={true} noBodyStyles={true}>
-      <DrawerOverlay onClick={onClose} />
-
+    <Drawer
+      open={isOpen}
+      onClose={onClose}
+      preventScrollRestoration={true}
+      modal={true}
+      noBodyStyles={true}
+      container={portalContainer ?? undefined}
+    >
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader className="mt-2 flex items-center justify-between">

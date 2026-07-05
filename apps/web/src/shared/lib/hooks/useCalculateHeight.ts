@@ -1,3 +1,5 @@
+'use client';
+
 import { RefObject, useEffect, useState } from 'react';
 
 import { isNumber } from 'es-toolkit/compat';
