@@ -66,3 +66,10 @@ __tests__/fixtures/user.json
 
 # E2E 픽스처 (apps/web 이동 후 재무시)
 apps/web/__tests__/fixtures/user.json
+
+# 대용량 시뮬레이터 export 번들 (빌드 산출물)
+iphonesimulator_*.exportedBundle/
+
+# 에이전트 스킬 로컬 툴링
+.agents/
+skills-lock.json
