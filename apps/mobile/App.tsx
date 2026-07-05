@@ -25,7 +25,7 @@ import BootSplash from 'react-native-bootsplash';
 // iOS·Android 모두 localhost 를 사용한다. (Android 는 `adb reverse tcp:3000 tcp:3000` 로 호스트에 매핑 — run-emulator 스킬)
 // localhost 를 쓰는 이유: MSW Service Worker 가 보안 컨텍스트(localhost/https)에서만 등록되기 때문(10.0.2.2 비보안 → worker 실패 → 흰 화면).
 // 배포 시 운영 웹 URL 로 교체한다.
-const WEB_URL = 'https://onsquad-frontend.vercel.app/';
+const WEB_URL = 'http://onsquad-client-next.vercel.app/';
 
 // 스플래시 해제 안전망 (웹 신호가 끝내 안 오면 강제 해제)
 const SPLASH_FALLBACK_MS = 6000;
