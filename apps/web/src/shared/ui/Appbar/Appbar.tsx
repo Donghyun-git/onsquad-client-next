@@ -17,7 +17,7 @@ const Appbar = ({ title }: AppbarPropsType) => {
     <div
       style={{ viewTransitionName: 'app-header' }}
       className={cn(
-        'fixed left-1/2 top-0 z-[100] flex w-full min-w-[20rem] max-w-[45rem] -translate-x-1/2 transform items-center justify-between bg-white shadow-md-bottom',
+        'fixed left-1/2 top-0 z-[100] flex w-full min-w-[20rem] max-w-[45rem] -translate-x-1/2 transform items-center justify-between bg-white pt-[env(safe-area-inset-top)] shadow-md-bottom',
       )}
     >
       <div className="ml-4 flex h-14 w-20 cursor-pointer items-center" onClick={() => router.back()}>

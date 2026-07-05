@@ -86,7 +86,7 @@ const BottomTab = () => {
   return (
     <div
       style={{ viewTransitionName: 'app-bottom-tab' }}
-      className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex min-w-[20rem] max-w-[45rem] items-center bg-white shadow-md"
+      className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex min-w-[20rem] max-w-[45rem] items-center bg-white pb-[env(safe-area-inset-bottom)] shadow-md"
     >
       <TabItem item={TAB_MENUS[0]} index={0} currentTabIndex={currentTabIndex} lastSegment={lastSegment} />
 

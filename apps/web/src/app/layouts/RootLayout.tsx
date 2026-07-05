@@ -34,6 +34,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  // 엣지투엣지: WebView 가 safe-area 까지 채우고, 웹이 env(safe-area-inset-*) 로 크롬 배경을 확장한다.
+  viewportFit: 'cover',
 };
 
 export default async function RootLayout({
