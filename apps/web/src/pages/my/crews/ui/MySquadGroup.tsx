@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { Zap } from 'lucide-react';
 
 import type { MySquadParticipantGroup, MySquadParticipantItem } from '@/entities/member';
 import { SQUAD_PATH } from '@/shared/config/paths';
+import { usePageMove } from '@/shared/lib/hooks';
 import { Text } from '@/shared/ui/Text';
 
 import CrewHeaderCard from './CrewHeaderCard';
@@ -21,7 +21,7 @@ const SquadLabel = ({ children }: { children: React.ReactNode }) => (
 );
 
 const MySquadCard = ({ item }: { item: MySquadParticipantItem }) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
   const { squad, states } = item;
 
   return (
@@ -61,7 +61,7 @@ const MySquadCard = ({ item }: { item: MySquadParticipantItem }) => {
         )}
         <button
           type="button"
-          onClick={() => router.push(SQUAD_PATH.detail(squad.id))}
+          onClick={() => handlePageMove(SQUAD_PATH.detail(squad.id))}
           className="flex flex-1 items-center justify-center rounded bg-primary500 p-s-20 text-xs font-medium text-white"
         >
           스쿼드 바로가기
@@ -72,7 +72,7 @@ const MySquadCard = ({ item }: { item: MySquadParticipantItem }) => {
 };
 
 const MySquadGroup = ({ group }: MySquadGroupProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
   const { crew, states } = group;
   const squads = [...crew.squads].sort((a, b) => b.participateAt.localeCompare(a.participateAt));
 
@@ -80,7 +80,7 @@ const MySquadGroup = ({ group }: MySquadGroupProps) => {
     <div className="flex w-full flex-col overflow-hidden rounded-lg bg-white">
       <button
         type="button"
-        onClick={() => router.push(`/crews/${crew.id}`)}
+        onClick={() => handlePageMove(`/crews/${crew.id}`)}
         aria-label={`${crew.name} 크루로 이동`}
         className="flex w-full flex-col text-left"
       >

@@ -4,8 +4,6 @@ import { CommunityContainer } from '@/pages/community/ui';
 
 import { crewQueries } from '@/entities/crew';
 
-import { GlobalHeader } from '@/widgets/GlobalHeader';
-
 import { getQueryClient } from '@/shared/lib/queries/get-query-client';
 
 async function CommunityPage() {
@@ -21,7 +19,6 @@ async function CommunityPage() {
 
   return (
     <div className="h-full w-full">
-      <GlobalHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <CommunityContainer />
       </HydrationBoundary>

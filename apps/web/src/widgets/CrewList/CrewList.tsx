@@ -1,12 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { Plus } from 'lucide-react';
 
 import { type CrewListData } from '@/entities/crew';
 
 import { PATH } from '@/shared/config/paths';
+import { usePageMove } from '@/shared/lib/hooks';
 import { Article } from '@/shared/ui/Article';
 import { Badge } from '@/shared/ui/Badge';
 import { CrewCard } from '@/shared/ui/Card/CrewCard';
@@ -21,7 +20,7 @@ interface CrewListPropsType {
 }
 
 const CrewList = ({ list }: CrewListPropsType) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   return (
     <>
@@ -33,7 +32,7 @@ const CrewList = ({ list }: CrewListPropsType) => {
               <Text.lg className="font-semibold">
                 <h3>모집중인 크루</h3>
               </Text.lg>
-              <PostButton className="shadow-sm" onPageMove={() => router.push(PATH.addCrew, { scroll: false })}>
+              <PostButton className="shadow-sm" onPageMove={() => handlePageMove(PATH.addCrew, { scroll: false })}>
                 <Text.xxs className="ml-1 font-bold">크루 개설하기</Text.xxs>
                 <Plus size={12} strokeWidth={2} />
               </PostButton>
@@ -55,7 +54,7 @@ const CrewList = ({ list }: CrewListPropsType) => {
                           ))}
                         </>
                       }
-                      onClick={() => router.push(`/crews/${crew.id}`, { scroll: false })}
+                      onClick={() => handlePageMove(`/crews/${crew.id}`, { scroll: false })}
                     />
                   ))
                 : null}
@@ -67,7 +66,7 @@ const CrewList = ({ list }: CrewListPropsType) => {
         <Button
           className="h-fit p-2 font-semibold text-[#909090] hover:text-[#6C6C6C] active:text-[#464646]"
           variant="ghost"
-          onClick={() => router.push(PATH.community, { scroll: true })}
+          onClick={() => handlePageMove(PATH.community, { scroll: true })}
         >
           모집중인 크루 더 보러가기
         </Button>

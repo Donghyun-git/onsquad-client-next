@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import Script from 'next/script';
+import { ViewTransitions } from 'next-view-transitions';
 import { OverlayProvider } from 'overlay-kit';
 
 import '@/app/styles/globals.css';
@@ -18,6 +19,7 @@ import { Wrapper } from '@/shared/ui/Wrapper';
 import { Toaster } from '@/shared/ui/ui/toaster';
 
 import { QueryProvider, SessionProvider } from '../providers';
+import { NavDirectionTracker } from '../providers/NavDirectionTracker';
 import NotificationProvider from '../providers/notification-provider';
 import UserProvider from '../providers/user-provider';
 import { WebViewBridge } from '../providers/webview-bridge';
@@ -40,28 +42,33 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <head></head>
+    <ViewTransitions>
+      <html lang="ko">
+        <head></head>
 
-      <Script strategy="lazyOnload" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
-      <body className={cn('bg-background antialiased')}>
-        <WebViewBridge />
-        <OverlayProvider>
-          <SessionProvider>
-            <UserProvider>
-              <ErrorHandlingWrapper fallbackComponent={ErrorFallback} suspenseFallback={<Spinner />}>
-                <QueryProvider>
-                  <NotificationProvider>
-                    <OAuthCallback />
-                    <Wrapper>{children}</Wrapper>
-                    <Toaster />
-                  </NotificationProvider>
-                </QueryProvider>
-              </ErrorHandlingWrapper>
-            </UserProvider>
-          </SessionProvider>
-        </OverlayProvider>
-      </body>
-    </html>
+        <Script strategy="lazyOnload" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
+        <body className={cn('bg-background antialiased')}>
+          <WebViewBridge />
+          <NavDirectionTracker />
+          <OverlayProvider>
+            <SessionProvider>
+              <UserProvider>
+                <ErrorHandlingWrapper fallbackComponent={ErrorFallback} suspenseFallback={<Spinner />}>
+                  <QueryProvider>
+                    <NotificationProvider>
+                      <Suspense fallback={null}>
+                        <OAuthCallback />
+                      </Suspense>
+                      <Wrapper>{children}</Wrapper>
+                      <Toaster />
+                    </NotificationProvider>
+                  </QueryProvider>
+                </ErrorHandlingWrapper>
+              </UserProvider>
+            </SessionProvider>
+          </OverlayProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

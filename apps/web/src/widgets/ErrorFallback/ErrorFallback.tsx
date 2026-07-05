@@ -1,13 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useEffect, useRef } from 'react';
 
 import { overlay } from 'overlay-kit';
 
 import { PATH } from '@/shared/config/paths';
 import { isTokenExpiredError } from '@/shared/lib/auth/isTokenExpiredError';
+import { usePageMove } from '@/shared/lib/hooks';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { cn } from '@/shared/lib/utils';
 import type { FallbackProps } from '@/shared/types/error';
@@ -18,7 +17,7 @@ import { Button } from '@/shared/ui/ui/button';
 const DEFAULT_MESSAGE = '일시적인 오류가 발생했어요. 잠시 후 다시 시도해 주세요.';
 
 export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
   // StrictMode 이중 호출/리렌더에도 alert 를 한 번만 연다.
   const hasOpenedRef = useRef(false);
 
@@ -46,7 +45,7 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       const handleGoHome = () => {
         dismiss();
         resetErrorBoundary();
-        router.push(PATH.root);
+        handlePageMove(PATH.root);
       };
 
       return (

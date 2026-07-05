@@ -93,3 +93,80 @@
     overflow: hidden;
   }
 }
+
+/* View Transitions — 방향성 페이지 슬라이드 */
+html[data-vt-direction='forward']::view-transition-old(root) {
+  animation: vt-slide-out-left 220ms ease both;
+}
+html[data-vt-direction='forward']::view-transition-new(root) {
+  animation: vt-slide-in-right 220ms ease both;
+}
+html[data-vt-direction='back']::view-transition-old(root) {
+  animation: vt-slide-out-right 220ms ease both;
+}
+html[data-vt-direction='back']::view-transition-new(root) {
+  animation: vt-slide-in-left 220ms ease both;
+}
+
+@keyframes vt-slide-out-left {
+  to {
+    transform: translateX(-25%);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes vt-slide-out-right {
+  to {
+    transform: translateX(25%);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* View Transitions — 헤더는 전환 중 고정 */
+::view-transition-group(app-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(app-header) {
+  display: none;
+}
+::view-transition-new(app-header) {
+  animation: none;
+}
+
+/* View Transitions — 하단 탭바는 전환 중 고정 */
+::view-transition-group(app-bottom-tab) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(app-bottom-tab) {
+  display: none;
+}
+::view-transition-new(app-bottom-tab) {
+  animation: none;
+}
+
+/* View Transitions — 접근성: 모션 최소화 설정 시 즉시 전환 */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

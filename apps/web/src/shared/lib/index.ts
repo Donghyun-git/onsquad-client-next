@@ -12,6 +12,7 @@ export * from './hoc/withBodyBackground';
 // Utils (additional)
 export * from './utils/numberExtract';
 export * from './utils/getRoleText';
+export * from './utils/navDirection';
 
 // Overlay
 export * from './overlay';

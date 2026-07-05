@@ -38,8 +38,22 @@ const handler = auth(async (req) => {
       ...(contentType ? { 'Content-Type': contentType } : {}),
       ...(req.auth?.accessToken ? { Authorization: `Bearer ${req.auth.accessToken}` } : {}),
     },
+    // 소셜 로그인(/login/oauth2/*)은 백엔드가 3xx + Location(카카오 인증 URL)을 준다.
+    // 기본값 'follow' 면 BFF 가 대신 따라가 Location 이 소실되므로, 리다이렉트를 캡처한다.
+    redirect: 'manual',
     ...(bodyBuffer ? { body: bodyBuffer } : {}),
   });
+
+  // 백엔드가 리다이렉트를 주면 Location 을 클라이언트로 전달한다.
+  // 브라우저 fetch 가 교차출처로 자동 추적하지 않도록 상태는 200 으로 내린다(클라가 location.href 로 이동).
+  const location = backendRes.headers.get('location');
+
+  if (location) {
+    return new NextResponse(null, {
+      status: 200,
+      headers: { Location: location },
+    });
+  }
 
   const text = await backendRes.text();
 

@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQuery } from '@tanstack/react-query';
 import { CircleCheck, CircleX } from 'lucide-react';
@@ -11,6 +9,7 @@ import { crewQueries } from '@/entities/crew';
 
 import { TOAST } from '@/shared/config/toast';
 import { useToast } from '@/shared/lib';
+import { usePageMove } from '@/shared/lib/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Spinner } from '@/shared/ui/Spinner';
@@ -28,7 +27,7 @@ interface WriteFormProps {
 }
 
 export const WriteForm = ({ crewId, announceId, mode }: WriteFormProps) => {
-  const router = useRouter();
+  const { handleReplace } = usePageMove();
 
   const { toast } = useToast();
 
@@ -74,7 +73,7 @@ export const WriteForm = ({ crewId, announceId, mode }: WriteFormProps) => {
             className: TOAST.success,
           });
 
-          router.replace(ANNOUNCE_REDIRECT_PATH[mode](crewId, announceId ?? 0), {
+          handleReplace(ANNOUNCE_REDIRECT_PATH[mode](crewId, announceId ?? 0), {
             scroll: false,
           });
         },

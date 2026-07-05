@@ -1,8 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { PATH } from '@/shared/config/paths';
+import { usePageMove } from '@/shared/lib/hooks';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import type { OverlayProps } from '@/shared/types/overlay';
 import { Alert } from '@/shared/ui/Alert';
@@ -12,7 +11,7 @@ import { Button } from '@/shared/ui/ui/button';
 type LoginAlertProps = OverlayProps;
 
 const LoginAlert = ({ isOpen, close, unmount }: LoginAlertProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const handleClose = () => closeWithAnimation(close, unmount);
 
@@ -32,7 +31,7 @@ const LoginAlert = ({ isOpen, close, unmount }: LoginAlertProps) => {
             onClick={() => {
               handleClose();
 
-              router.push(PATH.login);
+              handlePageMove(PATH.login);
             }}
           >
             로그인
@@ -49,7 +48,7 @@ const LoginAlert = ({ isOpen, close, unmount }: LoginAlertProps) => {
             onClick={() => {
               close();
 
-              router.push(PATH.join);
+              handlePageMove(PATH.join);
             }}
           >
             회원가입

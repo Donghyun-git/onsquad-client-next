@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { useState } from 'react';
 
@@ -9,17 +9,17 @@ import { CircleX, Loader2, X } from 'lucide-react';
 import { overlay } from 'overlay-kit';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { AddressSearch } from '@/shared/ui/AddressSearch';
-
 import { crewQueries } from '@/entities/crew';
 import { SQUAD_CATEGORIES } from '@/entities/squad';
-
 import { squadCreatePostFetch } from '@/entities/squad/api';
+
 import { TOAST } from '@/shared/config/toast';
+import { usePageMove } from '@/shared/lib/hooks';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 import { Accordion } from '@/shared/ui/Accordion';
+import { AddressSearch } from '@/shared/ui/AddressSearch';
 import { BottomSheet } from '@/shared/ui/BottomSheet';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
@@ -36,7 +36,7 @@ const CATEGORY_GROUPS = SQUAD_CATEGORIES.map(({ group, items }) => ({
 }));
 
 const SquadNewForm = () => {
-  const router = useRouter();
+  const { handleReplace } = usePageMove();
   const searchParams = useSearchParams();
   const crewId = Number(searchParams?.get('crewId'));
 
@@ -134,8 +134,7 @@ const SquadNewForm = () => {
           className: TOAST.success,
         });
 
-        // 생성 페이지는 히스토리에서 replace 해 뒤로가기로 폼에 돌아오지 않게 한다.
-        router.replace(`/crews/${crewId}`);
+        handleReplace(`/crews/${crewId}`);
       } catch (error) {
         console.error(error);
         setDisplaySpinner(false);
@@ -150,13 +149,13 @@ const SquadNewForm = () => {
       <div className="flex flex-col gap-6">
         {/* 카테고리 선택 */}
         <div className="flex flex-col gap-3">
-          <Label className="text-300 leading-130 block font-bold text-grayscale800">카테고리 선택</Label>
+          <Label className="block text-300 font-bold leading-130 text-grayscale800">카테고리 선택</Label>
           <div className="flex h-10 items-center rounded-lg border border-grayscale100 bg-white px-3 py-2">
-            <span className="text-300 leading-130 flex-1 text-grayscale500">모집 카테고리 선택</span>
+            <span className="flex-1 text-300 leading-130 text-grayscale500">모집 카테고리 선택</span>
             <button
               type="button"
               onClick={handleOpenCategorySheet}
-              className="text-100 rounded-lg bg-grayscale100 px-3 py-1 font-medium text-grayscale500"
+              className="rounded-lg bg-grayscale100 px-3 py-1 text-100 font-medium text-grayscale500"
               aria-label="카테고리 선택하기"
             >
               선택하기
@@ -169,7 +168,7 @@ const SquadNewForm = () => {
                   key={category}
                   type="button"
                   onClick={() => removeCategory(category)}
-                  className="text-100 leading-130 flex items-center gap-2 rounded-full border border-primary700 px-2 py-1 font-medium text-primary700"
+                  className="flex items-center gap-2 rounded-full border border-primary700 px-2 py-1 text-100 font-medium leading-130 text-primary700"
                   aria-label={`${category} 삭제`}
                 >
                   <span>{category}</span>

@@ -1,10 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { Plus } from 'lucide-react';
 
 import { PATH, SQUAD_PATH } from '@/shared/config/paths';
+import { usePageMove } from '@/shared/lib/hooks';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Badge } from '@/shared/ui/Badge';
 import { Card } from '@/shared/ui/Card';
@@ -29,7 +28,7 @@ interface CrewSquadListProps {
 }
 
 export const CrewSquadList = ({ squads, crewId }: CrewSquadListProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   return (
     <div className="w-full">
@@ -39,7 +38,7 @@ export const CrewSquadList = ({ squads, crewId }: CrewSquadListProps) => {
         </Text.lg>
         <PostButton
           className="border border-primary"
-          onPageMove={() => router.push(`${PATH.addSquad}?crewId=${crewId}`, { scroll: false })}
+          onPageMove={() => handlePageMove(`${PATH.addSquad}?crewId=${crewId}`, { scroll: false })}
         >
           <Text.xxs className="ml-1 font-bold">스쿼드 모집하기</Text.xxs>
           <Plus className="pb-0.5" size={10} strokeWidth={2} />
@@ -50,7 +49,7 @@ export const CrewSquadList = ({ squads, crewId }: CrewSquadListProps) => {
         {squads?.map((squad, index) => (
           <Card
             key={index}
-            onClick={() => router.push(SQUAD_PATH.detail(squad.id))}
+            onClick={() => handlePageMove(SQUAD_PATH.detail(squad.id))}
             title={
               <div className="flex items-center justify-between">
                 <Text.sm className="py-3 font-bold">

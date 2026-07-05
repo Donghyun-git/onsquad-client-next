@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { Settings } from 'lucide-react';
 import Image from 'next/image';
 
@@ -9,6 +7,7 @@ import type { CrewHomeData } from '@/entities/crew';
 
 import { CREW_IMAGE_OVERLAY_CLASS } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
+import { usePageMove } from '@/shared/lib/hooks';
 import { Text } from '@/shared/ui/Text';
 import { Button } from '@/shared/ui/ui/button';
 
@@ -18,10 +17,10 @@ interface CrewHeaderProps {
 }
 
 export const CrewHeader = ({ crew, canManage }: CrewHeaderProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const handleManageClick = () => {
-    router.push(`${PATH.crews}/${crew?.id}/manage`, {
+    handlePageMove(`${PATH.crews}/${crew?.id}/manage`, {
       scroll: false,
     });
   };

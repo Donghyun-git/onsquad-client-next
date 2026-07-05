@@ -1,15 +1,14 @@
-import { useRouter } from 'next/navigation';
-
 import { CircleCheck, CircleX } from 'lucide-react';
 
 import { changePasswordPatchFetch } from '@/entities/auth/api/changePasswordPatchFetch';
 import { PATH } from '@/shared/config/paths';
 import { TOAST } from '@/shared/config/toast';
+import { usePageMove } from '@/shared/lib/hooks';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { useApiMutation } from '@/shared/lib/queries';
 
 export const useChangePasswordMutation = () => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
   const { toast } = useToast();
 
   return useApiMutation({
@@ -23,7 +22,7 @@ export const useChangePasswordMutation = () => {
             icon: CircleCheck,
           });
 
-          router.push(PATH.root, { scroll: false });
+          handlePageMove(PATH.root, { scroll: false });
         } else {
           toast({
             title: '비밀번호 변경에 실패했어요.',

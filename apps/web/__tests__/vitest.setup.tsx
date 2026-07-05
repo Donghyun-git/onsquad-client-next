@@ -18,7 +18,7 @@
  * - 순수 함수나 유틸리티 함수가 Next.js 모듈을 사용하지 않는 경우
  * - E2E 테스트에서 컴포넌트를 테스트하는 경우 (실제 Next.js 환경 사용)
  */
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 
@@ -56,6 +56,25 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
   useSelectedLayoutSegments: () => [],
+}));
+
+/**
+ * next-view-transitions 모킹
+ * - 클라이언트 사이드 훅이므로 jsdom 환경에서 필요시 모킹
+ * - 실제로 next-view-transitions를 사용하는 컴포넌트/훅을 테스트할 때만 필요
+ * - 개별 테스트에서 필요시 오버라이드 가능
+ */
+vi.mock('next-view-transitions', () => ({
+  useTransitionRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  ViewTransitions: ({ children }: { children: ReactNode }) => children,
+  Link: ({ children, href }: { children: ReactNode; href?: string }) => <a href={href}>{children}</a>,
 }));
 
 /**

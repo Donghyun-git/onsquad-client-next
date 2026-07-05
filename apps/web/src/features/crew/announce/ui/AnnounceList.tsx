@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { isEmpty } from 'es-toolkit/compat';
@@ -11,6 +9,7 @@ import { crewQueries } from '@/entities/crew';
 
 import { DEFAULT_PROFILE_IMAGE } from '@/shared/config';
 import { getRoleText } from '@/shared/lib';
+import { usePageMove } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { Article } from '@/shared/ui/Article';
 import { Avatar } from '@/shared/ui/Avatar';
@@ -24,7 +23,7 @@ interface AnnounceListProps {
 }
 
 export const AnnounceList = ({ crewId }: AnnounceListProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const { data } = useQuery(crewQueries.announceList({ crewId }));
 
@@ -47,7 +46,7 @@ export const AnnounceList = ({ crewId }: AnnounceListProps) => {
               {canWrite && (
                 <PostButton
                   className="border border-primary px-2 py-0.5"
-                  onPageMove={() => router.push(`/crews/${crewId}/announce/write`, { scroll: false })}
+                  onPageMove={() => handlePageMove(`/crews/${crewId}/announce/write`, { scroll: false })}
                 >
                   <PencilLine size={12} strokeWidth={2} />
                   <Text.xxs className="ml-1 font-bold">글쓰기</Text.xxs>
@@ -65,7 +64,7 @@ export const AnnounceList = ({ crewId }: AnnounceListProps) => {
                     <li
                       key={index}
                       className="cursor-pointer"
-                      onClick={() => router.push(`/crews/${crewId}/announce/${announce.id}`, { scroll: false })}
+                      onClick={() => handlePageMove(`/crews/${crewId}/announce/${announce.id}`, { scroll: false })}
                     >
                       <div
                         className={cn(

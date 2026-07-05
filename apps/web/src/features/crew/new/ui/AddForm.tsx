@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { ChangeEvent, useRef, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,8 +11,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { crewQueries } from '@/entities/crew';
 import { addCrewPostFetch } from '@/entities/crew/api/new/addCrewPostFetch';
 import { crewCheckGetFetch } from '@/entities/crew/api/new/crewCheckGetFetch';
+
 import { ACCORDION_HASH_TAG_LIST } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
+import { usePageMove } from '@/shared/lib/hooks';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { useApiMutation } from '@/shared/lib/queries/useApiMutation';
 import { cn } from '@/shared/lib/utils';
@@ -33,7 +33,7 @@ import { addCrewSchema } from './validator';
  * 크루 개설하기 작성 폼
  */
 const AddForm = () => {
-  const router = useRouter();
+  const { handleReplace } = usePageMove();
 
   const { toast, hide } = useToast();
 
@@ -137,8 +137,7 @@ const AddForm = () => {
       });
 
       setTimeout(() => {
-        // 생성 페이지는 히스토리에서 replace 해 뒤로가기로 폼에 돌아오지 않게 한다.
-        router.replace('/');
+        handleReplace('/');
       }, 1000);
     } catch (error) {
       console.error(error);

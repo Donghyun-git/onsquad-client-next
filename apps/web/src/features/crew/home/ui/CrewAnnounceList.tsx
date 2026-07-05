@@ -1,12 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import dayjs from 'dayjs';
 import { Star } from 'lucide-react';
 
 import type { CrewHomeInfoResponseProps } from '@/entities/crew/api/home/crewHomeInfoGetFetch';
 import { getRoleText } from '@/shared/lib';
+import { usePageMove } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import type { CrewRole } from '@/shared/types';
 import { Article } from '@/shared/ui/Article';
@@ -21,11 +20,11 @@ interface CrewAnnounceListProps {
 }
 
 export const CrewAnnounceList = ({ announces, crewId }: CrewAnnounceListProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const handleAnnouncePageMove = () => {
     if (crewId) {
-      router.push(`/crews/${crewId}/announce`, {
+      handlePageMove(`/crews/${crewId}/announce`, {
         scroll: false,
       });
     }

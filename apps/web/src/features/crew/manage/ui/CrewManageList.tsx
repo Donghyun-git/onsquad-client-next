@@ -1,13 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useQuery } from '@tanstack/react-query';
 import { overlay } from 'overlay-kit';
 
 import { crewQueries } from '@/entities/crew';
 
 import { PATH } from '@/shared/config/paths';
+import { usePageMove } from '@/shared/lib/hooks';
 import { closeWithAnimation } from '@/shared/lib/overlay';
 import { Alert } from '@/shared/ui/Alert';
 import { BUTTON } from '@/shared/ui/Alert/style';
@@ -23,7 +22,7 @@ interface CrewManageListProps {
 }
 
 const CrewManageList = ({ crewId }: CrewManageListProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const { data: manageRes } = useQuery(crewQueries.manage({ crewId }));
   const { mutate: deleteMutate, isPending: isDeletePending } = useDeleteCrewMutation({ crewId });
@@ -45,7 +44,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
           </NavButton>
         )}
 
-        <NavButton onClick={() => router.push(`${PATH.crews}/${crewId}/manage/participants`)}>
+        <NavButton onClick={() => handlePageMove(`${PATH.crews}/${crewId}/manage/participants`)}>
           <div className="flex items-center gap-2">
             <Text.sm>참가 신청</Text.sm>
             <CountLabel count={requestCnt} />
@@ -57,7 +56,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
             <CountLabel count={squadCnt} />
           </div>
         </NavButton>
-        <NavButton onClick={() => router.push(`${PATH.crews}/${crewId}/manage/members`)}>
+        <NavButton onClick={() => handlePageMove(`${PATH.crews}/${crewId}/manage/members`)}>
           <div className="flex items-center gap-2">
             <Text.sm>크루원</Text.sm>
             <CountLabel count={memberCnt} />
@@ -85,7 +84,7 @@ const CrewManageList = ({ crewId }: CrewManageListProps) => {
                         className={BUTTON.ACTION}
                         onClick={() => {
                           handleClose();
-                          deleteMutate(undefined, { onSuccess: () => router.push(PATH.crews) });
+                          deleteMutate(undefined, { onSuccess: () => handlePageMove(PATH.crews) });
                         }}
                       >
                         삭제

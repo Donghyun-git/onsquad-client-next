@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useRef } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
@@ -15,7 +13,7 @@ import { crewQueries } from '@/entities/crew';
 import { DEFAULT_PROFILE_IMAGE } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { cn, getRoleText } from '@/shared/lib';
-import { useCalculateHeight } from '@/shared/lib/hooks';
+import { useCalculateHeight, usePageMove } from '@/shared/lib/hooks';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { Article } from '@/shared/ui/Article';
 import { Avatar } from '@/shared/ui/Avatar';
@@ -33,7 +31,7 @@ const ReactMarkdown = dynamic(() => import('react-markdown'), {
 });
 
 const AnnounceDetail = ({ crewId, announceId }: { crewId: number; announceId: number }) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const { data: announceDetailRes } = useQuery(crewQueries.announceDetail({ crewId, announceId }));
 
@@ -105,7 +103,7 @@ const AnnounceDetail = ({ crewId, announceId }: { crewId: number; announceId: nu
                 {canModify && (
                   <PostButton
                     className="border border-grayscale400 px-2 py-0.5 text-grayscale400"
-                    onPageMove={() => router.push(`/crews/${crewId}/announce/${announceId}/edit`, { scroll: false })}
+                    onPageMove={() => handlePageMove(`/crews/${crewId}/announce/${announceId}/edit`, { scroll: false })}
                   >
                     <SquarePen size={12} strokeWidth={2} />
                     <Text.xs className="ml-1 font-bold">수정하기</Text.xs>

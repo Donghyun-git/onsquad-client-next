@@ -9,8 +9,8 @@ import { memberQueries } from '@/entities/member';
 import {
   NOTIFICATION_DETAIL,
   NOTIFICATION_SSE_EVENT,
-  getNotificationToastTitle,
   type NotificationMessage,
+  getNotificationToastTitle,
 } from '@/entities/notification';
 
 import { SseClient } from '@/shared/api/sse/sse-client';
@@ -67,8 +67,7 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
               // 관련 쿼리를 무효화한다. (크루 상세에서 '가입신청' 상태가 남아있는 문제 해결)
               const crewId = data.payload?.crewId;
               if (
-                (data.detail === NOTIFICATION_DETAIL.CREW_ACCEPT ||
-                  data.detail === NOTIFICATION_DETAIL.CREW_REJECT) &&
+                (data.detail === NOTIFICATION_DETAIL.CREW_ACCEPT || data.detail === NOTIFICATION_DETAIL.CREW_REJECT) &&
                 crewId != null
               ) {
                 queryClient.invalidateQueries({ queryKey: crewQueries.detail({ crewId }).queryKey });

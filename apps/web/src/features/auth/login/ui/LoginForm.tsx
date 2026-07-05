@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,6 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { PATH } from '@/shared/config/paths';
 import { TOAST } from '@/shared/config/toast';
+import { usePageMove } from '@/shared/lib/hooks';
 import { useToast } from '@/shared/lib/hooks/useToast';
 import { Input } from '@/shared/ui/Input';
 import { Spinner } from '@/shared/ui/Spinner';
@@ -19,7 +18,7 @@ import { Button } from '@/shared/ui/ui/button';
 import { loginSchema } from './validator';
 
 const LoginForm = () => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const { toast, hide } = useToast();
 
@@ -80,7 +79,7 @@ const LoginForm = () => {
         icon: <CircleX onClick={() => hide()} />,
       });
 
-      router.push(PATH.root, { scroll: false });
+      handlePageMove(PATH.root, { scroll: false });
     } catch (error) {
       setDisplaySpinner(false);
 
@@ -105,7 +104,7 @@ const LoginForm = () => {
           <Button
             className="mt-7 w-fit text-center text-gray-500 hover:text-gray-600 active:text-gray-700"
             variant="ghost"
-            onClick={() => router.push(PATH.join, { scroll: false })}
+            onClick={() => handlePageMove(PATH.join, { scroll: false })}
           >
             회원가입
           </Button>

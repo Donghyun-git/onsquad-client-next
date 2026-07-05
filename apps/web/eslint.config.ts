@@ -27,7 +27,7 @@ export default defineConfig([
       js,
     },
     rules: {
-      'no-unused-vars': [
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',
@@ -36,6 +36,7 @@ export default defineConfig([
           args: 'none',
         },
       ],
+      'no-unused-vars': 'off',
       'no-undef': 'error',
       'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
       'comma-dangle': 'off',

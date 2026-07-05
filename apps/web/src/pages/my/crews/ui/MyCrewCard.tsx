@@ -1,8 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import type { MyCrewParticipantItem } from '@/entities/member';
+import { usePageMove } from '@/shared/lib/hooks';
 
 import CrewHeaderCard from './CrewHeaderCard';
 
@@ -11,13 +10,13 @@ interface MyCrewCardProps {
 }
 
 const MyCrewCard = ({ item }: MyCrewCardProps) => {
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
   const { crew, states } = item;
 
   return (
     <button
       type="button"
-      onClick={() => router.push(`/crews/${crew.id}`)}
+      onClick={() => handlePageMove(`/crews/${crew.id}`)}
       aria-label={`${crew.name} 크루로 이동`}
       className="flex w-full flex-col overflow-hidden rounded-lg bg-white text-left transition-all duration-200 hover:shadow-md"
     >

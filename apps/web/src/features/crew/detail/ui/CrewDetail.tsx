@@ -14,7 +14,7 @@ import { crewQueries } from '@/entities/crew';
 import { CREW_IMAGE_OVERLAY_CLASS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
 import { closeWithAnimation } from '@/shared/lib/overlay';
-import { useToast, useUser } from '@/shared/lib/hooks';
+import { usePageMove, useToast, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { Alert } from '@/shared/ui/Alert';
 import { BUTTON } from '@/shared/ui/Alert/style';
@@ -34,6 +34,7 @@ interface CrewDetailProps {
 
 export const CrewDetail = ({ crewId }: CrewDetailProps) => {
   const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const user = useUser();
 
@@ -54,7 +55,7 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
 
   const handleCrewHomeMove = () => {
     if (alreadyParticipant) {
-      router.push(`/crews/${data?.id}/home`, {
+      handlePageMove(`/crews/${data?.id}/home`, {
         scroll: false,
       });
     } else {

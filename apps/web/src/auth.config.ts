@@ -58,12 +58,12 @@ export default {
           if (error instanceof InvalidLoginError) {
             throw error;
           }
-          throw new InvalidLoginError('UNKNOWN_ERROR');
+          throw new InvalidLoginError('잠시 후 다시 시도해주세요.');
         }
       },
     }),
     Credentials({
-      id: 'kakao', // id 추가
+      id: 'kakao',
       name: 'kakao',
       credentials: {
         accessToken: { type: 'text' },

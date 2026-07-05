@@ -1,18 +1,16 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { Bell, Text as TextIcon } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { userSocialLoginGetFetch } from '@/entities/auth/api/userSocialLoginGetFetch';
 import { USER_TYPE } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
 import { useMyActivityCounts } from '@/entities/member';
-import { useUser } from '@/shared/lib/hooks';
+import { usePageMove, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
+import { SlideLink } from '@/shared/ui/SlideLink';
 import { NavButton } from '@/shared/ui/NavButton';
 import { CountLabel } from '@/shared/ui/CountLabel';
 import { Profile } from '@/shared/ui/Profile';
@@ -25,7 +23,7 @@ const GlobalHeader = () => {
 
   const { crewCount, applicationCount, historyCount } = useMyActivityCounts(!!user);
 
-  const router = useRouter();
+  const { handlePageMove } = usePageMove();
 
   const handleSignOut = async () => {
     await signOut();
@@ -35,21 +33,22 @@ const GlobalHeader = () => {
 
   return (
     <div
+      style={{ viewTransitionName: 'app-header' }}
       className={cn(
         `fixed left-1/2 top-0 z-[100] flex w-full min-w-[20rem] max-w-[45rem] -translate-x-1/2 transform items-center justify-between bg-white shadow-md-bottom`,
       )}
     >
-      <Link className="relative ml-4 h-14 w-20" href={PATH.root} scroll={false}>
+      <SlideLink className="relative ml-4 h-14 w-20" href={PATH.root} scroll={false}>
         <Image src="/icons/onsquad_logo.svg" alt="온스쿼드" fill priority />
         <h1 className="sr-only">온스쿼드</h1>
-      </Link>
+      </SlideLink>
 
       <div className="relative mr-4 flex items-center gap-2">
         {/* 알림: 로그인 상태에서만 노출, 햄버거 메뉴 좌측. */}
         {user && (
-          <Link href={PATH.notifications} aria-label="알림" scroll={false}>
+          <SlideLink href={PATH.notifications} aria-label="알림" scroll={false}>
             <Bell color="#636363" strokeWidth={1.5} className="cursor-pointer" />
-          </Link>
+          </SlideLink>
         )}
         <Sheet>
           <SheetTrigger asChild>
@@ -68,11 +67,11 @@ const GlobalHeader = () => {
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2">
                   <SheetClose asChild>
-                    <Link className="w-full focus-visible:outline-none" href={PATH.login} scroll={false}>
+                    <SlideLink className="w-full focus-visible:outline-none" href={PATH.login} scroll={false}>
                       <Button className="w-full font-semibold" variant="outline">
                         이메일로 로그인 하기
                       </Button>
-                    </Link>
+                    </SlideLink>
                   </SheetClose>
                   <SheetClose asChild>
                     <Button
@@ -100,16 +99,16 @@ const GlobalHeader = () => {
                 </div>
                 <div className="mt-8 flex flex-col items-center gap-2 text-gray-700">
                   아직 회원이 아니신가요?
-                  <Link className="text-blue-500 underline" href={PATH.join} scroll={false}>
+                  <SlideLink className="text-blue-500 underline" href={PATH.join} scroll={false}>
                     회원가입
-                  </Link>
+                  </SlideLink>
                 </div>
               </>
             ) : (
               <div className="flex flex-col">
                 <div className="mt-6 flex flex-col items-center justify-center gap-2">
                   <SheetClose asChild>
-                    <NavButton onClick={() => router.push(PATH.profile, { scroll: false })}>프로필 편집</NavButton>
+                    <NavButton onClick={() => handlePageMove(PATH.profile, { scroll: false })}>프로필 편집</NavButton>
                   </SheetClose>
                 </div>
                 <Separator className="my-6" />
@@ -121,7 +120,7 @@ const GlobalHeader = () => {
                       {user.userType === USER_TYPE.general && (
                         <NavButton
                           onClick={() => {
-                            router.push(PATH.changePassword, { scroll: false });
+                            handlePageMove(PATH.changePassword, { scroll: false });
                           }}
                         >
                           비밀번호 변경
@@ -135,7 +134,7 @@ const GlobalHeader = () => {
                       <SheetDescription className="mb-3 w-full">내 활동</SheetDescription>
                       <div className="flex flex-col gap-2">
                         <SheetClose asChild>
-                          <NavButton onClick={() => router.push(PATH.myCrews, { scroll: false })}>
+                          <NavButton onClick={() => handlePageMove(PATH.myCrews, { scroll: false })}>
                             <div className="flex items-center gap-2">
                               <span>내 크루</span>
                               {crewCount > 0 && <CountLabel count={crewCount} />}
@@ -143,7 +142,7 @@ const GlobalHeader = () => {
                           </NavButton>
                         </SheetClose>
                         <SheetClose asChild>
-                          <NavButton onClick={() => router.push(PATH.myApplications, { scroll: false })}>
+                          <NavButton onClick={() => handlePageMove(PATH.myApplications, { scroll: false })}>
                             <div className="flex items-center gap-2">
                               <span>합류신청</span>
                               {applicationCount > 0 && <CountLabel count={applicationCount} />}
@@ -151,7 +150,7 @@ const GlobalHeader = () => {
                           </NavButton>
                         </SheetClose>
                         <SheetClose asChild>
-                          <NavButton onClick={() => router.push(PATH.activity, { scroll: false })}>
+                          <NavButton onClick={() => handlePageMove(PATH.activity, { scroll: false })}>
                             <div className="flex items-center gap-2">
                               <span>활동내역</span>
                               {historyCount > 0 && <CountLabel count={historyCount} />}
