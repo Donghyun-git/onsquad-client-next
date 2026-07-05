@@ -23,6 +23,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
+      // 딤은 Appbar 를 포함한 전체를 덮는다(Appbar 도 오버레이 뒤로). 컨테이너(z-101) > Appbar(z-100).
       'pointer-events-auto absolute inset-0 z-[101] bg-black/20 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
@@ -42,7 +43,8 @@ const sheetVariants = cva(
           'inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
         left: 'inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',
         right:
-          'inset-y-0 right-0 h-full w-3/4  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
+          // 헤더(Appbar) 바텀선 아래부터 시트가 시작하도록 top 을 헤더 높이에 맞춘다(inset-y-0/h-full 대체).
+          'bottom-0 top-[var(--app-header-height)] right-0 w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
       },
     },
     defaultVariants: {
