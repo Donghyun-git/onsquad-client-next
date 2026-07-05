@@ -31,11 +31,10 @@ const makeItem = (overrides?: Partial<NotificationListItem>): NotificationListIt
 });
 
 describe('NotificationCard', () => {
-  it('read가 false이면 컨테이너에 bg-primary50 클래스가 적용되고 버튼이 enabled이다', () => {
+  it('read가 false이면 안읽음 뱃지가 표시되고 버튼이 enabled이다', () => {
     render(<NotificationCard item={makeItem({ read: false })} />);
 
-    const container = screen.getByRole('button', { name: /크루 합류가 수락되었습니다/ }).closest('div');
-    expect(container?.className).toContain('bg-primary50');
+    expect(screen.getByLabelText('안읽음')).toBeDefined();
 
     const readBtn = screen.getByRole('button', { name: /크루 합류가 수락되었습니다/ });
     expect((readBtn as HTMLButtonElement).disabled).toBe(false);
