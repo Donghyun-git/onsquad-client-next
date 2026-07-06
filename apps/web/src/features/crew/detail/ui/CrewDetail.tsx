@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
@@ -33,8 +32,7 @@ interface CrewDetailProps {
 }
 
 export const CrewDetail = ({ crewId }: CrewDetailProps) => {
-  const router = useRouter();
-  const { handlePageMove } = usePageMove();
+  const { handlePageMove, handleBack } = usePageMove();
 
   const user = useUser();
 
@@ -99,7 +97,7 @@ export const CrewDetail = ({ crewId }: CrewDetailProps) => {
                 className={BUTTON.ACTION}
                 onClick={() => {
                   handleClose();
-                  leaveMutate(undefined, { onSuccess: () => router.back() });
+                  leaveMutate(undefined, { onSuccess: () => handleBack() });
                 }}
               >
                 나가기

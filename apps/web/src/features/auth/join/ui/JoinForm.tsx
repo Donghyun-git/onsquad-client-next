@@ -30,7 +30,7 @@ const JoinForm = () => {
   const [isNicknameValid, setIsNicknameValid] = useState<boolean>(false);
 
   const { toast } = useToast();
-  const { handlePageMove } = usePageMove();
+  const { handleReplace } = usePageMove();
 
   const { mutateAsync: userJoin, isPending: isUserJoinPending } = useApiMutation({
     fetcher: userJoinPostFetch,
@@ -43,7 +43,7 @@ const JoinForm = () => {
             icon: <CircleCheck />,
           });
 
-          handlePageMove(PATH.login, { scroll: false });
+          handleReplace(PATH.login, { scroll: false });
         } else {
           toast({
             title: '회원가입에 실패했어요.',

@@ -109,6 +109,11 @@ html[data-vt-direction='back']::view-transition-old(root) {
 html[data-vt-direction='back']::view-transition-new(root) {
   animation: vt-slide-in-left 220ms ease both;
 }
+/* window(네이티브 제스처) 뒤로가기: 네이티브 슬라이드와 겹쳐 깜빡이므로 CSS 트랜지션을 즉시 처리(스킵). */
+html[data-vt-direction='skip']::view-transition-old(root),
+html[data-vt-direction='skip']::view-transition-new(root) {
+  animation: none;
+}
 
 @keyframes vt-slide-out-left {
   to {

@@ -18,7 +18,7 @@ import { Button } from '@/shared/ui/ui/button';
 import { loginSchema } from './validator';
 
 const LoginForm = () => {
-  const { handlePageMove } = usePageMove();
+  const { handlePageMove, handleReplace } = usePageMove();
 
   const { toast, hide } = useToast();
 
@@ -79,7 +79,7 @@ const LoginForm = () => {
         icon: <CircleX onClick={() => hide()} />,
       });
 
-      handlePageMove(PATH.root, { scroll: false });
+      handleReplace(PATH.root, { scroll: false });
     } catch (error) {
       setDisplaySpinner(false);
 

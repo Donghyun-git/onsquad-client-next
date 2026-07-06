@@ -8,7 +8,7 @@ import { useToast } from '@/shared/lib/hooks/useToast';
 import { useApiMutation } from '@/shared/lib/queries';
 
 export const useChangePasswordMutation = () => {
-  const { handlePageMove } = usePageMove();
+  const { handleReplace } = usePageMove();
   const { toast } = useToast();
 
   return useApiMutation({
@@ -22,7 +22,7 @@ export const useChangePasswordMutation = () => {
             icon: CircleCheck,
           });
 
-          handlePageMove(PATH.root, { scroll: false });
+          handleReplace(PATH.root, { scroll: false });
         } else {
           toast({
             title: '비밀번호 변경에 실패했어요.',

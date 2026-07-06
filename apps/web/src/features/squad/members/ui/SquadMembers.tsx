@@ -2,13 +2,13 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { MoreVertical, Zap } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 
 import { squadQueries } from '@/entities/squad';
 import type { SquadParticipantItem } from '@/entities/squad';
 import { squadDeleteFetch, squadDelegateLeaderFetch, squadKickFetch } from '@/entities/squad/api';
 import { closeWithAnimation } from '@/shared/lib/overlay';
+import { usePageMove } from '@/shared/lib/hooks';
 import { OVERLAY_ANIMATION_DURATION } from '@/shared/config';
 import { useApiMutation } from '@/shared/lib/queries';
 import { Alert } from '@/shared/ui/Alert';
@@ -24,7 +24,7 @@ interface SquadMembersProps {
 }
 
 const SquadMembers = ({ squadId }: SquadMembersProps) => {
-  const router = useRouter();
+  const { handleBack } = usePageMove();
 
   const { data } = useQuery(squadQueries.detail({ squadId }));
   const { data: membersData } = useQuery(squadQueries.members({ squadId }));
@@ -68,7 +68,7 @@ const SquadMembers = ({ squadId }: SquadMembersProps) => {
                 onClick={async () => {
                   handleClose();
                   await deleteMutation.mutateAsync({ squadId });
-                  router.back();
+                  handleBack();
                 }}
               >
                 삭제

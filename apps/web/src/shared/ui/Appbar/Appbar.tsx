@@ -1,9 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { ChevronLeft } from 'lucide-react';
 
+import { usePageMove } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 
 export interface AppbarPropsType {
@@ -11,7 +10,7 @@ export interface AppbarPropsType {
 }
 
 const Appbar = ({ title }: AppbarPropsType) => {
-  const router = useRouter();
+  const { handleBack } = usePageMove();
 
   return (
     <div
@@ -20,7 +19,7 @@ const Appbar = ({ title }: AppbarPropsType) => {
         'fixed left-1/2 top-0 z-[100] flex w-full min-w-[20rem] max-w-[45rem] -translate-x-1/2 transform items-center justify-between bg-white pt-[env(safe-area-inset-top)] shadow-md-bottom',
       )}
     >
-      <div className="ml-4 flex h-14 w-20 cursor-pointer items-center" onClick={() => router.back()}>
+      <div className="ml-4 flex h-14 w-20 cursor-pointer items-center" onClick={handleBack}>
         <ChevronLeft color="#636363" strokeWidth={1.25} />
       </div>
       <h3 className="font-bold">{title}</h3>

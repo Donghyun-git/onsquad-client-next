@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,7 +12,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { nicknameCheckGetFetch } from '@/entities/auth/api/nicknameCheckGetFetch';
 import { MBTI_SELECT_OPTIONS } from '@/shared/config';
 import { TOAST } from '@/shared/config/toast';
-import { useToast, useUser } from '@/shared/lib/hooks';
+import { usePageMove, useToast, useUser } from '@/shared/lib/hooks';
 import { useApiMutation } from '@/shared/lib/queries';
 import { cn } from '@/shared/lib/utils';
 import { AddressSearch } from '@/shared/ui/AddressSearch';
@@ -40,7 +38,7 @@ const ProfileForm = () => {
 
   const { toast } = useToast();
 
-  const router = useRouter();
+  const { handleBack } = usePageMove();
 
   const user = useUser();
 
@@ -135,7 +133,7 @@ const ProfileForm = () => {
         icon: <CircleCheck />,
       });
 
-      router.back();
+      handleBack();
     } catch (error) {
       console.error(error);
     }
@@ -165,7 +163,7 @@ const ProfileForm = () => {
         headerClassName="pt-6"
         buttonSlot={
           <div className="w-full">
-            <Button className={cn(BUTTON.ACTION, 'w-full rounded-bl-md')} onClick={() => router.back()}>
+            <Button className={cn(BUTTON.ACTION, 'w-full rounded-bl-md')} onClick={handleBack}>
               확인
             </Button>
           </div>
