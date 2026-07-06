@@ -8,7 +8,7 @@ import { userSocialLoginGetFetch } from '@/entities/auth/api/userSocialLoginGetF
 import { USER_TYPE } from '@/shared/config';
 import { PATH } from '@/shared/config/paths';
 import { useMyActivityCounts } from '@/entities/member';
-import { usePageMove, useUser } from '@/shared/lib/hooks';
+import { useNativeBackGesture, usePageMove, useUser } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 import { SlideLink } from '@/shared/ui/SlideLink';
 import { NavButton } from '@/shared/ui/NavButton';
@@ -24,6 +24,9 @@ const GlobalHeader = () => {
   const { crewCount, applicationCount, historyCount } = useMyActivityCounts(!!user);
 
   const { handlePageMove } = usePageMove();
+
+  // 루트/탭 화면 → 네이티브 엣지 스와이프 뒤로가기 비활성화(back 버튼 없음).
+  useNativeBackGesture(false);
 
   const handleSignOut = async () => {
     await signOut();

@@ -4,4 +4,5 @@ export * from './usePageMove';
 export * from './useCalculateHeight';
 export * from './useUser';
 export * from './useNavDirectionTracker';
+export * from './useNativeBackGesture';
 export * from './useSuppressViewTransitionAbort';

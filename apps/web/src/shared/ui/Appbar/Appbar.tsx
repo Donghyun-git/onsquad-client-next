@@ -2,7 +2,7 @@
 
 import { ChevronLeft } from 'lucide-react';
 
-import { usePageMove } from '@/shared/lib/hooks';
+import { useNativeBackGesture, usePageMove } from '@/shared/lib/hooks';
 import { cn } from '@/shared/lib/utils';
 
 export interface AppbarPropsType {
@@ -11,6 +11,9 @@ export interface AppbarPropsType {
 
 const Appbar = ({ title }: AppbarPropsType) => {
   const { handleBack } = usePageMove();
+
+  // back 버튼 헤더 화면 → 네이티브(iOS 엣지 스와이프) 뒤로가기 허용.
+  useNativeBackGesture(true);
 
   return (
     <div

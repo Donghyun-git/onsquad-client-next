@@ -6,74 +6,34 @@
  * @format
  */
 
-import { useEffect, useRef, type ComponentRef } from 'react';
-import {
-  useColorScheme,
-  StatusBar,
-  StyleSheet,
-  BackHandler,
-  View,
-} from 'react-native';
+import { useRef, type ComponentRef } from 'react';
+import { useColorScheme, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {
-  WebView,
-  type WebViewMessageEvent,
-  type WebViewNavigation,
-} from 'react-native-webview';
-import BootSplash from 'react-native-bootsplash';
+import { WebView, type WebViewMessageEvent } from 'react-native-webview';
+
+import { useAndroidHardwareBack } from './src/hooks/useAndroidHardwareBack';
+import { useBackGesture } from './src/hooks/useBackGesture';
+import { useSplashScreen } from './src/hooks/useSplashScreen';
 
 // iOS·Android 모두 localhost 를 사용한다. (Android 는 `adb reverse tcp:3000 tcp:3000` 로 호스트에 매핑 — run-emulator 스킬)
 // localhost 를 쓰는 이유: MSW Service Worker 가 보안 컨텍스트(localhost/https)에서만 등록되기 때문(10.0.2.2 비보안 → worker 실패 → 흰 화면).
 // 배포 시 운영 웹 URL 로 교체한다.
 const WEB_URL = 'http://onsquad-client-next.vercel.app/';
 
-// 스플래시 해제 안전망 (웹 신호가 끝내 안 오면 강제 해제)
-const SPLASH_FALLBACK_MS = 6000;
-
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-  const hiddenRef = useRef(false);
   const webRef = useRef<ComponentRef<typeof WebView>>(null);
-  // WebView 의 브라우저 history 에 뒤로 갈 페이지가 있는지 추적한다.
-  const canGoBackRef = useRef(false);
 
-  const hideSplash = () => {
-    if (hiddenRef.current) return;
-    hiddenRef.current = true;
-    void BootSplash.hide({ fade: true });
-  };
+  const { hideSplash, handleMessage: handleSplashMessage } = useSplashScreen();
+  const { backGestureEnabled, handleMessage: handleBackGestureMessage } = useBackGesture();
+  const { onNavigationStateChange } = useAndroidHardwareBack(webRef);
 
-  useEffect(() => {
-    const timer = setTimeout(hideSplash, SPLASH_FALLBACK_MS);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Android 하드웨어 백 버튼: web history 가 남아있으면 WebView 를 뒤로,
-  // 없으면 기본 동작(앱 종료)에 맡긴다. (iOS 에서는 발생하지 않는 이벤트)
-  useEffect(() => {
-    const onHardwareBack = () => {
-      if (canGoBackRef.current) {
-        webRef.current?.goBack();
-        return true;
-      }
-      return false;
-    };
-    const sub = BackHandler.addEventListener(
-      'hardwareBackPress',
-      onHardwareBack,
-    );
-    return () => sub.remove();
-  }, []);
-
-  // 웹: window.ReactNativeWebView.postMessage('APP_READY')
+  // 웹→네이티브 메시지를 각 관심사 훅으로 라우팅한다.
   const onMessage = (event: WebViewMessageEvent) => {
-    if (event.nativeEvent.data === 'APP_READY') {
-      hideSplash();
-    }
-  };
+    const data = event.nativeEvent.data;
 
-  const onNavigationStateChange = (navState: WebViewNavigation) => {
-    canGoBackRef.current = navState.canGoBack;
+    handleSplashMessage(data);
+    handleBackGestureMessage(data);
   };
 
   return (
@@ -91,8 +51,8 @@ function App() {
           onNavigationStateChange={onNavigationStateChange}
           // iOS: 자동 콘텐츠 인셋 비활성화 → 웹이 safe-area 를 직접 처리(env(safe-area-inset-*))
           contentInsetAdjustmentBehavior="never"
-          // iOS: 엣지 스와이프로 web history 뒤로가기 (native 슬라이드 트랜지션)
-          allowsBackForwardNavigationGestures
+          // iOS: back 버튼 헤더 화면에서만 엣지 스와이프 뒤로가기 허용(웹 신호로 토글)
+          allowsBackForwardNavigationGestures={backGestureEnabled}
         />
       </View>
     </SafeAreaProvider>
