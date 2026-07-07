@@ -10,15 +10,15 @@ afterEach(() => {
 });
 
 describe('useNavDirectionTracker', () => {
-  it('window(네이티브 제스처) 뒤로가기 popstate는 skip으로 태깅된다(CSS 트랜지션 스킵)', () => {
+  it('window(네이티브 제스처) 뒤로가기 popstate는 back으로 태깅된다(CSS 슬라이드로 이전 페이지 노출)', () => {
     renderHook(() => useNavDirectionTracker());
 
     window.dispatchEvent(new PopStateEvent('popstate'));
 
-    expect(document.documentElement.dataset.vtDirection).toBe('skip');
+    expect(document.documentElement.dataset.vtDirection).toBe('back');
   });
 
-  it('의도적 뒤로가기(markIntentionalBack) 직후 popstate는 back으로 태깅된다(슬라이드 유지)', () => {
+  it('의도적 뒤로가기(markIntentionalBack) 직후 popstate도 back으로 태깅된다', () => {
     renderHook(() => useNavDirectionTracker());
 
     markIntentionalBack();
